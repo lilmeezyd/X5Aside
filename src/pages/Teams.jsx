@@ -1,7 +1,7 @@
-
-// src/pages/Teams.jsx
 import { useState } from 'react'
 import { Button } from '../../@/components/ui/button'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '../../@/components/ui/dialog'
+import { Input } from '../../@/components/ui/input'
 
 const mockTeams = [
   { id: 1, name: 'Dream Team', players: 5 },
@@ -10,6 +10,13 @@ const mockTeams = [
 
 export default function Teams() {
   const [teams, setTeams] = useState(mockTeams)
+  const [playerName, setPlayerName] = useState('')
+  const [selectedTeam, setSelectedTeam] = useState(null)
+
+  const handleAddPlayer = () => {
+    alert(`Added player "${playerName}" to ${selectedTeam.name}`)
+    setPlayerName('')
+  }
 
   return (
     <div>
@@ -22,7 +29,22 @@ export default function Teams() {
             <h3 className="text-lg font-semibold">{team.name}</h3>
             <p className="text-sm text-gray-600">Players: {team.players}</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              <Button size="sm">Add Player</Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm" onClick={() => setSelectedTeam(team)}>Add Player</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add Player to {team.name}</DialogTitle>
+                  </DialogHeader>
+                  <Input
+                    placeholder="Enter player name"
+                    value={playerName}
+                    onChange={(e) => setPlayerName(e.target.value)}
+                  />
+                  <Button onClick={handleAddPlayer}>Add</Button>
+                </DialogContent>
+              </Dialog>
               <Button size="sm" variant="outline">Edit</Button>
               <Button size="sm" variant="destructive">Delete</Button>
             </div>
