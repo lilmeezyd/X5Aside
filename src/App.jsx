@@ -5,6 +5,10 @@ import Dashboard from './pages/Dashboard'
 import Teams from './pages/Teams'
 import Fixtures from './pages/Fixtures'
 import Players from './pages/Players'
+import Tables from './pages/Tables'
+
+
+
 
 export default function App() {
   return (
@@ -15,6 +19,7 @@ export default function App() {
         <Route path="/teams" element={<Teams />} />
         <Route path="/fixtures" element={<Fixtures />} />
         <Route path="/players" element={<Players />} />
+        <Route path="/tables" element={<Tables />} />
       </Routes>
       <Toaster />
     </SidebarLayout>

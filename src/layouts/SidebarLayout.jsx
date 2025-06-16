@@ -7,6 +7,9 @@ const SidebarLayout = ({ children }) => {
     { name: "Teams", path: "/teams" },
     { name: "Fixtures", path: "/fixtures" },
     { name: "Players", path: "/players" },
+    { name: 'Tables', path: '/tables' } 
+
+
   ];
 
   return (
