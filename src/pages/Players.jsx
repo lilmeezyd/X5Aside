@@ -1,5 +1,5 @@
 // src/pages/Players.jsx
-import { Button } from '@/components/ui/button'
+import { Button } from '../../@/components/ui/button'
 
 export default function Players() {
   return (

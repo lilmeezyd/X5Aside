@@ -1,6 +1,6 @@
 // src/pages/Teams.jsx
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { Button } from '../../@/components/ui/button'
 
 const mockTeams = [
   { id: 1, name: 'Dream Team', players: 5 },
