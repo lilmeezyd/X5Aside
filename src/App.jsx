@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { Toaster } from '../@/components/ui/sonner'
 import SidebarLayout from './layouts/SidebarLayout'
 import Dashboard from './pages/Dashboard'
 import Teams from './pages/Teams'
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/fixtures" element={<Fixtures />} />
         <Route path="/players" element={<Players />} />
       </Routes>
+      <Toaster />
     </SidebarLayout>
   )
 }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button } from '../../@/components/ui/button'
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '../../@/components/ui/dialog'
 import { Input } from '../../@/components/ui/input'
+import { toast } from 'sonner'
 
 const mockTeams = [
   { id: 1, name: 'Dream Team', players: 5 },
@@ -14,7 +15,7 @@ export default function Teams() {
   const [selectedTeam, setSelectedTeam] = useState(null)
 
   const handleAddPlayer = () => {
-    alert(`Added player "${playerName}" to ${selectedTeam.name}`)
+    toast(`Added player "${playerName}" to ${selectedTeam.name}`)
     setPlayerName('')
   }
 
