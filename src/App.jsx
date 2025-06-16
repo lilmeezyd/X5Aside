@@ -1,9 +1,20 @@
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import SidebarLayout from './layouts/SidebarLayout'
+import Dashboard from './pages/Dashboard'
+import Teams from './pages/Teams'
+import Fixtures from './pages/Fixtures'
+import Players from './pages/Players'
 
 export default function App() {
   return (
-    <main>
-      React ⚛️ + Vite ⚡ + Replit
-    </main>
+    <SidebarLayout>
+      <Routes>
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/fixtures" element={<Fixtures />} />
+        <Route path="/players" element={<Players />} />
+      </Routes>
+    </SidebarLayout>
   )
 }
