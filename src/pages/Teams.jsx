@@ -22,6 +22,7 @@ export default function Teams() {
 
   const handleAddPlayer = () => {
     toast(`Added player "${playerName}" to ${selectedTeam.name}`);
+    setSelectedTeam(null);
     setXhandle("");
     setFplId("");
     setPosition("");

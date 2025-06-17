@@ -1,7 +1,12 @@
+import { useState } from "react"
 import { Button } from '../../@/components/ui/button'
 import { toast } from 'sonner'
+import { useGetFixturesQuery } from "../slices/fixtureApiSlice"
 
 export default function Fixtures() {
+const [ data, isLoading ] = useGetFixturesQuery();
+  console.log(data);
+  const [ fixtures, setFixtures ] = useState(data);
   const handleFetchFixtures = () => {
     toast("Fetching Fixtures...", {
       description: "This may take a few seconds.",
