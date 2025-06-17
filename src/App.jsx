@@ -21,7 +21,6 @@ export default function App() {
         <Route path="/players" element={<Players />} />
         <Route path="/tables" element={<Tables />} />
       </Routes>
-      <Toaster />
     </SidebarLayout>
   )
 }
