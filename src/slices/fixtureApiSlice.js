@@ -7,72 +7,72 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${FIXTURES_URL}`,
       }),
-      providesTags: ['Fixture']
-    }), 
+      providesTags: ["Fixture"],
+    }),
     getFixture: builder.query({
       query: (id) => ({
-        url: `${FIXTURES_URL}/${id}`
-      })
+        url: `${FIXTURES_URL}/${id}`,
+      }),
     }),
     addFixtures: builder.mutation({
-      query: (data) => ({
+      query: () => ({
         url: `${FIXTURES_URL}`,
         method: "POST",
-        body: data,
       }),
-      invalidatesTags: ['Fixture']
+      invalidatesTags: ["Fixture"],
     }),
     editFixture: builder.mutation({
-      query: ({id, ...rest}) => ({
+      query: ({ id, ...rest }) => ({
         url: `${FIXTURES_URL}/${id}`,
         method: "PATCH",
         body: rest,
       }),
-      invalidatesTags: ['Fixture']
+      invalidatesTags: ["Fixture"],
     }),
     deleteFixture: builder.mutation({
       query: (id) => ({
         url: `${FIXTURES_URL}/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ['Fixture']
+      invalidatesTags: ["Fixture"],
     }),
     deleteAllFixtures: builder.mutation({
-      query: (id) => ({
+      query: () => ({
         url: `${FIXTURES_URL}`,
         method: "DELETE",
       }),
-      invalidatesTags: ['Fixture']
+      invalidatesTags: ["Fixture"],
     }),
+    createPlayerFixtures: builder.mutation({
+    query: () => ({
+      url: `${FIXTURES_URL}/create-player-fixtures`,
+      method: "POST",
+    }),
+    invalidatesTags: ["Fixture"],
   }),
-  createPlayerFixtures: builder.mutation({
-      query: () => ({
-        url: `${FIXTURES_URL}/create-player-fixtures`,
-        method: "POST",
-      }),
-      invalidatesTags: ['Fixture']
-    }),
   calculateClassicScores: builder.mutation({
-      query: () => ({
-        url: `${FIXTURES_URL}/calculate-classic-scores`,
-        method: "PATCH",
-      }),
-      invalidatesTags: ['Fixture']
+    query: () => ({
+      url: `${FIXTURES_URL}/calculate-classic-scores`,
+      method: "PATCH",
     }),
+    invalidatesTags: ["Fixture"],
+  }),
   calculateH2HScores: builder.mutation({
-      query: () => ({
-        url: `${FIXTURES_URL}/calculate-h2h-scores`,
-        method: "PATCH",
-      }),
-      invalidatesTags: ['Fixture']
+    query: () => ({
+      url: `${FIXTURES_URL}/calculate-h2h-scores`,
+      method: "PATCH",
     }),
+    invalidatesTags: ["Fixture"],
+  }),
   calculatePlayerFixScores: builder.mutation({
-      query: () => ({
-        url: `${FIXTURES_URL}/calculate-player-fixture-scores`,
-        method: "PATCH",
-      }),
-      invalidatesTags: ['Fixture']
+    query: () => ({
+      url: `${FIXTURES_URL}/calculate-player-fixture-scores`,
+      method: "PATCH",
     }),
+    invalidatesTags: ["Fixture"],
+  }),
+
+  }),
 });
 
 export const {
@@ -84,5 +84,6 @@ export const {
   useDeleteAllFixturesMutation,
   useCreatePlayerFixturesMutation,
   useCalculateClassicScoresMutation,
-  useCalculateH2H
+  useCalculateH2HScoresMutation,
+  useCalculatePlayerFixScoresMutation
 } = fixtureApiSlice;
