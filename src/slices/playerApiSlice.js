@@ -22,7 +22,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Player']
     }),
-    editPlayer: builder.mutation({
+   editPlayer: builder.mutation({
       query: ({id, ...rest}) => ({
         url: `${PLAYERS_URL}/${id}`,
         method: "PATCH",
@@ -37,13 +37,33 @@ export const playerApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Player']
     }),
-    getHistory: builder.query({
-      query: (id) => {
-        return {
-          url: `${PLAYERS_URL}/${id}/history`
-        }
-      }
-    })
+    deleteAllPlayers: builder.mutation({
+      query: () => ({
+        url: `${PLAYERS_URL}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ['Player']
+    }),
+    fetchPoints: builder.mutation({
+      query: () => ({
+        url: `${PLAYERS_URL}/sync-event-points`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ['Player']
+    }),
+    updateLeaderboard: builder.mutation({
+      query: () => ({
+        url: `${PLAYERS_URL}/update-leading-scorers`,
+        method: "POST",
+      }),
+      invalidatesTags: ['Player']
+    }),
+    getLeaderboard: builder.query({
+      query: () => ({
+        url: `${PLAYERS_URL}/get-leading-scorers`
+      }),
+      provideTags: ['Player']
+    }),
   }),
 });
 
@@ -51,8 +71,10 @@ export const {
   useGetPlayersQuery,
   useGetPlayerQuery,
   useAddPlayerMutation,
-  useGetHistoryQuery,
   useEditPlayerMutation,
   useDeletePlayerMutation,
-  useGetSomeQuery
+  useDeleteAllPlayersMutation,
+  useFetchPointsMutation,
+  useUpdateLeaderboardMutation,
+  useGetLeaderboardQuery
 } = playerApiSlice; 
