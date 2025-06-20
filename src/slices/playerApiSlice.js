@@ -7,12 +7,12 @@ export const playerApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${PLAYERS_URL}`,
       }),
-      providesTags: ['Player']
+      providesTags: ["Player"],
     }),
     getPlayer: builder.query({
       query: (id) => ({
-        url: `${PLAYERS_URL}/${id}`
-      })
+        url: `${PLAYERS_URL}/${id}`,
+      }),
     }),
     addPlayer: builder.mutation({
       query: (data) => ({
@@ -20,49 +20,49 @@ export const playerApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ['Player']
+      invalidatesTags: ["Player"],
     }),
-   editPlayer: builder.mutation({
-      query: ({id, ...rest}) => ({
+    editPlayer: builder.mutation({
+      query: ({ id, ...rest }) => ({
         url: `${PLAYERS_URL}/${id}`,
         method: "PATCH",
-        body: rest, 
-      }), 
-      invalidatesTags: ['Player']
+        body: rest,
+      }),
+      invalidatesTags: ["Player"],
     }),
     deletePlayer: builder.mutation({
       query: (id) => ({
         url: `${PLAYERS_URL}/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ['Player']
+      invalidatesTags: ["Player"],
     }),
     deleteAllPlayers: builder.mutation({
       query: () => ({
         url: `${PLAYERS_URL}`,
         method: "DELETE",
       }),
-      invalidatesTags: ['Player']
+      invalidatesTags: ["Player"],
     }),
-    fetchPoints: builder.mutation({
+    fetchPointsFromApi: builder.mutation({
       query: () => ({
         url: `${PLAYERS_URL}/sync-event-points`,
         method: "PATCH",
       }),
-      invalidatesTags: ['Player']
+      invalidatesTags: ["Player"],
     }),
-    updateLeaderboard: builder.mutation({
+    updateTopScorers: builder.mutation({
       query: () => ({
         url: `${PLAYERS_URL}/update-leading-scorers`,
         method: "POST",
       }),
-      invalidatesTags: ['Player']
+      invalidatesTags: ["Player"],
     }),
-    getLeaderboard: builder.query({
+    getTopScorers: builder.query({
       query: () => ({
-        url: `${PLAYERS_URL}/get-leading-scorers`
+        url: `${PLAYERS_URL}/get-leading-scorers`,
       }),
-      provideTags: ['Player']
+      provideTags: ["Player"],
     }),
   }),
 });
@@ -74,7 +74,7 @@ export const {
   useEditPlayerMutation,
   useDeletePlayerMutation,
   useDeleteAllPlayersMutation,
-  useFetchPointsMutation,
-  useUpdateLeaderboardMutation,
-  useGetLeaderboardQuery
-} = playerApiSlice; 
+  useUpdateTopScorersMutation,
+  useGetTopScorersQuery,
+  useFetchPointsFromApiMutation,
+} = playerApiSlice;

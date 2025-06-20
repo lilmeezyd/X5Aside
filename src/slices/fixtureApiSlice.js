@@ -14,6 +14,11 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
         url: `${FIXTURES_URL}/${id}`,
       }),
     }),
+    getPlayerFixtures: builder.query({
+      query: () => ({
+        url: `${FIXTURES_URL}/player-fixtures`,
+      }),
+    }),
     addFixtures: builder.mutation({
       query: () => ({
         url: `${FIXTURES_URL}`,
@@ -44,34 +49,33 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Fixture"],
     }),
     createPlayerFixtures: builder.mutation({
-    query: () => ({
-      url: `${FIXTURES_URL}/create-player-fixtures`,
-      method: "POST",
+      query: () => ({
+        url: `${FIXTURES_URL}/create-player-fixtures`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Fixture"],
     }),
-    invalidatesTags: ["Fixture"],
-  }),
-  calculateClassicScores: builder.mutation({
-    query: () => ({
-      url: `${FIXTURES_URL}/calculate-classic-scores`,
-      method: "PATCH",
+    calculateClassicScores: builder.mutation({
+      query: () => ({
+        url: `${FIXTURES_URL}/calculate-classic-scores`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Fixture"],
     }),
-    invalidatesTags: ["Fixture"],
-  }),
-  calculateH2HScores: builder.mutation({
-    query: () => ({
-      url: `${FIXTURES_URL}/calculate-h2h-scores`,
-      method: "PATCH",
+    calculateH2HScores: builder.mutation({
+      query: () => ({
+        url: `${FIXTURES_URL}/calculate-h2h-scores`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Fixture"],
     }),
-    invalidatesTags: ["Fixture"],
-  }),
-  calculatePlayerFixScores: builder.mutation({
-    query: () => ({
-      url: `${FIXTURES_URL}/calculate-player-fixture-scores`,
-      method: "PATCH",
+    calculatePlayerFixScores: builder.mutation({
+      query: () => ({
+        url: `${FIXTURES_URL}/calculate-player-fixture-scores`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Fixture"],
     }),
-    invalidatesTags: ["Fixture"],
-  }),
-
   }),
 });
 
@@ -85,5 +89,6 @@ export const {
   useCreatePlayerFixturesMutation,
   useCalculateClassicScoresMutation,
   useCalculateH2HScoresMutation,
-  useCalculatePlayerFixScoresMutation
+  useGetPlayerFixturesQuery,
+  useCalculatePlayerFixScoresMutation,
 } = fixtureApiSlice;

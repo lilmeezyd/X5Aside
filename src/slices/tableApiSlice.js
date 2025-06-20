@@ -1,80 +1,55 @@
 import { apiSlice } from "./apiSlice";
-const TABLES_URL = "/api/players";
+const TABLES_URL = "/api/tables";
 
 export const playerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPlayers: builder.query({
+    getPlayerTable: builder.query({
       query: () => ({
-        url: `${PLAYERS_URL}`,
+        url: `${TABLES_URL}/players`,
       }),
-      providesTags: ['Player']
+      providesTags: ["Table"],
     }),
-    getPlayer: builder.query({
-      query: (id) => ({
-        url: `${PLAYERS_URL}/${id}`
-      })
-    }),
-    addPlayer: builder.mutation({
-      query: (data) => ({
-        url: `${PLAYERS_URL}`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ['Player']
-    }),
-   editPlayer: builder.mutation({
-      query: ({id, ...rest}) => ({
-        url: `${PLAYERS_URL}/${id}`,
-        method: "PATCH",
-        body: rest, 
-      }), 
-      invalidatesTags: ['Player']
-    }),
-    deletePlayer: builder.mutation({
-      query: (id) => ({
-        url: `${PLAYERS_URL}/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ['Player']
-    }),
-    deleteAllPlayers: builder.mutation({
+    updatePlayerTable: builder.mutation({
       query: () => ({
-        url: `${PLAYERS_URL}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ['Player']
-    }),
-    fetchPoints: builder.mutation({
-      query: () => ({
-        url: `${PLAYERS_URL}/sync-event-points`,
+        url: `${TABLES_URL}/update-players`,
         method: "PATCH",
       }),
-      invalidatesTags: ['Player']
-    }),
-    updateLeaderboard: builder.mutation({
+      invalidatesTags: ["Table"],
+    }), 
+    getClassicTable: builder.query({
       query: () => ({
-        url: `${PLAYERS_URL}/update-leading-scorers`,
-        method: "POST",
+        url: `${TABLES_URL}/classic`,
       }),
-      invalidatesTags: ['Player']
+      providesTags: ["Table"],
     }),
-    getLeaderboard: builder.query({
+    updateClassicTable: builder.mutation({
       query: () => ({
-        url: `${PLAYERS_URL}/get-leading-scorers`
+        url: `${TABLES_URL}/update-classic`,
+        method: "PATCH",
       }),
-      provideTags: ['Player']
+      invalidatesTags: ["Table"],
+    }), 
+    getH2HTable: builder.query({
+      query: () => ({
+        url: `${TABLES_URL}/h2h`,
+      }),
+      providesTags: ["Table"],
     }),
+    updateH2HTable: builder.mutation({
+      query: () => ({
+        url: `${TABLES_URL}/update-h2h`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Table"],
+    }), 
   }),
 });
 
 export const {
-  useGetPlayersQuery,
-  useGetPlayerQuery,
-  useAddPlayerMutation,
-  useEditPlayerMutation,
-  useDeletePlayerMutation,
-  useDeleteAllPlayersMutation,
-  useFetchPointsMutation,
-  useUpdateLeaderboardMutation,
-  useGetLeaderboardQuery
-} = playerApiSlice; 
+  useGetPlayerTableQuery,
+    useUpdatePlayerTableMutation,
+  useGetClassicTableQuery,
+    useUpdateClassicTableMutation,
+  useGetH2HTableQuery,
+    useUpdateH2HTableMutation
+} = playerApiSlice;
