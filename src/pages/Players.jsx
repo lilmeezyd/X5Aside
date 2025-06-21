@@ -8,6 +8,7 @@ import {
   TabsContent,
 } from "../../@/components/ui/tabs";
 import { toast } from "sonner";
+import PlayerFixtures from "./PlayerFixtures";
 import {
   useUpdateTopScorersMutation,
   useGetTopScorersQuery,
@@ -30,7 +31,7 @@ export default function Players() {
 
   const { data: table = [] } = useGetPlayerTableQuery(refetchKey);
   const { data: topScorers = [] } = useGetTopScorersQuery(refetchKey);
-  const { data: playerFixtures = [] } = useGetPlayerFixturesQuery(refetchKey);
+  const { data: playerFixtures = [] } = useGetPlayerFixturesQuery();
 //console.log(table)
   console.log(playerFixtures)
   const [deleteAllPlayers] = useDeleteAllPlayersMutation();
@@ -140,7 +141,9 @@ const handleDeletePlayers = async () => {
 
         <TabsContent value="table">Table</TabsContent>
         <TabsContent value="top">Top scorers</TabsContent>
-        <TabsContent value="fixtures">Fixtures</TabsContent>
+        <TabsContent value="fixtures">
+          <PlayerFixtures fixtures={playerFixtures} />
+        </TabsContent>
       </Tabs>
     </div>
   );
