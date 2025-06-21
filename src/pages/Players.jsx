@@ -31,7 +31,8 @@ export default function Players() {
   const { data: table = [] } = useGetPlayerTableQuery(refetchKey);
   const { data: topScorers = [] } = useGetTopScorersQuery(refetchKey);
   const { data: playerFixtures = [] } = useGetPlayerFixturesQuery(refetchKey);
-console.log(table)
+//console.log(table)
+  console.log(playerFixtures)
   const [deleteAllPlayers] = useDeleteAllPlayersMutation();
   const [fetchPointsFromApi] = useFetchPointsFromApiMutation();
 
@@ -53,10 +54,12 @@ const handleDeletePlayers = async () => {
   const handleUpdatePoints = async () => {
     toast("Fetching Player Points...");
     try {
-      await fetchPointsFromApi().unwrap();
+     const res = await fetchPointsFromApi().unwrap();
+      console.log(res);
       toast.success("Player Points successfully updated");
       setRefetchKey((k) => k + 1); // trigger re-fetch
-    } catch {
+    } catch(error) {
+      console.log(error)
       toast.error("Failed to fetch points");
     }
   };
@@ -109,7 +112,7 @@ const handleDeletePlayers = async () => {
     <div>
       <h2 className="text-2xl font-bold mb-4">Players</h2>
       <div className="flex flex-col gap-4 sm:flex-row">
-        <Button onClick={handleDeletePlayers} variant="destructive">Delete All Players</Button>"
+        <Button onClick={handleDeletePlayers} variant="destructive">Delete All Players</Button>
         <Button onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
         </Button>

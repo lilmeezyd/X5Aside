@@ -47,7 +47,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
     fetchPointsFromApi: builder.mutation({
       query: () => ({
         url: `${PLAYERS_URL}/sync-event-points`,
-        method: "PATCH",
+        method: "PUT",
       }),
       invalidatesTags: ["Player"],
     }),
