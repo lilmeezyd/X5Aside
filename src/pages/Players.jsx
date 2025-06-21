@@ -68,9 +68,10 @@ const handleDeletePlayers = async () => {
     toast("Updating Player H2H Fixtures...");
     try {
       await createPlayerFixtures().unwrap();
-      toast.success("Player H2H fixtures updated");
+      toast.success("Player H2H fixtures created");
       setRefetchKey((k) => k + 1); // trigger re-fetch
-    } catch {
+    } catch(error) {
+      console.log(error)
       toast.error("Failed to update fixtures");
     }
   };
