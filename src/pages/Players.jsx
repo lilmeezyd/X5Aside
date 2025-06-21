@@ -9,6 +9,7 @@ import {
 } from "../../@/components/ui/tabs";
 import { toast } from "sonner";
 import PlayerFixtures from "./PlayerFixtures";
+import PlayerTable from "./PlayerTable"
 import {
   useUpdateTopScorersMutation,
   useGetTopScorersQuery,
@@ -29,7 +30,7 @@ export default function Players() {
   const [activeTab, setActiveTab] = useState("table");
   const [refetchKey, setRefetchKey] = useState(0);
 
-  const { data: table = [] } = useGetPlayerTableQuery(refetchKey);
+  const { data: leaderboard = [] } = useGetPlayerTableQuery(refetchKey);
   const { data: topScorers = [] } = useGetTopScorersQuery(refetchKey);
   const { data: playerFixtures = [] } = useGetPlayerFixturesQuery();
 //console.log(table)
@@ -83,7 +84,8 @@ const handleDeletePlayers = async () => {
       await updateH2HFixtures().unwrap();
       toast.success("Player H2H fixtures updated");
       setRefetchKey((k) => k + 1); // trigger re-fetch
-    } catch {
+    } catch(error) {
+      console.log(error);
       toast.error("Failed to update fixtures");
     }
   };
@@ -105,7 +107,8 @@ const handleDeletePlayers = async () => {
       await updatePlayerTable().unwrap();
       toast.success("Table updated");
       setRefetchKey((k) => k + 1); // trigger re-fetch
-    } catch {
+    } catch (error){
+      console.log(error)
       toast.error("Failed to update table");
     }
   };
@@ -128,7 +131,7 @@ const handleDeletePlayers = async () => {
           Update Top Scorers
         </Button>
         <Button onClick={handleTableUpdate} variant="default">
-          Update Players Table
+          Update Players Leaderboard
         </Button>
       </div>
 
@@ -139,7 +142,9 @@ const handleDeletePlayers = async () => {
           <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="table">Table</TabsContent>
+        <TabsContent value="table">
+          <PlayerTable leaderboard={leaderboard} />
+        </TabsContent>
         <TabsContent value="top">Top scorers</TabsContent>
         <TabsContent value="fixtures">
           <PlayerFixtures fixtures={playerFixtures} />
