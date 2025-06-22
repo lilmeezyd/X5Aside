@@ -18,8 +18,9 @@ const sortByPosition = (stats) =>
 (a, b) => positions.indexOf(a.position) - positions.indexOf(b.position)
 );
   return (
-<div className="bg-white p-4 rounded shadow mt-6 space-y-6">
+    <div className="bg-white p-4 rounded shadow mt-6 space-y-6">
 {/* Classic Stats */}
+
 <h3 className="text-xl font-bold border-b pb-2">Classic Stats</h3>
 <div className="overflow-x-auto">
 <table className="min-w-full text-sm text-left border-collapse">

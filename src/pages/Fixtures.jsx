@@ -142,7 +142,7 @@ export default function Fixtures() {
         </div>
       ) : (
         paginatedFixtures.map((group, i) => (
-          <div key={i} className="mb-6">
+          <div key={i} className="mb-6 overflow-auto">
             <h3 className="text-xl font-semibold mb-2">
               {filterEventId
                 ? `Gameweek ${filterEventId}`
