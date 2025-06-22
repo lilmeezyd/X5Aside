@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import FixtureStats from "./FixtureStats";
 import {
   useGetFixturesQuery,
   useAddFixturesMutation,
@@ -184,33 +185,8 @@ export default function Fixtures() {
                       </tr>
 
                       {expandedFixtureId === f._id && (
-                        <tr className="bg-gray-50 border-t">
-                          <td
-                            colSpan={filterTeam ? 5 : 4}
-                            className="px-6 py-4 text-sm text-gray-700"
-                          >
-                            <div className="grid gap-1">
-                              <p>
-                                <strong>Gameweek:</strong> {f.eventId}
-                              </p>
-                              <p>
-                                <strong>Played:</strong>{" "}
-                                {f.isPlayed ? "Yes" : "No"}
-                              </p>
-                              <p>
-                                <strong>Result Classic:</strong>{" "}
-                                {f.resultClassic ?? "N/A"}
-                              </p>
-                              <p>
-                                <strong>Result H2H:</strong>{" "}
-                                {f.resultH2H ?? "N/A"}
-                              </p>
-                              <p>
-                                <strong>Last Updated:</strong>{" "}
-                                {new Date(f.updatedAt).toLocaleString()}
-                              </p>
-                            </div>
-                          </td>
+                        <tr className="bg-green-50 border-t">
+                          <FixtureStats f={f} />
                         </tr>
                       )}
                     </>
