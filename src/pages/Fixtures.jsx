@@ -19,7 +19,9 @@ export default function Fixtures() {
   const [filterTeam, setFilterTeam] = useState("");
   const [expandedFixtureId, setExpandedFixtureId] = useState(null);
   const [page, setPage] = useState(1);
-  console.log(fixtures);
+
+  const [calculateClassicScores] = useCalculateClassicScoresMutation();
+  const [calculateH2HScores] = useCalculateH2HScoresMutation()
 
   const filteredFixtures = useMemo(() => {
     if (!fixtures.length) return [];
@@ -76,8 +78,28 @@ export default function Fixtures() {
     }
   };
 
-  const handleClassicFixtures = () => {};
-  const handleH2HFixtures = () => {};
+  const handleClassicFixtures = async () => {
+    try {
+      toast("Updating Classic Scores...");
+      const res = await calculateClassicScores().unwrap();
+      console.log(res);
+      toast.success("Classic Scores Updated");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update classic scores");
+    }
+  };
+  const handleH2HFixtures = async () => {
+    try {
+      toast("Updating H2H Scores...");
+      const res = await calculateH2HScores().unwrap();
+      console.log(res);
+      toast.success("H2H Scores Updated");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to update h2h scores");
+    }
+  };
 
   return (
     <div className="p-4">
