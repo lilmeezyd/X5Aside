@@ -156,8 +156,8 @@ export default function Fixtures() {
                 <thead className="bg-muted">
                   <tr>
                     {filterTeam && <th className="px-4 py-2 text-left">GW</th>}
-                    <th className="px-4 py-2 text-left">Home Team</th>
-                    <th className="px-4 py-2 text-left">Away Team</th>
+                    <th className="px-4 py-2 text-left"></th>
+                    <th className="px-4 py-2 text-left"></th>
                     <th className="px-4 py-2 text-left">Classic</th>
                     <th className="px-4 py-2 text-left">H2H</th>
                   </tr>
