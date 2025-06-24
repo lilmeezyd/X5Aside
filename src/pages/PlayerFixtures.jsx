@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { useGetPlayerFixturesQuery } from "../slices/fixtureApiSlice";
 import { Button } from "../../@/components/ui/button";
-import { Input } from "../../@/components/ui/input";
 import {
   Select,
   SelectTrigger,
@@ -65,31 +64,45 @@ export default function PlayerFixtures() {
       {isLoading ? (
         <p>Loading fixtures...</p>
       ) : (
-        <>
-          <table className="w-full table-auto border text-sm">
-            <thead className="bg-gray-100">
+        <div className="overflow-x-auto max-w-full">
+          <table className="min-w-[360px] w-full table-auto border border-gray-300 text-sm">
+            <thead className="bg-gray-100 text-center">
               <tr>
-                <th className="p-2 border">Event</th>
-                <th className="p-2 border">Home Player</th>
-                <th className="p-2 border">Score</th>
-                <th className="p-2 border">Away Player</th>
+                <th className="p-2 border w-[60px]"></th>
+                <th className="p-2 border"></th>
+                <th className="p-2 border w-[80px]"></th>
+                <th className="p-2 border"></th>
               </tr>
             </thead>
             <tbody>
               {paginated.map((fixture) => (
                 <tr key={fixture._id} className="border">
-                  <td className="p-2 border text-center">{fixture.eventId}</td>
-                  <td className="p-2 border">
-                    <a href={renderLink(fixture.homePlayer?.fplId)} target="_blank" className="text-black-600 hover:underline">
-                      {fixture.homePlayer?.teamName} ({fixture.homePlayer?.manager})
+                  <td className="p-2 border text-center align-middle font-semibold">
+                    {fixture.eventId}
+                  </td>
+                  <td className="p-2 border text-right">
+                    <a
+                      href={renderLink(fixture.homePlayer?.fplId)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-black hover:underline block"
+                    >
+                      <div className="font-medium">{fixture.homePlayer?.teamName}</div>
+                      <div className="text-xs text-gray-500">{fixture.homePlayer?.manager}</div>
                     </a>
                   </td>
-                  <td className="p-2 border text-center font-semibold">
+                  <td className="p-2 border text-center font-bold text-lg align-middle">
                     {fixture.homeScore} : {fixture.awayScore}
                   </td>
                   <td className="p-2 border">
-                    <a href={renderLink(fixture.awayPlayer?.fplId)} target="_blank" className="text-black-600 hover:underline">
-                      {fixture.awayPlayer?.teamName} ({fixture.awayPlayer?.manager})
+                    <a
+                      href={renderLink(fixture.awayPlayer?.fplId)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-black hover:underline block"
+                    >
+                      <div className="font-medium">{fixture.awayPlayer?.teamName}</div>
+                      <div className="text-xs text-gray-500">{fixture.awayPlayer?.manager}</div>
                     </a>
                   </td>
                 </tr>
@@ -97,12 +110,15 @@ export default function PlayerFixtures() {
             </tbody>
           </table>
 
-          {/* <div className="mt-4 flex items-center justify-between">
+          {/* Uncomment for pagination */}
+          {/* 
+          <div className="mt-4 flex items-center justify-between">
             <Button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} variant="secondary">Previous</Button>
             <span>Page {page} of {totalPages}</span>
             <Button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} variant="secondary">Next</Button>
-          </div>*/}
-        </>
+          </div> 
+          */}
+        </div>
       )}
     </div>
   );

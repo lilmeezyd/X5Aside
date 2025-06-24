@@ -14,7 +14,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         //target: 'https://fantasy-ug.vercel.app',
-        target: 'https://ef92cda3-f4b1-4b9a-ba68-cad743a7aa2e-00-1r75rqg8zlhj1.kirk.replit.dev/',
+      target:  'https://b028de01-ce81-43d6-8fdf-74ddb134d794-00-lejfn7mfojnz.janeway.replit.dev/',
         changeOrigin: true
       },
     },

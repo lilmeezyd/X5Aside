@@ -1,7 +1,7 @@
 import { apiSlice } from "./apiSlice";
 const TABLES_URL = "/api/tables";
 
-export const playerApiSlice = apiSlice.injectEndpoints({
+export const tableApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPlayerTable: builder.query({
       query: () => ({
@@ -52,4 +52,4 @@ export const {
     useUpdateClassicTableMutation,
   useGetH2HTableQuery,
     useUpdateH2HTableMutation
-} = playerApiSlice;
+} = tableApiSlice;

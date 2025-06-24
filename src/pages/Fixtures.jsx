@@ -8,7 +8,6 @@ import {
 } from "../slices/fixtureApiSlice";
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
-import { Skeleton } from "../../@/components/ui/skeleton";
 import { toast } from "sonner";
 
 const ITEMS_PER_PAGE = 1;
@@ -22,7 +21,7 @@ export default function Fixtures() {
   const [page, setPage] = useState(1);
 
   const [calculateClassicScores] = useCalculateClassicScoresMutation();
-  const [calculateH2HScores] = useCalculateH2HScoresMutation()
+  const [calculateH2HScores] = useCalculateH2HScoresMutation();
 
   const filteredFixtures = useMemo(() => {
     if (!fixtures.length) return [];
@@ -33,7 +32,7 @@ export default function Fixtures() {
       return fixtures.filter(
         (f) =>
           f.homeTeam.toLowerCase().includes(filterTeam.toLowerCase()) ||
-          f.awayTeam.toLowerCase().includes(filterTeam.toLowerCase()),
+          f.awayTeam.toLowerCase().includes(filterTeam.toLowerCase())
       );
     }
     return fixtures;
@@ -47,14 +46,14 @@ export default function Fixtures() {
         if (!acc[key]) acc[key] = [];
         acc[key].push(f);
         return acc;
-      }, {}),
+      }, {})
     );
   }, [filteredFixtures, filterEventId, filterTeam]);
 
   const paginatedFixtures = useMemo(() => {
     return groupedFixtures.slice(
       (page - 1) * ITEMS_PER_PAGE,
-      page * ITEMS_PER_PAGE,
+      page * ITEMS_PER_PAGE
     );
   }, [groupedFixtures, page]);
 
@@ -72,10 +71,10 @@ export default function Fixtures() {
     });
     try {
       const res = await addFixtures().unwrap();
-     console.log(res);
-      toast.success(res.message)
+      console.log(res);
+      toast.success(res.message);
     } catch (error) {
-      toast.error('Fetching Fixtures failed');
+      toast.error("Fetching Fixtures failed");
     }
   };
 
@@ -90,6 +89,7 @@ export default function Fixtures() {
       toast.error("Failed to update classic scores");
     }
   };
+
   const handleH2HFixtures = async () => {
     try {
       toast("Updating H2H Scores...");
@@ -131,68 +131,55 @@ export default function Fixtures() {
       </div>
 
       {isLoading ? (
-        <div className="space-y-4">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="space-y-2">
-              <Skeleton className="h-6 w-40" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-          ))}
-        </div>
+        <div className="text-center text-sm py-10">Loading...</div>
       ) : (
         paginatedFixtures.map((group, i) => (
-          <div key={i} className="mb-6 overflow-auto">
+          <div key={i} className="mb-6 overflow-x-auto">
             <h3 className="text-xl font-semibold mb-2">
               {filterEventId
                 ? `Gameweek ${filterEventId}`
                 : filterTeam
-                  ? `Fixtures for ${filterTeam}`
-                  : `Gameweek ${group[0].eventId}`}
+                ? `Fixtures for ${filterTeam}`
+                : `Gameweek ${group[0].eventId}`}
             </h3>
 
-            <div className="rounded-md border shadow-sm overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-muted">
-                  <tr>
-                    {filterTeam && <th className="px-4 py-2 text-left">GW</th>}
-                    <th className="px-4 py-2 text-left"></th>
-                    <th className="px-4 py-2 text-left"></th>
-                    <th className="px-4 py-2 text-left">Classic</th>
-                    <th className="px-4 py-2 text-left">H2H</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {group.map((f) => (
-                    <>
-                      <tr
-                        key={f._id}
-                        onClick={() => handleFixtureClick(f._id)}
-                        className="cursor-pointer hover:bg-gray-100 transition"
-                      >
-                        {filterTeam && (
-                          <td className="px-4 py-2 font-medium">{f.eventId}</td>
-                        )}
-                        <td className="px-4 py-2">{f.homeTeam}</td>
-                        <td className="px-4 py-2">{f.awayTeam}</td>
-                        <td className="px-4 py-2">
-                          {f.homeScoreClassic ?? "-"} :{" "}
-                          {f.awayScoreClassic ?? "-"}
-                        </td>
-                        <td className="px-4 py-2">
-                          {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
-                        </td>
-                      </tr>
+            <div className="min-w-[340px] sm:w-full rounded-md border shadow-sm">
+              <div className="bg-muted px-4 py-2 font-semibold flex justify-between text-sm">
+                {filterTeam && <span className="w-12">GW</span>}
+                <span className="flex-1">Home</span>
+                <span className="w-24 text-center">Classic</span>
+                <span className="w-24 text-center">H2H</span>
+                <span className="flex-1 text-right">Away</span>
+              </div>
 
-                      {expandedFixtureId === f._id && (
-                        <tr className="bg-green-50 border-t">
-                          <FixtureStats f={f} />
-                        </tr>
-                      )}
-                    </>
-                  ))}
-                </tbody>
-              </table>
+              {group.map((f) => (
+                <div key={f._id}>
+                  <div
+                    className="px-4 py-2 border-t flex items-center text-sm cursor-pointer hover:bg-gray-100 transition"
+                    onClick={() => handleFixtureClick(f._id)}
+                  >
+                    {filterTeam && (
+                      <div className="w-12 font-medium">{f.eventId}</div>
+                    )}
+                    <div className="flex-1 truncate">{f.homeTeam}</div>
+                    <div className="w-24 text-center">
+                      {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
+                    </div>
+                    <div className="w-24 text-center">
+                      {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
+                    </div>
+                    <div className="flex-1 text-right truncate">
+                      {f.awayTeam}
+                    </div>
+                  </div>
+
+                  {expandedFixtureId === f._id && (
+                    <div className="bg-green-50 px-4 py-2 border-t overflow-x-auto">
+                      <FixtureStats f={f} />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         ))
