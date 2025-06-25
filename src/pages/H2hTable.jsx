@@ -35,10 +35,10 @@ export default function H2hTable() {
               goalsAgainst,
               goalDifference,
               points,
-              recentResults,
+              result,
             } = entry;
 
-            const lastFive = recentResults.slice(-5).reverse();
+            const lastFive = result?.slice(-5);
 
             return (
               <tr key={team._id} className="border-b hover:bg-gray-50">
@@ -53,7 +53,7 @@ export default function H2hTable() {
                 <td className="px-4 py-2 font-semibold">{points}</td>
                 <td className="px-4 py-2">
                   <div className="flex gap-1">
-                    {lastFive.map((r, i) => {
+                    {lastFive?.map((r, i) => {
                       const color =
                         r.result === "W"
                           ? "bg-green-500"
@@ -64,9 +64,9 @@ export default function H2hTable() {
                         <div
                           key={i}
                           className={`w-5 h-5 text-[11px] font-bold text-white rounded flex items-center justify-center ${color}`}
-                          title={`GW${r.event}: ${r.result} (${r.score})`}
+                          title={`GW${r?.event}: ${r?.result} (${r?.score})`}
                         >
-                          {r.result}
+                          {r?.result}
                         </div>
                       );
                     })}
