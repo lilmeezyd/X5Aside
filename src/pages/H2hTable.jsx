@@ -1,8 +1,10 @@
 import React from "react";
 import { useGetH2HTableQuery } from "../slices/tableApiSlice";
+import { useSelector } from "react-redux";
 
 export default function H2hTable() {
-  const { data = [], isLoading } = useGetH2HTableQuery();
+  const dbName = useSelector((state) => state.database.dbName);
+  const { data = [], isLoading } = useGetH2HTableQuery(dbName);
 
   if (isLoading) return <p>Loading H2H Table...</p>;
 

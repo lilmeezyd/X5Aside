@@ -13,7 +13,8 @@ import { toast } from "sonner";
 const ITEMS_PER_PAGE = 1;
 
 export default function Fixtures() {
-  const { data: fixtures = [], isLoading } = useGetFixturesQuery();
+  const dbName = useSelector((state) => state.database.dbName);
+  const { data: fixtures = [], isLoading } = useGetFixturesQuery(dbName);
   const [addFixtures] = useAddFixturesMutation();
   const [filterEventId, setFilterEventId] = useState("");
   const [filterTeam, setFilterTeam] = useState("");
@@ -70,7 +71,7 @@ export default function Fixtures() {
       description: "This may take a few seconds",
     });
     try {
-      const res = await addFixtures().unwrap();
+      const res = await addFixtures(dbName).unwrap();
       console.log(res);
       toast.success(res.message);
     } catch (error) {
@@ -81,7 +82,7 @@ export default function Fixtures() {
   const handleClassicFixtures = async () => {
     try {
       toast("Updating Classic Scores...");
-      const res = await calculateClassicScores().unwrap();
+      const res = await calculateClassicScores(dbName).unwrap();
       console.log(res);
       toast.success("Classic Scores Updated");
     } catch (error) {
@@ -93,7 +94,7 @@ export default function Fixtures() {
   const handleH2HFixtures = async () => {
     try {
       toast("Updating H2H Scores...");
-      const res = await calculateH2HScores().unwrap();
+      const res = await calculateH2HScores(dbName).unwrap();
       console.log(res);
       toast.success("H2H Scores Updated");
     } catch (error) {

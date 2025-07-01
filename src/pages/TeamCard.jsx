@@ -17,10 +17,12 @@ import {
 } from "../../@/components/ui/select";
 import { toast } from "sonner";
 import { useAddPlayerMutation } from "../slices/playerApiSlice";
+import { useSelector } from "react-redux";
 
 const POSITIONS = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
 
 export default function TeamCard({ team }) {
+  const dbName = useSelector((state) => state.database.dbName);
   const [open, setOpen] = useState(false);
   const [xHandle, setXhandle] = useState("");
   const [fplId, setFplId] = useState("");
@@ -38,6 +40,7 @@ export default function TeamCard({ team }) {
         fplId,
         position,
         team: team._id,
+        dbName
       }).unwrap();
 
       toast.success(`${res.manager} has been added`);

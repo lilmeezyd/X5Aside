@@ -4,75 +4,82 @@ const FIXTURES_URL = "/api/fixtures";
 export const fixtureApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getFixtures: builder.query({
-      query: () => ({
-        url: `${FIXTURES_URL}`,
+      query: (dbName) => ({
+        url: `${FIXTURES_URL}?dbName=${dbName}`,
       }),
       providesTags: ["Fixture"],
     }),
     getFixture: builder.query({
-      query: (id) => ({
-        url: `${FIXTURES_URL}/${id}`,
+      query: (id, dbName) => ({
+        url: `${FIXTURES_URL}/${id}?dbName=${dbName}`,
       }),
     }),
     getPlayerFixtures: builder.query({
-      query: () => ({
-        url: `${FIXTURES_URL}/player-fixtures`,
+      query: (dbName) => ({
+        url: `${FIXTURES_URL}/player-fixtures?dbName=${dbName}`,
       }),
     }),
     addFixtures: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${FIXTURES_URL}`,
         method: "POST",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),
     editFixture: builder.mutation({
-      query: ({ id, ...rest }) => ({
+      query: ({ dbName, id, ...rest }) => ({
         url: `${FIXTURES_URL}/${id}`,
         method: "PATCH",
-        body: rest,
+        body: { dbName, ...rest }
       }),
       invalidatesTags: ["Fixture"],
     }),
     deleteFixture: builder.mutation({
-      query: (id) => ({
+      query: (id, dbName) => ({
         url: `${FIXTURES_URL}/${id}`,
         method: "DELETE",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),
     deleteAllFixtures: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${FIXTURES_URL}`,
         method: "DELETE",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),
     createPlayerFixtures: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${FIXTURES_URL}/create-player-fixtures`,
         method: "POST",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),
     calculateClassicScores: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${FIXTURES_URL}/calculate-classic-scores`,
         method: "PATCH",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),
     calculateH2HScores: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${FIXTURES_URL}/calculate-h2h-scores`,
         method: "PATCH",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),
     calculatePlayerFixScores: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${FIXTURES_URL}/calculate-player-fixture-scores`,
         method: "PATCH",
+        body: { dbName }
       }),
       invalidatesTags: ["Fixture"],
     }),

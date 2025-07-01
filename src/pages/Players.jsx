@@ -25,14 +25,15 @@ import {
   useGetPlayerFixturesQuery,
   useCalculatePlayerFixScoresMutation,
 } from "../slices/fixtureApiSlice";
+import { useSelector } from "react-redux";
 
 export default function Players() {
+  const dbName = useSelector((state) => state.database.dbName);
   const [activeTab, setActiveTab] = useState("table");
-  const [refetchKey, setRefetchKey] = useState(0);
 
-  const { data: leaderboard = [] } = useGetPlayerTableQuery(refetchKey);
-  const { data: topScorers = [] } = useGetTopScorersQuery(refetchKey);
-  const { data: playerFixtures = [] } = useGetPlayerFixturesQuery();
+  const { data: leaderboard = [] } = useGetPlayerTableQuery(dbName);
+  const { data: topScorers = [] } = useGetTopScorersQuery(dbName);
+  const { data: playerFixtures = [] } = useGetPlayerFixturesQuery(dbName);
 //console.log(table)
   console.log(playerFixtures)
   const [deleteAllPlayers] = useDeleteAllPlayersMutation();
@@ -46,9 +47,8 @@ export default function Players() {
 const handleDeletePlayers = async () => {
     toast("Deleting Players...");
     try {
-      await deleteAllPlayers().unwrap();
+      await deleteAllPlayers(dbName).unwrap();
       toast.success("Players successfully deleted");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch {
       toast.error("Failed to delete players");
     }
@@ -56,10 +56,9 @@ const handleDeletePlayers = async () => {
   const handleUpdatePoints = async () => {
     toast("Fetching Player Points...");
     try {
-     const res = await fetchPointsFromApi().unwrap();
+     const res = await fetchPointsFromApi(dbName).unwrap();
       console.log(res);
       toast.success("Player Points successfully updated");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch(error) {
       console.log(error)
       toast.error("Failed to fetch points");
@@ -69,9 +68,8 @@ const handleDeletePlayers = async () => {
   const handleCreateFixtures = async () => {
     toast("Updating Player H2H Fixtures...");
     try {
-      await createPlayerFixtures().unwrap();
+      await createPlayerFixtures(dbName).unwrap();
       toast.success("Player H2H fixtures created");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch(error) {
       console.log(error)
       toast.error("Failed to update fixtures");
@@ -81,9 +79,8 @@ const handleDeletePlayers = async () => {
   const handleUpdateFixtures = async () => {
     toast("Updating Player H2H Fixtures...");
     try {
-      await updateH2HFixtures().unwrap();
+      await updateH2HFixtures(dbName).unwrap();
       toast.success("Player H2H fixtures updated");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch(error) {
       console.log(error);
       toast.error("Failed to update fixtures");
@@ -93,9 +90,8 @@ const handleDeletePlayers = async () => {
   const handleUpdateTopScorers = async () => {
     toast("Updating Top Scorers...");
     try {
-      await updateTopScorers().unwrap();
+      await updateTopScorers(dbName).unwrap();
       toast.success("Top scorers updated");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch {
       toast.error("Failed to update top scorers");
     }
@@ -104,9 +100,8 @@ const handleDeletePlayers = async () => {
   const handleTableUpdate = async () => {
     toast("Updating Table...");
     try {
-      await updatePlayerTable().unwrap();
+      await updatePlayerTable(dbName).unwrap();
       toast.success("Table updated");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch (error){
       console.log(error)
       toast.error("Failed to update table");

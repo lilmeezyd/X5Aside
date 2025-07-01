@@ -1,21 +1,24 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TeamCard from "./TeamCard"; // adjust path if needed
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
 import { useGetQuery } from "../slices/teamApiSlice";
-import { useAddMutation } from "../slices/teamApiSlice"
+import { useAddMutation } from "../slices/teamApiSlice";
+import { useSelector } from 'react-redux';
 
 export default function Teams() {
-  const [refetchKey, setRefetchKey] = useState(0);
-  const { data: teams = [], isLoading } = useGetQuery();
-  console.log(teams);
-  const [addTeams] = useAddMutation(refetchKey);
+  const dbName = useSelector((state) => state.database.dbName);
+  const { data: teams = [], isLoading, refetch } = useGetQuery(dbName);
+  console.log(dbName);
+  const [addTeams] = useAddMutation();
+  /*useEffect(() => {
+  refetch();
+}, [dbName]);*/
   const handleAddTeams = async () => {
     toast("Fetching teams from FPL API...");
     try {
-      await addTeams().unwrap();
+      await addTeams(dbName).unwrap();
       toast.success("Teams Added");
-      setRefetchKey((k) => k + 1); // trigger re-fetch
     } catch(error) {
       console.log(error)
       toast.error("Failed to fetch teams");

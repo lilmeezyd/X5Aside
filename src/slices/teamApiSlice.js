@@ -1,24 +1,22 @@
 import { apiSlice } from "./apiSlice";
-import store from "../store"
+//import store from "../store"
 const TEAMS_URL = "/api/teams";
-const dbName = store.getState().database.dbName;
-console.log(TEAMS_URL)
-console.log(dbName);
+/*const dbName = store.getState().database.dbName;*/
 export const teamApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     get: builder.query({
-      query: () => ({
+      query: (dbName) => ({
         url: `${TEAMS_URL}?dbName=${dbName}`,
       }),
       providesTags: ["Team"],
     }),
     getTeam: builder.query({
-      query: (teamId) => ({
+      query: (teamId, dbName) => ({
         url: `${TEAMS_URL}/${teamId}? dbName=${dbName}`,
       }),
     }),
     add: builder.mutation({
-      query: (data) => ({
+      query: (dbName) => ({
         url: `${TEAMS_URL}`,
         method: "POST",
 body: {dbName}
@@ -26,7 +24,7 @@ body: {dbName}
       invalidatesTags: ["Team"],
     }),
     edit: builder.mutation({
-      query: ({ id, ...rest }) => ({
+      query: ({ dbName, id, ...rest }) => ({
         url: `${TEAMS_URL}/${id}`,
         method: "PATCH",
         body: { rest, dbName },
@@ -34,7 +32,7 @@ body: {dbName}
       invalidatesTags: ["Team"],
     }),
     deleteAll: builder.mutation({
-      query: (teamId) => ({
+      query: (dbName) => ({
         url: `${TEAMS_URL}`,
         method: "DELETE",
         body: {dbName}
@@ -42,7 +40,7 @@ body: {dbName}
       invalidatesTags: ["Team"],
     }),
     delete: builder.mutation({
-      query: (teamId) => ({
+      query: (teamId, dbName) => ({
         url: `${TEAMS_URL}/${teamId}`,
         method: "DELETE",
         body: {dbName}

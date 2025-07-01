@@ -1,8 +1,10 @@
 import React from "react";
 import { useGetClassicTableQuery } from "../slices/tableApiSlice";
+import { useSelector } from "react-redux";
 
 export default function ClassicTable() {
-  const { data = [], isLoading } = useGetClassicTableQuery();
+  const dbName = useSelector((state) => state.database.dbName);
+  const { data = [], isLoading } = useGetClassicTableQuery(dbName);
 
   if (isLoading) return <p>Loading Classic Table...</p>;
 

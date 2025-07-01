@@ -4,41 +4,44 @@ const TABLES_URL = "/api/tables";
 export const tableApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPlayerTable: builder.query({
-      query: () => ({
-        url: `${TABLES_URL}/players`,
+      query: (dbName) => ({
+        url: `${TABLES_URL}/players?dbName=${dbName}`,
       }),
       providesTags: ["Table"],
     }),
     updatePlayerTable: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${TABLES_URL}/update-players`,
         method: "PATCH",
+        body: { dbName }
       }),
       invalidatesTags: ["Table"],
     }), 
     getClassicTable: builder.query({
-      query: () => ({
-        url: `${TABLES_URL}/classic`,
+      query: (dbName) => ({
+        url: `${TABLES_URL}/classic?dbName=${dbName}`,
       }),
       providesTags: ["Table"],
     }),
     updateClassicTable: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${TABLES_URL}/update-classic`,
         method: "PATCH",
+        body: { dbName }
       }),
       invalidatesTags: ["Table"],
     }), 
     getH2HTable: builder.query({
-      query: () => ({
-        url: `${TABLES_URL}/h2h`,
+      query: (dbName) => ({
+      url: `${TABLES_URL}/h2h?dbName=${dbName}`,
       }),
       providesTags: ["Table"],
     }),
     updateH2HTable: builder.mutation({
-      query: () => ({
+      query: (dbName) => ({
         url: `${TABLES_URL}/update-h2h`,
         method: "PATCH",
+        body: { dbName }
       }),
       invalidatesTags: ["Table"],
     }), 

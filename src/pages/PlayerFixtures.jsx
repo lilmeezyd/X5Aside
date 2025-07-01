@@ -8,11 +8,13 @@ import {
   SelectContent,
   SelectItem,
 } from "../../@/components/ui/select";
+import { useSelector } from "react-redux";
 
 const FIXTURES_PER_PAGE = 20;
 
 export default function PlayerFixtures() {
-  const { data = [], isLoading } = useGetPlayerFixturesQuery();
+  const dbName = useSelector((state) => state.database.dbName);
+  const { data = [], isLoading } = useGetPlayerFixturesQuery(dbName);
   const [selectedEvent, setSelectedEvent] = useState("1");
   const [selectedPosition, setSelectedPosition] = useState("Captain");
   const [page, setPage] = useState(1);

@@ -6,8 +6,10 @@ import {
   useUpdateClassicTableMutation,
   useUpdateH2HTableMutation,
 } from "../slices/tableApiSlice";
+import { useSelector } from "react-redux";
 
 export default function Tables() {
+  const dbName = useSelector((state) => state.database.dbName);
   const [view, setView] = useState("classic");
 
   const [updateClassicTable, { isLoading: isUpdatingClassic }] =
@@ -18,9 +20,9 @@ export default function Tables() {
   const handleUpdate = async () => {
     try {
       if (view === "classic") {
-        await updateClassicTable().unwrap();
+        await updateClassicTable(dbName).unwrap();
       } else {
-        await updateH2HTable().unwrap();
+        await updateH2HTable(dbName).unwrap();
       }
     } catch (err) {
       console.error("Update failed:", err);
