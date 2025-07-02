@@ -54,7 +54,8 @@ export default function TeamCard({ team }) {
       setFplId("");
       setPosition("");
       setOpen(false);
-    } catch {
+    } catch (error){
+      console.log(error)
       toast.error("Failed to add player");
       setXhandle("");
       setFplId("");

@@ -9,6 +9,7 @@ import {
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const ITEMS_PER_PAGE = 1;
 
@@ -75,6 +76,7 @@ export default function Fixtures() {
       console.log(res);
       toast.success(res.message);
     } catch (error) {
+      console.log(error)
       toast.error("Fetching Fixtures failed");
     }
   };
