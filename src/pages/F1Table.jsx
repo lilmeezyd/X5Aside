@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import {
   useFetchF1StandingsQuery,
   useFetchF1ByEventQuery,
-} from "../slices/f1Api";
+} from "../slices/f1ApiSlice";
 
 export default function F1Table() {
   const dbName = useSelector((state) => state.database.dbName);

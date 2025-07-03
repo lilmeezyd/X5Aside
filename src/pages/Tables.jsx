@@ -9,7 +9,7 @@ import {
 } from "../slices/tableApiSlice";
 import {
   useTriggerF1CalculationMutation,
-} from "../slices/f1Api";
+} from "../slices/f1ApiSlice";
 import { useSelector } from "react-redux";
 
 export default function Tables() {
