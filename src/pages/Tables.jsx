@@ -25,7 +25,8 @@ export default function Tables() {
   const handleUpdate = async () => {
     try {
       if (view === "classic") {
-        await updateClassicTable(dbName).unwrap();
+       const res = await updateClassicTable(dbName).unwrap();
+        console.log(res);
       } else if (view === "h2h") {
         await updateH2HTable(dbName).unwrap();
       } else if (view === "f1") {

@@ -9,8 +9,11 @@ import {
 } from "../../@/components/ui/tabs";
 import { toast } from "sonner";
 import PlayerFixtures from "./PlayerFixtures";
-import PlayerTable from "./PlayerTable"
+import PlayerTable from "./PlayerTable";
+import TopScorers from "./TopScorers";
+import PlayerData from "./PlayerData";
 import {
+  useGetPlayersQuery,
   useUpdateTopScorersMutation,
   useGetTopScorersQuery,
   useFetchPointsFromApiMutation,
@@ -29,13 +32,14 @@ import { useSelector } from "react-redux";
 
 export default function Players() {
   const dbName = useSelector((state) => state.database.dbName);
-  const [activeTab, setActiveTab] = useState("table");
+  const [activeTab, setActiveTab] = useState("data");
 
   const { data: leaderboard = [] } = useGetPlayerTableQuery(dbName);
-  const { data: topScorers = [] } = useGetTopScorersQuery(dbName);
+  const { data: topScorersData = [] } = useGetTopScorersQuery(dbName);
   const { data: playerFixtures = [] } = useGetPlayerFixturesQuery(dbName);
+  const { data: players = []} = useGetPlayersQuery(dbName);
 //console.log(table)
-  console.log(playerFixtures)
+  //console.log(playerFixtures)
   const [deleteAllPlayers] = useDeleteAllPlayersMutation();
   const [fetchPointsFromApi] = useFetchPointsFromApiMutation();
 
@@ -90,7 +94,8 @@ const handleDeletePlayers = async () => {
   const handleUpdateTopScorers = async () => {
     toast("Updating Top Scorers...");
     try {
-      await updateTopScorers(dbName).unwrap();
+     const res = await updateTopScorers(dbName).unwrap();
+      console.log(res);
       toast.success("Top scorers updated");
     } catch {
       toast.error("Failed to update top scorers");
@@ -132,15 +137,17 @@ const handleDeletePlayers = async () => {
 
       <Tabs defaultValue="h2h" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
+          <TabsTrigger value="data">Players</TabsTrigger>
           <TabsTrigger value="table">Leaderboard</TabsTrigger>
           <TabsTrigger value="top">Top Scorers</TabsTrigger>
           <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
         </TabsList>
-
+<TabsContent value="data"><PlayerData players={players} /></TabsContent>
         <TabsContent value="table">
           <PlayerTable leaderboard={leaderboard} />
         </TabsContent>
-        <TabsContent value="top">Top scorers</TabsContent>
+        <TabsContent value="top"><TopScorers scorers={topScorersData} />
+        </TabsContent>
         <TabsContent value="fixtures">
           <PlayerFixtures fixtures={playerFixtures} />
         </TabsContent>
