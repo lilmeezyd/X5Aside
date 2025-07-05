@@ -14,19 +14,19 @@ const paginatedData = leaderboard.slice(
   
   return (
     <div className="overflow-auto rounded-lg border">
-      <table className="min-w-full divide-y divide-gray-200 text-sm text-left">
-        <thead className="bg-gray-100">
+          <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+            <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
-            <th className="px-4 py-2 font-semibold">Team</th>
-            <th className="px-4 py-2">P</th>
-            <th className="px-4 py-2">W</th>
-            <th className="px-4 py-2">D</th>
-            <th className="px-4 py-2">L</th>
-            <th className="px-4 py-2">PF</th>
-            <th className="px-4 py-2">PA</th>
-            <th className="px-4 py-2">PD</th>
-            <th className="px-4 py-2">Pts</th>
-            <th className="px-4 py-2">Last 5</th>
+            <th className="px-4 py-2 text-left font-semibold">Team</th>
+            <th className="px-4 py-2 text-left ">P</th>
+            <th className="px-4 py-2 text-left">W</th>
+            <th className="px-4 py-2 text-left">D</th>
+            <th className="px-4 py-2 text-left">L</th>
+            <th className="px-4 py-2 text-left">PF</th>
+            <th className="px-4 py-2 text-left">PA</th>
+            <th className="px-4 py-2 text-left">PD</th>
+            <th className="px-4 py-2 text-left">Pts</th>
+            <th className="px-4 py-2 text-left">Last 5</th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@ const paginatedData = leaderboard.slice(
             const lastFive = result.slice(-5).reverse();
 
             return (
-              <tr key={player._id} className="border-b hover:bg-gray-50">
+              <tr key={player._id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
                 <td className="px-4 py-3">
                   <div className="flex flex-col text-sm">
                     <span className="font-medium">{player.manager}</span>

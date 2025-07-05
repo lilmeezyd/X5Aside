@@ -66,8 +66,8 @@ function F1TableDisplay({ data, isEvent = false }) {
 
   return (
     <div className="overflow-x-auto border rounded">
-      <table className="w-full text-sm">
-        <thead className="bg-gray-100">
+          <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+            <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
             <th className="p-2 text-left">#</th>
             <th className="p-2 text-left">Team</th>
@@ -83,7 +83,7 @@ function F1TableDisplay({ data, isEvent = false }) {
         </thead>
         <tbody>
           {data.map((team, index) => (
-            <tr key={team.teamId} className="border-t">
+            <tr key={team.teamId} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
               <td className="p-2">{index + 1}</td>
               <td className="p-2">{team.teamName}</td>
               {isEvent ? (

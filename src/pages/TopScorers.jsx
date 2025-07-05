@@ -18,17 +18,17 @@ export default function TopScorers({ scorers }) {
     <div className="w-full overflow-x-auto space-y-4">
       <h2 className="text-xl font-semibold">Top Scorers</h2>
 
-      <table className="min-w-full border border-gray-200 rounded-lg shadow-sm text-left text-sm">
-        <thead className="bg-gray-100">
+          <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+            <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
-            <th className="px-4 py-2">Manager</th>
-            <th className="px-4 py-2">Position</th>
-            <th className="px-4 py-2 text-center">Goals</th>
+            <th className="px-4 py-2 text-left">Manager</th>
+            <th className="px-4 py-2 text-left">Position</th>
+            <th className="px-4 py-2 text-center text-left">Goals</th>
           </tr>
         </thead>
         <tbody>
-          {paginated.map((player) => (
-            <tr key={player.player._id} className="border-t hover:bg-gray-50">
+          {paginated.map((player, index) => (
+            <tr key={player.player._id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
               <td className="px-4 py-2">
                 <a
                   href={`https://fantasy.premierleague.com/entry/${player.player.fplId}`}
