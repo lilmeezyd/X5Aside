@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 export default function Teams() {
   const dbName = useSelector((state) => state.database.dbName);
   const { data: teams = [], isLoading, refetch } = useGetQuery(dbName);
-  console.log(dbName);
   const [addTeams] = useAddMutation();
   /*useEffect(() => {
   refetch();

@@ -19,7 +19,7 @@ const Dashboard = () => {
           <option value="X5Aside">X5Aside</option>
         </select>
         <p className="text-sm text-gray-500 mt-1">
-          Using database: <span className="font-semibold">{dbName || "none"}</span>
+          Using database: <span className="font-semibold">{dbName === 'app5Aside' ? 'WhatsApp 5 Aside' : dbName === 'X5Aside' ? 'X 5 Aside' : "none"}</span>
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

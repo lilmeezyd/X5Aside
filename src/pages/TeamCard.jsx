@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 const POSITIONS = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
 
 export default function TeamCard({ team }) {
+  console.log(team)
   const dbName = useSelector((state) => state.database.dbName);
   const [open, setOpen] = useState(false);
   const [xHandle, setXhandle] = useState("");

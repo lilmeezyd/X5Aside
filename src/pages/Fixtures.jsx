@@ -107,7 +107,7 @@ export default function Fixtures() {
 
   return (
     <div className="p-4">
-      <h2 className="text-3xl font-bold mb-6">Fixtures Admin</h2>
+      <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
       <div className="flex flex-col gap-4 md:flex-row md:items-center mb-6">
         <Input
@@ -149,10 +149,10 @@ export default function Fixtures() {
             <div className="min-w-[340px] sm:w-full rounded-md border shadow-sm">
               <div className="bg-muted px-4 py-2 font-semibold flex justify-between text-sm">
                 {filterTeam && <span className="w-12">GW</span>}
-                <span className="flex-1">Home</span>
+                <span className="flex-1"></span>
                 <span className="w-24 text-center">Classic</span>
                 <span className="w-24 text-center">H2H</span>
-                <span className="flex-1 text-right">Away</span>
+                <span className="flex-1 text-right"></span>
               </div>
 
               {group.map((f) => (
@@ -164,14 +164,14 @@ export default function Fixtures() {
                     {filterTeam && (
                       <div className="w-12 font-medium">{f.eventId}</div>
                     )}
-                    <div className="flex-1 truncate">{f.homeTeam}</div>
+                    <div className="flex-1 truncate font-semibold">{f.homeTeam}</div>
                     <div className="w-24 text-center">
                       {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
                     </div>
                     <div className="w-24 text-center">
                       {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
                     </div>
-                    <div className="flex-1 text-right truncate">
+                    <div className="flex-1 text-right truncate font-semibold">
                       {f.awayTeam}
                     </div>
                   </div>
