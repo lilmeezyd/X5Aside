@@ -1,12 +1,14 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { Toaster } from '../@/components/ui/sonner'
-import SidebarLayout from './layouts/SidebarLayout'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Teams from './pages/Teams'
-import Fixtures from './pages/Fixtures'
-import Players from './pages/Players'
-import Tables from './pages/Tables'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from '../@/components/ui/sonner';
+
+import SidebarLayout from './layouts/SidebarLayout';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Teams from './pages/Teams';
+import Fixtures from './pages/Fixtures';
+import Players from './pages/Players';
+import Tables from './pages/Tables';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 export default function App() {
   return (
@@ -14,11 +16,17 @@ export default function App() {
       <Toaster />
 
       <Routes>
-        {/* Public route (no sidebar) */}
+        {/* 🔓 Public route */}
         <Route path="/login" element={<Login />} />
 
-        {/* Protected routes (with sidebar) */}
-        <Route element={<SidebarLayout />}>
+        {/* 🔐 Protected routes wrapped in ProtectedRoute */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <SidebarLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/teams" element={<Teams />} />
@@ -28,5 +36,5 @@ export default function App() {
         </Route>
       </Routes>
     </>
-  )
+  );
 }

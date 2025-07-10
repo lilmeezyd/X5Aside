@@ -6,7 +6,10 @@ import {
   ShieldCheck,
   Table2,
   LogOut,
-} from "lucide-react";
+} from "lucide-react";import { useLogoutMutation } from "../slices/userApiSlice";
+import { logout } from "../slices/authSlice";
+
+import { useDispatch, useSelector } from "react-redux";
 
 const navItems = [
   { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
@@ -18,11 +21,21 @@ const navItems = [
 
 export default function SidebarLayout() {
   const location = useLocation();
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [logoutApiCall] = useLogoutMutation();
 
-  const handleLogout = () => {
-    localStorage.clear(); // Or dispatch(logout())
+
+
+  const handleLogout = async () => {
+    try {
+     const res = await logoutApiCall().unwrap();
+    dispatch(logout());
     navigate("/login");
+    } catch(err) {
+      console.log(err)
+    }
   };
 
   return (

@@ -174,7 +174,7 @@ export default function PlayerData({ players }) {
         </tbody>
       </table>
 
-      {/* Pagination */}
+    
       {totalPages > 1 && (
         <div className="flex justify-between items-center mt-2">
           <button
@@ -197,7 +197,7 @@ export default function PlayerData({ players }) {
         </div>
       )}
 
-      {/* Delete Modal */}
+      
       {showDeleteModal && selectedPlayer && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md max-w-sm w-full">
@@ -224,7 +224,7 @@ export default function PlayerData({ players }) {
         </div>
       )}
 
-      {/* Edit Modal */}
+    
       {showEditModal && selectedPlayer && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md max-w-sm w-full space-y-4">

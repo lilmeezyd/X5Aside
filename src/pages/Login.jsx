@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/userApiSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { Card, CardContent } from "../../@/components/ui/card";
@@ -14,13 +14,18 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/dashboard";
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await login({ username, password }).unwrap();
-      dispatch(setCredentials(res.user));
-      navigate("/dashboard");
+     console.log(res);
+      dispatch(setCredentials(res));
+     // navigate("/dashboard");
+      navigate(from, { replace: true })
     } catch (err) {
       console.error("Login error:", err);
     }

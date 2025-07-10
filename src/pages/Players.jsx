@@ -116,7 +116,8 @@ const handleDeletePlayers = async () => {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Players</h2>
-      <div className="flex flex-col gap-4 sm:flex-row">
+      <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+
         <Button onClick={handleDeletePlayers} variant="destructive">Delete All Players</Button>
         <Button onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
@@ -138,7 +139,7 @@ const handleDeletePlayers = async () => {
       <Tabs defaultValue="h2h" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="data">Players</TabsTrigger>
-          <TabsTrigger value="table">Leaderboard</TabsTrigger>
+          <TabsTrigger value="table">Players H2H</TabsTrigger>
           <TabsTrigger value="top">Top Scorers</TabsTrigger>
           <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
         </TabsList>

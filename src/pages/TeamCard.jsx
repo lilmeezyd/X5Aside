@@ -22,7 +22,6 @@ import { useSelector } from "react-redux";
 const POSITIONS = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
 
 export default function TeamCard({ team }) {
-  console.log(team)
   const dbName = useSelector((state) => state.database.dbName);
   const [open, setOpen] = useState(false);
   const [xHandle, setXhandle] = useState("");
@@ -31,8 +30,11 @@ export default function TeamCard({ team }) {
   const [addPlayer] = useAddPlayerMutation();
   const [showPlayers, setShowPlayers] = useState(false);
   const [players, setPlayers] = useState(team.players || []);
+
   const handlePlayerAdded = (newPlayer) => {
-    setPlayers((prev) => [...prev, newPlayer]); }
+    setPlayers((prev) => [...prev, newPlayer]);
+  };
+
   const handleAddPlayer = async () => {
     toast("Adding player...");
     try {
@@ -41,7 +43,7 @@ export default function TeamCard({ team }) {
         fplId,
         position,
         team: team._id,
-        dbName
+        dbName,
       }).unwrap();
 
       toast.success(`${res.manager} has been added`);
@@ -49,14 +51,14 @@ export default function TeamCard({ team }) {
         xHandle,
         fplId,
         position,
-        manager: res.manager
-      })
+        manager: res.manager,
+      });
       setXhandle("");
       setFplId("");
       setPosition("");
       setOpen(false);
-    } catch (error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       toast.error("Failed to add player");
       setXhandle("");
       setFplId("");
@@ -66,58 +68,70 @@ export default function TeamCard({ team }) {
   };
 
   return (
-    <div
-      className="cursor-pointer"
-      onClick={() => setShowPlayers((prev) => !prev)}
-    >
-    <div className="bg-white p-4 rounded shadow">
-      <h3 className="text-lg font-semibold">{team.name}</h3>
-      <p className="text-sm text-gray-600">
-        Players: {players?.length ?? 0}
-      </p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button size="sm" onClick={() => setOpen(true)}>
-              Add Player
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add Player to {team.name}</DialogTitle>
-            </DialogHeader>
-
-            <Input
-              placeholder="Enter player X handle"
-              value={xHandle}
-              onChange={(e) => setXhandle(e.target.value)}
-              className="mb-2"
+    <div className="cursor-pointer" onClick={() => setShowPlayers((prev) => !prev)}>
+      <div className="bg-white p-4 rounded shadow flex flex-col gap-3 border">
+        <div className="flex items-center gap-4">
+          
+            <img
+              src={`https://ik.imagekit.io/cap10/${team.short_name}.webp`}
+              alt={`${team.name} badge`}
+              className="h-20 w-20 object-contain rounded"
             />
-            <Input
-              placeholder="Enter player FPL ID"
-              value={fplId}
-              onChange={(e) => setFplId(e.target.value)}
-              className="mb-2"
-            />
-            <Select value={position} onValueChange={setPosition}>
-              <SelectTrigger className="w-full mb-4">
-                <SelectValue placeholder="Select position" />
-              </SelectTrigger>
-              <SelectContent>
-                {POSITIONS.map((pos) => (
-                  <SelectItem key={pos} value={pos}>
-                    {pos}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Button onClick={handleAddPlayer}>Add</Button>
-          </DialogContent>
-        </Dialog>
-
+          
+          <div>
+            <h3 className="text-lg font-semibold">{team.name}</h3>
+            <p className="text-sm text-gray-600">Players: {players.length ?? 0}</p>
+          </div>
         </div>
-    </div>
+
+        <div className="flex flex-wrap gap-2">
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button
+                size="sm"
+                disabled={players.length >= 5}
+                onClick={() => setOpen(true)}
+              >
+                Add Player
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add Player to {team.name}</DialogTitle>
+              </DialogHeader>
+
+              <Input
+                placeholder="Enter player X handle"
+                value={xHandle}
+                onChange={(e) => setXhandle(e.target.value)}
+                className="mb-2"
+              />
+              <Input
+                placeholder="Enter player FPL ID"
+                value={fplId}
+                onChange={(e) => setFplId(e.target.value)}
+                className="mb-2"
+              />
+              <Select value={position} onValueChange={setPosition}>
+                <SelectTrigger className="w-full mb-4">
+                  <SelectValue placeholder="Select position" />
+                </SelectTrigger>
+                <SelectContent>
+                  {POSITIONS.map((pos) => (
+                    <SelectItem key={pos} value={pos}>
+                      {pos}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Button onClick={handleAddPlayer}>Add</Button>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+
       {showPlayers && players?.length > 0 && (
         <div className="mt-2 ml-4 border-l-2 border-gray-200 pl-4">
           <h4 className="font-semibold mb-1 text-gray-700">Players:</h4>
@@ -130,7 +144,7 @@ export default function TeamCard({ team }) {
           </ul>
         </div>
       )}
-      </div>
+    </div>
   );
 }
 

@@ -40,7 +40,7 @@ export default function FixtureStats({ f }) {
   const topAwayH2H = highlightTopScorer(awayStatsH2H);
 
   return (
-    <div className="sm:w-360 bg-white p-4 rounded shadow mt-4 space-y-8 w-full overflow-x-auto text-sm">
+    <div className="w-full bg-white p-4 my-4 rounded shadow space-y-8 overflow-x-auto text-sm">
       {/* Classic Stats */}
       <div>
         <h3 className="text-xl font-bold border-b pb-2 mb-4">Classic Stats</h3>

@@ -109,7 +109,7 @@ export default function Fixtures() {
     <div className="p-4">
       <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
-      <div className="flex flex-col gap-4 md:flex-row md:items-center mb-6">
+        <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
         <Input
           placeholder="Filter by Gameweek (e.g. 1)"
           value={filterEventId}
@@ -136,56 +136,77 @@ export default function Fixtures() {
       {isLoading ? (
         <div className="text-center text-sm py-10">Loading...</div>
       ) : (
-        paginatedFixtures.map((group, i) => (
-          <div key={i} className="mb-6 overflow-x-auto">
-            <h3 className="text-xl font-semibold mb-2">
-              {filterEventId
-                ? `Gameweek ${filterEventId}`
-                : filterTeam
-                ? `Fixtures for ${filterTeam}`
-                : `Gameweek ${group[0].eventId}`}
-            </h3>
+       paginatedFixtures.map((group, i) => (
+         <div key={i} className="mb-8 w-[360px] sm:w-full">
+           {/* Gameweek title */}
+           <h3 className="text-xl font-bold text-gray-800 mb-3">
+             {filterEventId
+               ? `Gameweek ${filterEventId}`
+               : filterTeam
+               ? `Fixtures for ${filterTeam}`
+               : `Gameweek ${group[0].eventId}`}
+           </h3>
 
-            <div className="min-w-[340px] sm:w-full rounded-md border shadow-sm">
-              <div className="bg-muted px-4 py-2 font-semibold flex justify-between text-sm">
-                {filterTeam && <span className="w-12">GW</span>}
-                <span className="flex-1"></span>
-                <span className="w-24 text-center">Classic</span>
-                <span className="w-24 text-center">H2H</span>
-                <span className="flex-1 text-right"></span>
-              </div>
+           <div className="space-y-2">
+             {group.map((f) => {
+           
+               const homeBadge = `https://ik.imagekit.io/cap10/${f.homeTeamShort}.webp`;
+               const awayBadge = `https://ik.imagekit.io/cap10/${f.awayTeamShort}.webp`;
 
-              {group.map((f) => (
-                <div key={f._id}>
-                  <div
-                    className="px-4 py-2 border-t flex items-center text-sm cursor-pointer hover:bg-gray-100 transition"
-                    onClick={() => handleFixtureClick(f._id)}
-                  >
-                    {filterTeam && (
-                      <div className="w-12 font-medium">{f.eventId}</div>
-                    )}
-                    <div className="flex-1 truncate font-semibold">{f.homeTeam}</div>
-                    <div className="w-24 text-center">
-                      {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
-                    </div>
-                    <div className="w-24 text-center">
-                      {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
-                    </div>
-                    <div className="flex-1 text-right truncate font-semibold">
-                      {f.awayTeam}
-                    </div>
-                  </div>
 
-                  {expandedFixtureId === f._id && (
-                    <div className="bg-green-50 px-4 py-2 border-t overflow-x-auto">
-                      <FixtureStats f={f} />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))
+               return (
+                 <div key={f._id}>
+                   <div
+                     className="bg-white rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer"
+                     onClick={() => handleFixtureClick(f._id)}
+                   >
+                     {/* Home team */}
+                     <div className="flex-1 flex items-center gap-2">
+                       <img src={homeBadge} alt={f.homeTeam} className="w-5 h-5" />
+                       <span className="font-semibold text-gray-900 truncate">{f.homeTeam}</span>
+                     </div>
+
+                     {/* Classic score */}
+                     <div className="w-20 text-center">
+                       <div className="text-xs text-muted-foreground">Classic</div>
+                       <div
+                         className={`font-medium`}
+                       >
+                         {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
+                       </div>
+                     </div>
+
+                     {/* H2H score */}
+                     <div className="w-20 text-center">
+                       <div className="text-xs text-muted-foreground">H2H</div>
+                       <div
+                         className={`font-medium`}
+                       >
+                         {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
+                       </div>
+                     </div>
+
+                     {/* Away team */}
+                     <div className="flex-1 flex items-center gap-2 justify-end">
+                       <span className="font-semibold text-gray-900 truncate text-right">
+                         {f.awayTeam}
+                       </span>
+                       <img src={awayBadge} alt={f.awayTeam} className="w-5 h-5" />
+                     </div>
+                   </div>
+
+                   {/* Expanded fixture stats */}
+                   {expandedFixtureId === f._id && (
+                  <FixtureStats f={f} />
+                    
+                   )}
+                 </div>
+               );
+             })}
+           </div>
+         </div>
+  ))
+      
       )}
 
       {!isLoading && totalPages > 1 && (
@@ -217,3 +238,53 @@ export default function Fixtures() {
 
 
 
+/*paginatedFixtures.map((group, i) => (
+  <div key={i} className="mb-6">
+    <h3 className="text-xl font-semibold mb-2">
+      {filterEventId
+        ? `Gameweek ${filterEventId}`
+        : filterTeam
+        ? `Fixtures for ${filterTeam}`
+        : `Gameweek ${group[0].eventId}`}
+    </h3>
+
+    <div className="min-w-[320px] sm:w-full rounded-md border shadow-sm">
+      <div className="bg-muted px-4 py-2 font-semibold flex justify-between text-sm">
+        {filterTeam && <span className="w-12">GW</span>}
+        <span className="flex-1"></span>
+        <span className="w-24 text-center">Classic</span>
+        <span className="w-24 text-center">H2H</span>
+        <span className="flex-1 text-right"></span>
+      </div>
+
+      {group.map((f) => (
+        <div key={f._id}>
+          <div
+            className="px-4 py-2 border-t flex items-center text-sm cursor-pointer hover:bg-gray-100 transition"
+            onClick={() => handleFixtureClick(f._id)}
+          >
+            {filterTeam && (
+              <div className="w-12 font-medium">{f.eventId}</div>
+            )}
+            <div className="flex-1 truncate font-semibold">{f.homeTeam}</div>
+            <div className="w-24 text-center">
+              {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
+            </div>
+            <div className="w-24 text-center">
+              {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
+            </div>
+            <div className="flex-1 text-right truncate font-semibold">
+              {f.awayTeam}
+            </div>
+          </div>
+
+          {expandedFixtureId === f._id && (
+            <div className="bg-green-50 px-4 py-2 border-t overflow-x-auto">
+              <FixtureStats f={f} />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+))*/

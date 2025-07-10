@@ -23,7 +23,7 @@ export default function TopScorers({ scorers }) {
           <tr>
             <th className="px-4 py-2 text-left">Manager</th>
             <th className="px-4 py-2 text-left">Position</th>
-            <th className="px-4 py-2 text-center text-left">Goals</th>
+            <th className="px-4 py-2 text-left">Goals</th>
           </tr>
         </thead>
         <tbody>
