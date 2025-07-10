@@ -1,7 +1,6 @@
 import { apiSlice } from "./apiSlice";
-//import store from "../store"
+
 const TEAMS_URL = "/api/teams";
-/*const dbName = store.getState().database.dbName;*/
 export const teamApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     get: builder.query({
