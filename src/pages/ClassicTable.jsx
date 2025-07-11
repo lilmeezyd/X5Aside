@@ -13,7 +13,7 @@ export default function ClassicTable() {
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
-    <Tabs defaultValue="short" value={view} onValueChange={setView} className="w-full">
+    <Tabs defaultValue="short" value={view} onValueChange={setView}>
       <TabsList className="mb-4 flex gap-2">
         <TabsTrigger value="short">Short Table</TabsTrigger>
         <TabsTrigger value="full">Full Table</TabsTrigger>

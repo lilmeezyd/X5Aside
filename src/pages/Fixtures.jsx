@@ -106,7 +106,7 @@ export default function Fixtures() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 w-[360px] sm:w-full">
       <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
         <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
@@ -155,14 +155,14 @@ export default function Fixtures() {
 
 
                return (
-                 <div key={f._id}>
+                 <div className="w-full" key={f._id}>
                    <div
                      className="bg-white rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer"
                      onClick={() => handleFixtureClick(f._id)}
                    >
                      {/* Home team */}
                      <div className="flex-1 flex items-center gap-2">
-                       <img src={homeBadge} alt={f.homeTeam} className="w-5 h-5" />
+                       <img src={homeBadge} alt={f.homeTeam} className="w-6 h-6" />
                        <span className="font-semibold text-gray-900 truncate">{f.homeTeam}</span>
                      </div>
 
@@ -191,7 +191,7 @@ export default function Fixtures() {
                        <span className="font-semibold text-gray-900 truncate text-right">
                          {f.awayTeam}
                        </span>
-                       <img src={awayBadge} alt={f.awayTeam} className="w-5 h-5" />
+                       <img src={awayBadge} alt={f.awayTeam} className="w-6 h-6" />
                      </div>
                    </div>
 

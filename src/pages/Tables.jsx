@@ -39,7 +39,7 @@ export default function Tables() {
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4 mb-4">
+      <div className="flex gap-4 mb-4 w-[360px] sm:w-full">
         <Button
           variant={view === "classic" ? "default" : "outline"}
           onClick={() => setView("classic")}
