@@ -118,11 +118,11 @@ const handleDeletePlayers = async () => {
       <h2 className="text-2xl font-bold mb-4">Players</h2>
       <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
 
-        <Button onClick={handleDeletePlayers} variant="destructive">Delete All Players</Button>
-        <Button onClick={handleCreateFixtures} variant="default">
+        <Button disabled onClick={handleDeletePlayers} variant="destructive">Delete All Players</Button>
+        <Button disabled onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
         </Button>
-        <Button onClick={handleUpdatePoints} variant="default">
+        <Button disabled onClick={handleUpdatePoints} variant="default">
           Update Player Points
         </Button>
         <Button onClick={handleUpdateFixtures} variant="default">
@@ -132,7 +132,7 @@ const handleDeletePlayers = async () => {
           Update Top Scorers
         </Button>
         <Button onClick={handleTableUpdate} variant="default">
-          Update Players Leaderboard
+          Update Players H2H Table
         </Button>
       </div>
 

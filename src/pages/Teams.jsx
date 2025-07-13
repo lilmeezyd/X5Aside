@@ -28,7 +28,7 @@ export default function Teams() {
     
     <div>
       <h2 className="text-2xl font-bold mb-4">Teams</h2>
-      <Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
+      <Button disabled onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
 
       {isLoading ? (
         <p>Loading teams...</p>
