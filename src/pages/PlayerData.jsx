@@ -143,7 +143,7 @@ export default function PlayerData({ players }) {
             >
               <td className="px-4 py-2">
                 <a
-                  href={`https://fantasy.premierleague.com/entry/${player.fplId}`}
+                  href={`https://fantasy.premierleague.com/entry/${player.fplId}/history`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"

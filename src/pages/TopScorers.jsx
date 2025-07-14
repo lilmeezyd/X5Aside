@@ -31,7 +31,7 @@ export default function TopScorers({ scorers }) {
             <tr key={player.player._id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
               <td className="px-4 py-2">
                 <a
-                  href={`https://fantasy.premierleague.com/entry/${player.player.fplId}`}
+                  href={`https://fantasy.premierleague.com/entry/${player.player.fplId}/history`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"
