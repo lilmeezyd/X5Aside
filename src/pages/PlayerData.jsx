@@ -245,7 +245,7 @@ export default function PlayerData({ players }) {
                 onChange={(e) => setEditPosition(e.target.value)}
                 className="w-full px-3 py-1 border rounded"
               >
-                <option value="Goalkeeper">Goalkeeper</option>
+                <option value="Ace">Ace</option>
                 <option value="Defender">Defender</option>
                 <option value="Midfielder">Midfielder</option>
                 <option value="Forward">Forward</option>
