@@ -39,7 +39,7 @@ export default function Tables() {
 
   return (
     <div className="space-y-6">
-      <div className="flex gap-4 mb-4 w-[360px] sm:w-full">
+      <div className="flex gap-2 mb-4">
         <Button
           variant={view === "classic" ? "default" : "outline"}
           onClick={() => setView("classic")}
@@ -59,7 +59,7 @@ export default function Tables() {
           F1 Table
         </Button>
 
-        <Button
+        {/*<Button
           variant="secondary"
           onClick={handleUpdate}
           disabled={isUpdatingClassic || isUpdatingH2H || isUpdatingF1}
@@ -75,7 +75,7 @@ export default function Tables() {
             : isUpdatingF1
             ? "Calculating F1..."
             : "Update F1"}
-        </Button>
+        </Button>*/}
       </div>
 
       {view === "classic" && <ClassicTable />}
