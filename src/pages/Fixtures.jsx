@@ -15,7 +15,7 @@ const ITEMS_PER_PAGE = 1;
 
 export default function Fixtures() {
   const dbName = useSelector((state) => state.database.dbName);
-  const { data: fixtures = [], isLoading } = useGetFixturesQuery(dbName);
+  const { data: fixtures = [], isLoading, refetch, isError } = useGetFixturesQuery(dbName);
   const [addFixtures] = useAddFixturesMutation();
   const [filterEventId, setFilterEventId] = useState("");
   const [filterTeam, setFilterTeam] = useState("");
@@ -133,9 +133,19 @@ export default function Fixtures() {
         <Button onClick={handleH2HFixtures}>Update H2H Scores</Button>
       </div>
 
-      {isLoading ? (
-        <div className="text-center text-sm py-10">Loading...</div>
-      ) : (
+        {isLoading ? (
+          <div className="text-center text-sm py-10">Loading...</div>
+        ) : fixtures.length === 0 ? (
+          <div className="text-center py-10 space-y-4">
+            <p className="text-gray-500">No fixtures found. This could be due to a network issue or empty data.</p>
+            <Button onClick={() => {
+              toast("Retrying fetch...");
+              refetch();
+            }}>
+              Retry
+            </Button>
+          </div>
+        ) : (
        paginatedFixtures.map((group, i) => (
          <div key={i} className="mb-8">
            {/* Gameweek title */}

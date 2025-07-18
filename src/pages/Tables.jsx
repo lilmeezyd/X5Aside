@@ -59,23 +59,7 @@ export default function Tables() {
           F1 Table
         </Button>
 
-        {/*<Button
-          variant="secondary"
-          onClick={handleUpdate}
-          disabled={isUpdatingClassic || isUpdatingH2H || isUpdatingF1}
-        >
-          {view === "classic"
-            ? isUpdatingClassic
-              ? "Updating Classic..."
-              : "Update Classic"
-            : view === "h2h"
-            ? isUpdatingH2H
-              ? "Updating H2H..."
-              : "Update H2H"
-            : isUpdatingF1
-            ? "Calculating F1..."
-            : "Update F1"}
-        </Button>*/}
+    
       </div>
 
       {view === "classic" && <ClassicTable />}

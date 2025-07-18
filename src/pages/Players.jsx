@@ -1,5 +1,4 @@
-// src/pages/Players.jsx
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import { Button } from "../../@/components/ui/button";
 import {
   Tabs,
@@ -8,16 +7,13 @@ import {
   TabsContent,
 } from "../../@/components/ui/tabs";
 import { toast } from "sonner";
-import PlayerFixtures from "./PlayerFixtures";
-import PlayerTable from "./PlayerTable";
-import TopScorers from "./TopScorers";
-import PlayerData from "./PlayerData";
+
 import {
   useGetPlayersQuery,
   useUpdateTopScorersMutation,
   useGetTopScorersQuery,
   useFetchPointsFromApiMutation,
-  useDeleteAllPlayersMutation
+  useDeleteAllPlayersMutation,
 } from "../slices/playerApiSlice";
 import {
   useGetPlayerTableQuery,
@@ -30,25 +26,55 @@ import {
 } from "../slices/fixtureApiSlice";
 import { useSelector } from "react-redux";
 
+// Lazy imports for tab content
+const PlayerData = lazy(() => import("./PlayerData"));
+const PlayerTable = lazy(() => import("./PlayerTable"));
+const TopScorers = lazy(() => import("./TopScorers"));
+const PlayerFixtures = lazy(() => import("./PlayerFixtures"));
+
 export default function Players() {
   const dbName = useSelector((state) => state.database.dbName);
   const [activeTab, setActiveTab] = useState("data");
 
-  const { data: leaderboard = [] } = useGetPlayerTableQuery(dbName);
-  const { data: topScorersData = [] } = useGetTopScorersQuery(dbName);
-  const { data: playerFixtures = [] } = useGetPlayerFixturesQuery(dbName);
-  const { data: players = []} = useGetPlayersQuery(dbName);
-//console.log(table)
-  //console.log(playerFixtures)
+  // Fetch queries with loading, error, refetch
+  const {
+    data: players = [],
+    isLoading: playersLoading,
+    isError: playersError,
+    refetch: refetchPlayers,
+  } = useGetPlayersQuery(dbName);
+
+  const {
+    data: leaderboard = [],
+    isLoading: leaderboardLoading,
+    isError: leaderboardError,
+    refetch: refetchLeaderboard,
+  } = useGetPlayerTableQuery(dbName);
+
+  const {
+    data: topScorersData = [],
+    isLoading: scorersLoading,
+    isError: scorersError,
+    refetch: refetchScorers,
+  } = useGetTopScorersQuery(dbName);
+
+  const {
+    data: playerFixtures = [],
+    isLoading: fixturesLoading,
+    isError: fixturesError,
+    refetch: refetchFixtures,
+  } = useGetPlayerFixturesQuery(dbName);
+
+  // Mutations
   const [deleteAllPlayers] = useDeleteAllPlayersMutation();
   const [fetchPointsFromApi] = useFetchPointsFromApiMutation();
-
   const [createPlayerFixtures] = useCreatePlayerFixturesMutation();
-
   const [updateH2HFixtures] = useCalculatePlayerFixScoresMutation();
   const [updateTopScorers] = useUpdateTopScorersMutation();
   const [updatePlayerTable] = useUpdatePlayerTableMutation();
-const handleDeletePlayers = async () => {
+
+  // Handlers for buttons
+  const handleDeletePlayers = async () => {
     toast("Deleting Players...");
     try {
       await deleteAllPlayers(dbName).unwrap();
@@ -57,14 +83,13 @@ const handleDeletePlayers = async () => {
       toast.error("Failed to delete players");
     }
   };
+
   const handleUpdatePoints = async () => {
     toast("Fetching Player Points...");
     try {
-     const res = await fetchPointsFromApi(dbName).unwrap();
-      console.log(res);
+      await fetchPointsFromApi(dbName).unwrap();
       toast.success("Player Points successfully updated");
-    } catch(error) {
-      console.log(error)
+    } catch {
       toast.error("Failed to fetch points");
     }
   };
@@ -74,8 +99,7 @@ const handleDeletePlayers = async () => {
     try {
       await createPlayerFixtures(dbName).unwrap();
       toast.success("Player H2H fixtures created");
-    } catch(error) {
-      console.log(error)
+    } catch {
       toast.error("Failed to update fixtures");
     }
   };
@@ -85,8 +109,7 @@ const handleDeletePlayers = async () => {
     try {
       await updateH2HFixtures(dbName).unwrap();
       toast.success("Player H2H fixtures updated");
-    } catch(error) {
-      console.log(error);
+    } catch {
       toast.error("Failed to update fixtures");
     }
   };
@@ -94,8 +117,7 @@ const handleDeletePlayers = async () => {
   const handleUpdateTopScorers = async () => {
     toast("Updating Top Scorers...");
     try {
-     const res = await updateTopScorers(dbName).unwrap();
-      console.log(res);
+      await updateTopScorers(dbName).unwrap();
       toast.success("Top scorers updated");
     } catch {
       toast.error("Failed to update top scorers");
@@ -107,18 +129,35 @@ const handleDeletePlayers = async () => {
     try {
       await updatePlayerTable(dbName).unwrap();
       toast.success("Table updated");
-    } catch (error){
-      console.log(error)
+    } catch {
       toast.error("Failed to update table");
     }
   };
 
+  // Retry UI helper
+  function RetryWrapper({ isError, isLoading, dataLength, onRetry, children }) {
+    if (isLoading) return <p>Loading...</p>;
+    if (isError || dataLength === 0)
+      return (
+        <div className="text-center space-y-3">
+          <p className="text-gray-500">
+            {isError
+              && "No data found. This might be due to slow internet or server issues."}
+          </p>
+          {isError && <Button onClick={onRetry}>Retry</Button>}
+        </div>
+      );
+    return children;
+  }
+
   return (
     <div className="w-[360px] sm:w-full">
       <h2 className="text-2xl font-bold mb-4">Players</h2>
-      <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
 
-        <Button disabled onClick={handleDeletePlayers} variant="destructive">Delete All Players</Button>
+      <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+        <Button disabled onClick={handleDeletePlayers} variant="destructive">
+          Delete All Players
+        </Button>
         <Button disabled onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
         </Button>
@@ -136,21 +175,64 @@ const handleDeletePlayers = async () => {
         </Button>
       </div>
 
-      <Tabs defaultValue="h2h" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="data">Players</TabsTrigger>
           <TabsTrigger value="table">Players H2H</TabsTrigger>
           <TabsTrigger value="top">Top Scorers</TabsTrigger>
           <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
         </TabsList>
-<TabsContent value="data"><PlayerData players={players} /></TabsContent>
+
+        <TabsContent value="data">
+          <Suspense fallback={<p>Loading Players...</p>}>
+            <RetryWrapper
+              isError={playersError}
+              isLoading={playersLoading}
+              dataLength={players.length}
+              onRetry={refetchPlayers}
+            >
+              <PlayerData players={players} />
+            </RetryWrapper>
+          </Suspense>
+        </TabsContent>
+
         <TabsContent value="table">
-          <PlayerTable leaderboard={leaderboard} />
+          <Suspense fallback={<p>Loading Player Table...</p>}>
+            <RetryWrapper
+              isError={leaderboardError}
+              isLoading={leaderboardLoading}
+              dataLength={leaderboard.length}
+              onRetry={refetchLeaderboard}
+            >
+              <PlayerTable leaderboard={leaderboard} />
+            </RetryWrapper>
+          </Suspense>
         </TabsContent>
-        <TabsContent value="top"><TopScorers scorers={topScorersData} />
+
+        <TabsContent value="top">
+          <Suspense fallback={<p>Loading Top Scorers...</p>}>
+            <RetryWrapper
+              isError={scorersError}
+              isLoading={scorersLoading}
+              dataLength={topScorersData.length}
+              onRetry={refetchScorers}
+            >
+              <TopScorers scorers={topScorersData} />
+            </RetryWrapper>
+          </Suspense>
         </TabsContent>
+
         <TabsContent value="fixtures">
-          <PlayerFixtures fixtures={playerFixtures} />
+          <Suspense fallback={<p>Loading Player Fixtures...</p>}>
+            <RetryWrapper
+              isError={fixturesError}
+              isLoading={fixturesLoading}
+              dataLength={playerFixtures.length}
+              onRetry={refetchFixtures}
+            >
+              <PlayerFixtures fixtures={playerFixtures} />
+            </RetryWrapper>
+          </Suspense>
         </TabsContent>
       </Tabs>
     </div>
