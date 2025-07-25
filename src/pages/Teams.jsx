@@ -33,20 +33,19 @@ export default function Teams() {
   };
 
   const confirmDelete = async () => {
-  
-  try {
-    toast.loading('Deleting all teams...');
+  const toastId = toast.loading('Deleting all teams...');
 
+  try {
     await deleteAll(dbName).unwrap();
 
-    toast.success('All teams deleted!');
+    toast.success('All teams deleted!', { id: toastId });
     setShowDeleteModal(false);
   } catch (err) {
-    toast.error('Failed to delete teams.', { id: 'deleteTeams' });
+    toast.error('Failed to delete teams.', { id: toastId });
     console.error(err);
   }
 };
-  
+
 
   return (
     <div>
@@ -56,19 +55,24 @@ export default function Teams() {
 
 
       {isLoading ? (
-        <p>Loading teams...</p>
-      ) : teams.length > 0 ? (
-        <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {teams.map((team) => (
-            <TeamCard key={team._id} team={team} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center space-y-3 mt-6">
-          <p className="text-gray-500">No teams found. This might be due to a slow connection or fetch failure.</p>
-          <Button onClick={handleRetry}>Retry</Button>
-        </div>
-      )}
+  <p>Loading teams...</p>
+) : isError ? (
+  <div className="text-center space-y-3 mt-6">
+    <p className="text-red-500">Failed to fetch teams. Please check your connection or try again later.</p>
+    <Button onClick={handleRetry}>Retry</Button>
+  </div>
+) : teams.length > 0 ? (
+  <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
+    {teams.map((team) => (
+      <TeamCard key={team._id} team={team} />
+    ))}
+  </div>
+) : (
+  <div className="text-center space-y-3 mt-6">
+    <p className="text-gray-500">No teams found.</p>
+  </div>
+)}
+
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md max-w-sm w-full">

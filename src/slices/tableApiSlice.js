@@ -7,7 +7,7 @@ export const tableApiSlice = apiSlice.injectEndpoints({
       query: (dbName) => ({
         url: `${TABLES_URL}/players?dbName=${dbName}`,
       }),
-      providesTags: ["Table"],
+      providesTags: ["PlayerTable"],
     }),
     updatePlayerTable: builder.mutation({
       query: (dbName) => ({
@@ -15,13 +15,13 @@ export const tableApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Table"],
+      invalidatesTags: ["PlayerTable"],
     }), 
     getClassicTable: builder.query({
       query: (dbName) => ({
         url: `${TABLES_URL}/classic?dbName=${dbName}`,
       }),
-      providesTags: ["Table"],
+      providesTags: ["TeamClassic"],
     }),
     updateClassicTable: builder.mutation({
       query: (dbName) => ({
@@ -29,13 +29,13 @@ export const tableApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Table"],
+      invalidatesTags: ["TeamClassic"],
     }), 
     getH2HTable: builder.query({
       query: (dbName) => ({
       url: `${TABLES_URL}/h2h?dbName=${dbName}`,
       }),
-      providesTags: ["Table"],
+      providesTags: ["TeamH2H"],
     }),
     updateH2HTable: builder.mutation({
       query: (dbName) => ({
@@ -43,7 +43,7 @@ export const tableApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Table"],
+      invalidatesTags: ["TeamH2H"],
     }), 
   }),
 });

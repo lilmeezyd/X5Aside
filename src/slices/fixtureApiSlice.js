@@ -57,7 +57,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { dbName }
       }),
-      invalidatesTags: ["Fixture"],
+      invalidatesTags: ["Fixture", "PlayerFixture"],
     }),
     calculateClassicScores: builder.mutation({
       query: (dbName) => ({
@@ -65,7 +65,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Fixture"],
+      invalidatesTags: ["Fixture", "TeamClassic", 'FormulaOne', 'FormulaOneTotal'],
     }),
     calculateH2HScores: builder.mutation({
       query: (dbName) => ({
@@ -73,7 +73,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Fixture"],
+      invalidatesTags: ["Fixture", "TeamH2H"],
     }),
     calculatePlayerFixScores: builder.mutation({
       query: (dbName) => ({
@@ -81,7 +81,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Fixture"],
+      invalidatesTags: ["Fixture", "PlayerTable"],
     }),
   }),
 });

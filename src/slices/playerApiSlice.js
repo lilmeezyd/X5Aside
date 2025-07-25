@@ -20,7 +20,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: {dbName, ...rest},
       }),
-      invalidatesTags: ["Player"],
+      invalidatesTags: ["Player", "Team", "Leaderboard", "PlayerTable"],
     }),
     editPlayer: builder.mutation({
       query: ({ dbName, id, ...rest }) => ({
@@ -28,7 +28,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName, ...rest}
       }),
-      invalidatesTags: ["Player"],
+      invalidatesTags: ["Player", "Team", "Leaderboard", "PlayerTable"],
     }),
     deletePlayer: builder.mutation({
       query: ({dbName, id}) => ({
@@ -36,7 +36,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { dbName }
       }),
-      invalidatesTags: ["Player"],
+      invalidatesTags: ["Player", "Team", "Leaderboard", "PlayerTable"],
     }),
     deleteAllPlayers: builder.mutation({
       query: (dbName) => ({
@@ -44,7 +44,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { dbName }
       }),
-      invalidatesTags: ["Player"],
+      invalidatesTags: ["Player", "Team", "Leaderboard", "PlayerTable", "PlayerFixture"],
     }),
     fetchPointsFromApi: builder.mutation({
       query: (dbName) => ({

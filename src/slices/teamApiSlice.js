@@ -36,7 +36,7 @@ body: {dbName}
         method: "DELETE",
         body: {dbName}
       }),
-      invalidatesTags: ["Team"],
+      invalidatesTags: ["Team","Player", "Leaderboard", "PlayerTable" ],
     }),
     delete: builder.mutation({
       query: (teamId, dbName) => ({
@@ -44,7 +44,7 @@ body: {dbName}
         method: "DELETE",
         body: {dbName}
       }),
-      invalidatesTags: ["Team"],
+      invalidatesTags: ["Team","Player", "Leaderboard", "PlayerTable"],
     }),
   }),
 });

@@ -9,15 +9,16 @@ export const f1Api = apiSlice.injectEndpoints({
         body: { dbName }
       }),
       // trigger a refetch
-      invalidatesTags: ['F1'],
+      invalidatesTags: ['FormulaOne', 'FormulaOneTotal'],
     }),
     fetchF1Standings: builder.query({
       query: (dbName) => `${F1_URL}/standings?dbName=${dbName}`,
-      providesTags: ['F1'],
+      providesTags: ['FormulaOneTotal']
     }),
     fetchF1ByEvent: builder.query({
       query: ({ dbName, eventId }) =>
         `${F1_URL}/event/${eventId}?dbName=${dbName}`,
+      providesTags: ['FormulaOne']
     }),
   }),
 });
