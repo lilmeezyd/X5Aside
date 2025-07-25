@@ -155,13 +155,13 @@ export default function Players() {
       <h2 className="text-2xl font-bold mb-4">Players</h2>
 
       <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-        <Button disabled onClick={handleDeletePlayers} variant="destructive">
+        <Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
         </Button>
         <Button disabled onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
         </Button>
-        <Button disabled onClick={handleUpdatePoints} variant="default">
+        <Button onClick={handleUpdatePoints} variant="default">
           Update Player Points
         </Button>
         <Button onClick={handleUpdateFixtures} variant="default">
@@ -170,9 +170,9 @@ export default function Players() {
         <Button onClick={handleUpdateTopScorers} variant="default">
           Update Top Scorers
         </Button>
-        <Button onClick={handleTableUpdate} variant="default">
+        {/*<Button onClick={handleTableUpdate} variant="default">
           Update Players H2H Table
-        </Button>
+        </Button>*/}
       </div>
 
       <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab}>

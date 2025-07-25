@@ -101,12 +101,12 @@ export default function TeamCard({ team }) {
                 <DialogTitle>Add Player to {team.name}</DialogTitle>
               </DialogHeader>
 
-              <Input
+              {dbName === 'X5Aside' && <Input
                 placeholder="Enter player X handle"
                 value={xHandle}
                 onChange={(e) => setXhandle(e.target.value)}
                 className="mb-2"
-              />
+              />}
               <Input
                 placeholder="Enter player FPL ID"
                 value={fplId}

@@ -31,7 +31,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["Player"],
     }),
     deletePlayer: builder.mutation({
-      query: (id, dbName) => ({
+      query: ({dbName, id}) => ({
         url: `${PLAYERS_URL}/${id}`,
         method: "DELETE",
         body: { dbName }

@@ -1,7 +1,11 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Pencil, Trash2, ArrowUp, ArrowDown } from "lucide-react";
+import { useDeletePlayerMutation, useEditPlayerMutation } from "../slices/playerApiSlice";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 export default function PlayerData({ players }) {
+  const dbName = useSelector((state) => state.database.dbName);
   const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState(() => {
@@ -14,6 +18,8 @@ export default function PlayerData({ players }) {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [editFplId, setEditFplId] = useState("");
   const [editPosition, setEditPosition] = useState("");
+  const [editPlayer] = useEditPlayerMutation();
+  const [deletePlayer] = useDeletePlayerMutation();
 
   useEffect(() => {
     localStorage.setItem("sortConfig", JSON.stringify(sortConfig));
@@ -73,10 +79,21 @@ export default function PlayerData({ players }) {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
-    console.log("Deleting:", selectedPlayer._id);
+  const confirmDelete = async () => {
+  if (!selectedPlayer?._id) return;
+  try {
+    toast.loading('Deleting player...', { id: 'deletePlayer' });
+
+    await deletePlayer({dbName, id: selectedPlayer._id}).unwrap();
+
+    toast.success('Player deleted!', { id: 'deletePlayer' });
     setShowDeleteModal(false);
-  };
+  } catch (err) {
+    toast.error('Failed to delete player.', { id: 'deletePlayer' });
+    console.error(err);
+  }
+};
+
 
   const openEditModal = (player) => {
     setSelectedPlayer(player);
@@ -85,13 +102,26 @@ export default function PlayerData({ players }) {
     setShowEditModal(true);
   };
 
-  const confirmEdit = () => {
-    console.log("Updating:", selectedPlayer._id, {
-      fplId: editFplId,
-      position: editPosition,
-    });
+  const confirmEdit = async () => {
+  if (!selectedPlayer?._id) return;
+
+  try {
+    toast.loading('Updating player...', { id: 'updatePlayer' });
+
+    await editPlayer({dbName,
+      id: selectedPlayer._id,
+        fplId: editFplId,
+        position: editPosition,
+    }).unwrap();
+
+    toast.success('Player updated!', { id: 'updatePlayer' });
     setShowEditModal(false);
-  };
+  } catch (err) {
+    toast.error('Failed to update player.', { id: 'updatePlayer' });
+    console.error(err);
+  }
+};
+
 
   return (
     <div className="w-full overflow-x-auto space-y-4">
@@ -132,6 +162,22 @@ export default function PlayerData({ players }) {
             >
               FPL ID {sortIcon("fplId")}
             </th>
+            <th
+              className={`px-4 py-2 text-left cursor-pointer ${
+                sortConfig.key === "overallPoints" ? "font-bold text-blue-700" : ""
+              }`}
+              onClick={() => requestSort("overallPoints")}
+            >
+              Points{sortIcon("overallPoints")}
+            </th>
+            <th
+              className={`px-4 py-2 text-left cursor-pointer ${
+                sortConfig.key === "overallRank" ? "font-bold text-blue-700" : ""
+              }`}
+              onClick={() => requestSort("overallRank")}
+            >
+              Rank{sortIcon("overallRank")}
+            </th>
             <th className="px-4 py-2 text-center">Actions</th>
           </tr>
         </thead>
@@ -155,6 +201,8 @@ export default function PlayerData({ players }) {
               <td className="px-4 py-2">{player.position}</td>
               <td className="px-4 py-2">{player.team?.short_name || "—"}</td>
               <td className="px-4 py-2">{player.fplId}</td>
+              <td className="px-4 py-2">{player.overallPoints}</td>
+              <td className="px-4 py-2">{player.overallRank}</td>
               <td className="px-4 py-2 text-center space-x-2">
                 <button
                   onClick={() => openEditModal(player)}
