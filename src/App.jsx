@@ -13,6 +13,7 @@ const Teams = lazy(() => import('./pages/Teams'));
 const Fixtures = lazy(() => import('./pages/Fixtures'));
 const Players = lazy(() => import('./pages/Players'));
 const Tables = lazy(() => import('./pages/Tables'));
+const Events = lazy(() => import('./pages/Events'));
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           >
             <Route path="/" element={<Navigate to="/dashboard" />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/events" element={<Events />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/fixtures" element={<Fixtures />} />
             <Route path="/players" element={<Players />} />

@@ -4,6 +4,7 @@ import {
   Users,
   CalendarCheck,
   ShieldCheck,
+  CalendarDays,
   Table2,
   LogOut,
 } from "lucide-react";import { useLogoutMutation } from "../slices/userApiSlice";
@@ -17,6 +18,7 @@ const navItems = [
   { name: "Fixtures", path: "/fixtures", icon: <CalendarCheck className="h-5 w-5" /> },
   { name: "Players", path: "/players", icon: <ShieldCheck className="h-5 w-5" /> },
   { name: "Tables", path: "/tables", icon: <Table2 className="h-5 w-5" /> },
+  { name: "Events", path: "/events", icon: <CalendarDays className="h-5 w-5" />}
 ];
 
 export default function SidebarLayout() {
