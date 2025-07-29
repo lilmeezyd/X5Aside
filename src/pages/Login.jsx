@@ -69,11 +69,11 @@ export default function Login() {
               {isLoading ? "Logging in..." : "Login"}
             </Button>
 
-            <p className="text-sm text-right mt-2">
+            {/* <p className="text-sm text-right mt-2">
               <a href="/forgot-password" className="text-blue-600 hover:underline">
                 Forgot password?
               </a>
-            </p>
+            </p>*/}
           </form>
         </CardContent>
       </Card>

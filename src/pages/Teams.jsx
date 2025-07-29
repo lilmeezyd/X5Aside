@@ -50,8 +50,8 @@ export default function Teams() {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Teams</h2>
-      <Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
-      <Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>
+      {/*<Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
+      <Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>*/}
 
 
       {isLoading ? (

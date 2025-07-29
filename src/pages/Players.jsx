@@ -155,14 +155,14 @@ export default function Players() {
       <h2 className="text-2xl font-bold mb-4">Players</h2>
 
       <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-        <Button onClick={handleDeletePlayers} variant="destructive">
+        {/*<Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
-        </Button>
+        </Button>*/}
         <Button disabled onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
         </Button>
         <Button onClick={handleUpdatePoints} variant="default">
-          Update Player Points
+          Fetch Player Points
         </Button>
         <Button onClick={handleUpdateFixtures} variant="default">
           Update Player H2H Fixtures

@@ -128,7 +128,8 @@ export default function Fixtures() {
             setFilterEventId("");
           }}
         />
-        <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
+          {/*
+        <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>*/}
         <Button onClick={handleClassicFixtures}>Update Classic Scores</Button>
         <Button onClick={handleH2HFixtures}>Update H2H Scores</Button>
       </div>

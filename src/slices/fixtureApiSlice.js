@@ -18,6 +18,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
       query: (dbName) => ({
         url: `${FIXTURES_URL}/player-fixtures?dbName=${dbName}`,
       }),
+      providesTag: ["PlayerFixture"],
     }),
     addFixtures: builder.mutation({
       query: (dbName) => ({
@@ -81,7 +82,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: { dbName }
       }),
-      invalidatesTags: ["Fixture", "PlayerTable"],
+      invalidatesTags: ["PlayerFixture", "PlayerTable"],
     }),
   }),
 });
