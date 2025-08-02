@@ -45,7 +45,7 @@ export default function SidebarLayout() {
       <div className="flex flex-1">
         {/* Desktop Sidebar */}
         <aside className="hidden md:block w-64 bg-gray-800 text-white p-4">
-          <h1 className="text-xl font-bold mb-6">x5Aside Admin</h1>
+          <h1 className="text-xl font-bold mb-6">5Aside Admin</h1>
           <nav className="space-y-1">
             {navItems.map(({ name, path }) => (
               <Link
