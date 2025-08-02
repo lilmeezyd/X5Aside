@@ -1,6 +1,11 @@
 import { useDatabase } from "../hooks/useDatabase";
 import { Button } from '../../@/components/ui/button'
-
+import React, { lazy, Suspense } from 'react';
+const TopFiveScorers = lazy(() => import('../pages/TopFiveScorers'));
+const TopFivePlayersH2H = lazy(() => import ('../pages/TopFivePlayersH2H'));
+const TopFiveTeamsClassic = lazy(() => import('../pages/TopFiveTeamsClassic'));
+const TopFiveTeamsH2H = lazy(() => import('../pages/TopFiveTeamsH2H'));
+const TopFiveTeamsF1 = lazy(() => import('../pages/TopFiveTeamsF1'));
 const Dashboard = () => {
   const { dbName, changeDb } = useDatabase();
   return (
@@ -24,19 +29,31 @@ const Dashboard = () => {
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Total Teams</h3>
-          <p className="text-2xl font-bold text-blue-600">12</p>
+          <h3 className="text-lg font-semibold">Top Scorers</h3>
+          <TopFiveScorers />
         </div>
         <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Active Players</h3>
-          <p className="text-2xl font-bold text-green-600">48</p>
+          <h3 className="text-lg font-semibold">Players H2H </h3>
+          <TopFivePlayersH2H />
         </div>
-        <div className="bg-white p-4 rounded shadow">
+        {/* <div className="bg-white p-4 rounded shadow">
           <h3 className="text-lg font-semibold">Upcoming Fixtures</h3>
           <p className="text-2xl font-bold text-orange-600">6</p>
+        </div>*/}
+        <div className="bg-white p-4 rounded shadow">
+          <h3 className="text-lg font-semibold">Classic Standings</h3>
+          <TopFiveTeamsClassic />
         </div>
+        <div className="bg-white p-4 rounded shadow">
+          <h3 className="text-lg font-semibold">H2H Standings</h3>
+          <TopFiveTeamsH2H />
+        </div>
+      <div className="bg-white p-4 rounded shadow">
+          <h3 className="text-lg font-semibold">F1 Format Standings</h3>
+          <TopFiveTeamsF1 />
       </div>
     </div>
+      </div>
   )
 }
 

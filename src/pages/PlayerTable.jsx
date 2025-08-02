@@ -17,7 +17,7 @@ const paginatedData = leaderboard.slice(
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
-            <th className="px-4 py-2 text-left font-semibold">Team</th>
+            <th className="px-4 py-2 text-left font-semibold"></th>
             <th className="px-4 py-2 text-left ">P</th>
             <th className="px-4 py-2 text-left">W</th>
             <th className="px-4 py-2 text-left">D</th>
@@ -43,7 +43,7 @@ const paginatedData = leaderboard.slice(
               points,
               result,
             } = entry;
-            const lastFive = result.slice(-5).reverse();
+            const lastFive = result?.sort((a, b) => b.event - a.event)?.slice(-5).reverse();
 
             return (
               <tr key={player._id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>

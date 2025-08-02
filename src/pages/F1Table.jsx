@@ -8,6 +8,7 @@ import {
 export default function F1Table() {
   const dbName = useSelector((state) => state.database.dbName);
   const [eventId, setEventId] = useState(null);
+  
 
   const {
     data: standings,
@@ -62,6 +63,7 @@ export default function F1Table() {
 }
 
 function F1TableDisplay({ data, isEvent = false }) {
+  const imageBaseURL = "https://ik.imagekit.io/cap10/";
   if (!data || data.length === 0) return <div>No data</div>;
 
   return (
@@ -69,8 +71,8 @@ function F1TableDisplay({ data, isEvent = false }) {
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
-            <th className="p-2 text-left">#</th>
-            <th className="p-2 text-left">Team</th>
+            <th className="p-2 text-left"></th>
+            <th className="p-2 text-left"></th>
             {isEvent ? (
               <>
                 <th className="p-2 text-center">Points</th>
@@ -82,10 +84,22 @@ function F1TableDisplay({ data, isEvent = false }) {
           </tr>
         </thead>
         <tbody>
-          {data.map((team, index) => (
-            <tr key={team.teamId} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
+          {data?.map((team, index) => (
+            <tr key={team.teamId.id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
               <td className="p-2">{index + 1}</td>
-              <td className="p-2">{team.teamName}</td>
+              <td className="px-4 py-2">
+              
+              <div className="flex items-center gap-2 w-36">
+                <img
+                  src={`${imageBaseURL}${team?.teamId?.short_name}.webp`}
+                  alt={team?.teamId?.name}
+                  className="w-6 h-6 object-contain"
+                />
+                <span className="truncate whitespace-nowrap overflow-hidden">
+                  {team?.teamId?.name}
+                </span>
+              </div>
+              </td>
               {isEvent ? (
                 <>
                   <td className="p-2 text-center">{team.totalPoints}</td>

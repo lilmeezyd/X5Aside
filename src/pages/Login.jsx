@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
 import { useLoginMutation } from "../slices/userApiSlice";
@@ -6,8 +6,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { Card, CardContent } from "../../@/components/ui/card";
+import { useSelector } from "react-redux";
+
 
 export default function Login() {
+  const { userInfo } = useSelector((state) => state.auth);
+  
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [login, { isLoading, error }] = useLoginMutation();
@@ -16,7 +20,12 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/dashboard";
-  
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [userInfo, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

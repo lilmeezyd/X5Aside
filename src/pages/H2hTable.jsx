@@ -25,8 +25,8 @@ export default function H2HTable() {
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
               <tr>
-                <th className="px-4 py-2 text-left font-semibold">#</th>
-                <th className="px-4 py-2 text-left font-semibold">Team</th>
+                <th className="px-4 py-2 text-left font-semibold"></th>
+                <th className="px-4 py-2 text-left font-semibold"></th>
                 <th className="px-4 py-2 text-left">P</th>
                 <th className="px-4 py-2 text-left">GD</th>
                 <th className="px-4 py-2 text-left">Pts</th>
@@ -34,7 +34,7 @@ export default function H2HTable() {
               </tr>
             </thead>
             <tbody>
-              {data.map((entry, index) => {
+              {data?.map((entry, index) => {
                 const {
                   team,
                   played,
@@ -42,7 +42,7 @@ export default function H2HTable() {
                   points,
                   result,
                 } = entry;
-                const lastFive = result?.slice(-5);
+                  const lastFive = result?.sort((a, b) => b.event - a.event)?.slice(-5);
                 const isBottomThree = index >= data.length - 3;
       const isTopFour = index < 4
 
