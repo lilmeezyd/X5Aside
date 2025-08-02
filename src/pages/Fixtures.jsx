@@ -58,7 +58,7 @@ export default function Fixtures() {
       page * ITEMS_PER_PAGE
     );
   }, [groupedFixtures, page]);
-
+console.log(paginatedFixtures)
   const totalPages = useMemo(() => {
     return Math.ceil(groupedFixtures.length / ITEMS_PER_PAGE);
   }, [groupedFixtures]);
@@ -159,7 +159,8 @@ export default function Fixtures() {
            </h3>
 
            <div className="space-y-2">
-             {group.map((f) => {
+             {group?.sort((a,b) => {if(a.eventId !==b.eventId)return a.eventId-b.eventId
+     if(a.homeTeam !== b.homeTeam) return a.homeTeam.localeCompare(b.homeTeam) }                    )?.map((f) => {
            
                const homeBadge = `https://ik.imagekit.io/cap10/${f.homeTeamShort}.webp`;
                const awayBadge = `https://ik.imagekit.io/cap10/${f.awayTeamShort}.webp`;
