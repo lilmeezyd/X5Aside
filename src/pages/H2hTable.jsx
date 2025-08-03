@@ -14,13 +14,15 @@ export default function H2HTable() {
 
   return (
     <Tabs defaultValue="short" value={view} onValueChange={setView} className="w-full">
+      
       <TabsList className="mb-4 flex gap-2">
         <TabsTrigger value="short">Short Table</TabsTrigger>
         <TabsTrigger value="full">Full Table</TabsTrigger>
       </TabsList>
 
       {/* Short Table */}
-      <TabsContent value="short">
+      {data?.length === 0 ? <p>No data</p> :
+    ( <><TabsContent value="short">
         <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
@@ -98,14 +100,14 @@ export default function H2HTable() {
         </div>
       </TabsContent>
 
-      {/* Full Table */}
+      
       <TabsContent value="full">
         <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
               <tr>
-                <th className="px-4 py-2 text-left font-semibold">#</th>
-                <th className="px-4 py-2 text-left font-semibold">Team</th>
+                <th className="px-4 py-2 text-left font-semibold"></th>
+                <th className="px-4 py-2 text-left font-semibold"></th>
                 <th className="px-4 py-2 text-left">P</th>
                 <th className="px-4 py-2 text-left">W</th>
                 <th className="px-4 py-2 text-left">D</th>
@@ -167,6 +169,7 @@ export default function H2HTable() {
           </table>
         </div>
       </TabsContent>
+    </>)}
     </Tabs>
   );
 }
