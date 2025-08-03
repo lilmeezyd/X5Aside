@@ -4,7 +4,7 @@ import { Toaster } from '../@/components/ui/sonner';
 
 import SidebarLayout from './layouts/SidebarLayout';
 import ProtectedRoute from './pages/ProtectedRoute';
-import PageSkeleton from './components/PageSkeleton'; // 👈 import skeleton loader
+import PageSkeleton from './components/PageSkeleton'; //  import skeleton loader
 
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));

@@ -169,54 +169,48 @@ console.log(paginatedFixtures)
                return (
                  <div className="w-[320px] sm:w-full" key={f._id}>
                    <div
-  className={`${
-    expandedFixtureId === f._id ? "bg-teal-300" : "bg-white"
-  } rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer`}
-  onClick={() => handleFixtureClick(f._id)}
->
-
-
+                     className={`${
+                       expandedFixtureId === f._id ? "bg-teal-300" : "bg-white"
+                     } rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer`}
+                     onClick={() => handleFixtureClick(f._id)}
+                   >
                      {/* Home team */}
-                     <div className="flex-1 flex items-center gap-2">
-                       <img src={homeBadge} alt={f.homeTeam} className="w-6 h-6" />
-                       <span className="font-semibold text-gray-900 truncate text-xs md:text-base">{f.homeTeam}</span>
+                     <div className="w-1/3 flex items-center gap-1 px-1 justify-between">
+                       
+                       <div className="font-semibold text-gray-900 truncate text-xs md:text-base w-3/4 text-right">{f.homeTeam}</div>
+                       <img src={homeBadge} alt={f.homeTeam} className="w-4 h-auto w-1/4 md:w-6" />
                      </div>
 
                      {/* Classic score */}
-                     <div className="w-20 text-center">
+                     <div className="w-16 text-center border border-gray-800 rounded">
                        <div className="text-xs text-muted-foreground">Classic</div>
-                       <div
-                         className={`text-xs sm:text-base font-medium`}
-                       >
+                       <div className="text-xs sm:text-base font-medium bg-gray-800 text-white">
                          {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
                        </div>
                      </div>
 
                      {/* H2H score */}
-                     <div className="w-20 text-center">
+                     <div className="w-16 text-center border border-gray-800 ml-1 rounded">
                        <div className="text-xs text-muted-foreground">H2H</div>
-                       <div
-                         className={`text-xs sm:text-base font-medium`}
-                       >
+                       <div className="text-xs sm:text-base font-medium bg-gray-800 text-white">
                          {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
                        </div>
                      </div>
 
                      {/* Away team */}
-                     <div className="flex-1 flex items-center gap-2 justify-end">
-                       <span className="font-semibold text-gray-900 truncate text-right text-xs md:text-base">
+                     <div className="w-1/3 flex items-center gap-1 px-1 justify-between">
+                       <img src={awayBadge} alt={f.awayTeam} className="w-4 h-auto md:w-6 w-1/4" />
+                       <div className="font-semibold text-gray-900 truncate text-left text-xs md:text-base w-3/4">
                          {f.awayTeam}
-                       </span>
-                       <img src={awayBadge} alt={f.awayTeam} className="w-6 h-6" />
+                       </div>
+                       
                      </div>
                    </div>
 
                    {/* Expanded fixture stats */}
-                   {expandedFixtureId === f._id && (
-                  <FixtureStats f={f} />
-                    
-                   )}
+                   {expandedFixtureId === f._id && <FixtureStats f={f} />}
                  </div>
+
                );
              })}
            </div>
