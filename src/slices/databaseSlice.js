@@ -6,7 +6,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const savedDb = localStorage.getItem("dbName");
 
 const initialState = {
-  dbName: savedDb || "", // fallback to empty string
+  dbName: savedDb || "app5Aside", // fallback to empty string
 };
 
 const databaseSlice = createSlice({

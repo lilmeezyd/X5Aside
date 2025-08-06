@@ -23,6 +23,7 @@ const POSITIONS = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
 
 export default function TeamCard({ team }) {
   const dbName = useSelector((state) => state.database.dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [open, setOpen] = useState(false);
   const [xHandle, setXhandle] = useState("");
   const [fplId, setFplId] = useState("");
@@ -30,7 +31,7 @@ export default function TeamCard({ team }) {
   const [addPlayer] = useAddPlayerMutation();
   const [showPlayers, setShowPlayers] = useState(false);
   const [players, setPlayers] = useState(team.players || []);
-
+const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
   const handlePlayerAdded = (newPlayer) => {
     setPlayers((prev) => [...prev, newPlayer]);
   };
@@ -73,7 +74,7 @@ export default function TeamCard({ team }) {
         <div className="flex items-center gap-4">
           
             <img
-              src={`https://ik.imagekit.io/cap10/${team.short_name}.webp`}
+              src={`https://ik.imagekit.io/cap10/${team.short_name}_${imageComp}.png`}
               alt={`${team.name} badge`}
               className="h-20 w-20 object-contain rounded"
             />
@@ -84,7 +85,7 @@ export default function TeamCard({ team }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        {userInfo && <div className="flex flex-wrap gap-2">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button
@@ -129,7 +130,7 @@ export default function TeamCard({ team }) {
               <Button onClick={handleAddPlayer}>Add</Button>
             </DialogContent>
           </Dialog>
-        </div>
+        </div>}
       </div>
 
       {showPlayers && players?.length > 0 && (

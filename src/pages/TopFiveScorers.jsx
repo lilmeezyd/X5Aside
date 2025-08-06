@@ -32,16 +32,29 @@ export default function TopFiveScorers() {
                 index === 0 ? "bg-yellow-100" : index % 2 === 0 ? "bg-white" : "bg-blue-50"
               }`}
             >
-              <td className={`px-4 py-3 ${index === 0 ? "text-lg font-bold" : "pl-8"}`}>
-                <a
-                  href={`https://fantasy.premierleague.com/entry/${player.player?.fplId}/history`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`text-blue-600 ${index === 0 ? "font-extrabold" : "font-medium"} hover:underline`}
-                >
-                  {player.player.teamName}
-                </a>
-                <div className="text-xs text-gray-500">{player.player.manager}</div>
+              <td className={`px-4 py-3 ${index === 0 ? "text-lg font-bold" : ""}`}>
+                <div className="flex flex-col">
+                    <span className="">{player?.player?.manager}</span>
+                    <a
+                      href={`https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {player?.player?.teamName}
+                    </a>
+                    {player?.player?.xHandle && (
+                      <a
+                        href={`https://x.com/${player?.player?.xHandle.replace(/^@/, "")}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-gray-500 hover:underline"
+                      >
+                        {player?.player?.xHandle}
+                      </a>
+                    )}
+                  </div>
+                
               </td>
               <td className={`px-4 py-2 ${index === 0 ? "font-bold text-lg" : ""}`}>
                 {player.player.position}

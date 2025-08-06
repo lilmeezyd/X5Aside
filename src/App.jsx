@@ -14,6 +14,7 @@ const Fixtures = lazy(() => import('./pages/Fixtures'));
 const Players = lazy(() => import('./pages/Players'));
 const Tables = lazy(() => import('./pages/Tables'));
 const Events = lazy(() => import('./pages/Events'));
+const Help = lazy(() => import('./pages/Help'));
 
 export default function App() {
   return (
@@ -26,19 +27,21 @@ export default function App() {
 
           <Route
             element={
-              <ProtectedRoute>
+              
                 <SidebarLayout />
-              </ProtectedRoute>
+            
             }
           >
-            <Route path="/" element={<Navigate to="/dashboard" />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Dashboard />} />
             <Route path="/events" element={<Events />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/fixtures" element={<Fixtures />} />
             <Route path="/players" element={<Players />} />
             <Route path="/tables" element={<Tables />} />
+          <Route path="/help" element={<Help />} />
           </Route>
+          <Route path="*" element="Page not found" />
         </Routes>
       </Suspense>
     </>

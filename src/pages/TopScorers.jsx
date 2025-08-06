@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 export default function TopScorers({ scorers }) {
-  console.log(scorers[0])
   const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -15,8 +14,9 @@ export default function TopScorers({ scorers }) {
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
 
   return (
+    <>
     <div className="w-full overflow-x-auto space-y-4">
-      <h2 className="text-xl font-semibold">Top Scorers</h2>
+      {/*<h2 className="text-xl font-semibold">Top Scorers</h2>*/}
 
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
@@ -46,7 +46,7 @@ export default function TopScorers({ scorers }) {
           ))}
         </tbody>
       </table>
-
+    </div>
       {/* Pagination controls */}
       {totalPages > 1 && (
         <div className="flex justify-between items-center mt-2">
@@ -69,6 +69,6 @@ export default function TopScorers({ scorers }) {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }

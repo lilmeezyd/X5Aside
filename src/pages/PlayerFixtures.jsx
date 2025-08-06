@@ -33,7 +33,7 @@ export default function PlayerFixtures() {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Player Fixtures</h2>
+      {/*<h2 className="text-2xl font-bold mb-4">Player Fixtures</h2>*/}
 
       <div className="flex gap-4 flex-wrap mb-6">
         <Select value={selectedEvent} onValueChange={setSelectedEvent}>
@@ -67,7 +67,7 @@ export default function PlayerFixtures() {
         <p>Loading fixtures...</p>
       ) : (
         <div className="overflow-x-auto max-w-full">
-          <table className="min-w-[360px] w-full table-auto border border-gray-300 text-sm">
+          <table className="w-[320px] sm:w-full table-auto border border-gray-300 text-sm">
             <thead className="bg-gray-100 text-center">
               <tr>
                 <th className="p-2 border w-[60px]"></th>

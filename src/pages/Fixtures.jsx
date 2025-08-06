@@ -15,13 +15,14 @@ const ITEMS_PER_PAGE = 1;
 
 export default function Fixtures() {
   const dbName = useSelector((state) => state.database.dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo)
   const { data: fixtures = [], isLoading, refetch, isError } = useGetFixturesQuery(dbName);
   const [addFixtures] = useAddFixturesMutation();
   const [filterEventId, setFilterEventId] = useState("");
   const [filterTeam, setFilterTeam] = useState("");
   const [expandedFixtureId, setExpandedFixtureId] = useState(null);
   const [page, setPage] = useState(1);
-
+const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
   const [calculateClassicScores] = useCalculateClassicScoresMutation();
   const [calculateH2HScores] = useCalculateH2HScoresMutation();
 
@@ -106,7 +107,7 @@ console.log(paginatedFixtures)
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 mt-15 md:mt-0 w-[320px] sm:w-full">
       <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
         <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
@@ -128,10 +129,10 @@ console.log(paginatedFixtures)
             setFilterEventId("");
           }}
         />
-          {/*
+          { /*
         <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>*/}
-        <Button onClick={handleClassicFixtures}>Update Classic Scores</Button>
-        <Button onClick={handleH2HFixtures}>Update H2H Scores</Button>
+          { userInfo && <><Button onClick={handleClassicFixtures}>Update Classic Scores</Button>
+        <Button onClick={handleH2HFixtures}>Update H2H Scores</Button></> }
       </div>
 
         {isLoading ? (
@@ -162,8 +163,8 @@ console.log(paginatedFixtures)
              {group?.sort((a,b) => {if(a.eventId !==b.eventId)return a.eventId-b.eventId
      if(a.homeTeam !== b.homeTeam) return a.homeTeam.localeCompare(b.homeTeam) }                    )?.map((f) => {
            
-               const homeBadge = `https://ik.imagekit.io/cap10/${f.homeTeamShort}.webp`;
-               const awayBadge = `https://ik.imagekit.io/cap10/${f.awayTeamShort}.webp`;
+               const homeBadge = `https://ik.imagekit.io/cap10/${f.homeTeamShort}_${imageComp}.png`;
+               const awayBadge = `https://ik.imagekit.io/cap10/${f.awayTeamShort}_${imageComp}.png`;
 
 
                return (
@@ -182,7 +183,7 @@ console.log(paginatedFixtures)
                      </div>
 
                      {/* Classic score */}
-                     <div className="w-16 text-center border border-gray-800 rounded">
+                     <div className="w-16 text-center shadow-inner border border-gray-800 rounded p-1">
                        <div className="text-xs text-muted-foreground">Classic</div>
                        <div className="text-xs sm:text-base font-medium bg-gray-800 text-white">
                          {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
@@ -190,7 +191,7 @@ console.log(paginatedFixtures)
                      </div>
 
                      {/* H2H score */}
-                     <div className="w-16 text-center border border-gray-800 ml-1 rounded">
+                     <div className="w-16 text-center shadow-inner border border-gray-800 rounded p-1">
                        <div className="text-xs text-muted-foreground">H2H</div>
                        <div className="text-xs sm:text-base font-medium bg-gray-800 text-white">
                          {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}

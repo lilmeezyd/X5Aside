@@ -22,21 +22,24 @@ export default function H2HTable() {
 
       {/* Short Table */}
       {data?.length === 0 ? <p>No data</p> :
-    ( <><TabsContent value="short">
+    ( <>
+      {/* Short Table */}
+      <TabsContent value="short">
         <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
               <tr>
-                <th className="px-4 py-2 text-left font-semibold"></th>
-                <th className="px-4 py-2 text-left font-semibold"></th>
+                <th className="px-4 py-2 text-left font-semibold sticky left-0 bg-gradient-to-r from-blue-100 to-blue-200 z-20"></th>
+                <th className="px-4 py-2 text-left font-semibold sticky left-12 bg-gradient-to-r from-blue-100 to-blue-200 z-20 border-r border-gray-300">
+                </th>
                 <th className="px-4 py-2 text-left">P</th>
                 <th className="px-4 py-2 text-left">GD</th>
                 <th className="px-4 py-2 text-left">Pts</th>
-                <th className="px-4 py-2 text-left">Last 5</th>
+                <th className="px-4 py-2 text-left">Form</th>
               </tr>
             </thead>
             <tbody>
-              {data?.map((entry, index) => {
+              {data.map((entry, index) => {
                 const {
                   team,
                   played,
@@ -44,7 +47,7 @@ export default function H2HTable() {
                   points,
                   result,
                 } = entry;
-                  const lastFive = result?.sort((a, b) => b.event - a.event)?.slice(-5);
+                const lastFive = result?.sort((a, b) => b.event - a.event)?.slice(-5);
                 const isBottomThree = index >= data.length - 3;
       const isTopFour = index < 4
 
@@ -55,8 +58,9 @@ export default function H2HTable() {
                       isBottomThree ? "bg-red-100" : isTopFour ? "bg-blue-200" : index % 2 === 0 ? "bg-white" : "bg-blue-50"
                     }`}
                   >
-                    <td className="px-4 py-2 font-semibold">{index + 1}</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 font-semibold sticky left-0 z-10 bg-inherit">{index + 1}</td>
+                      <td className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
+
                       <div className="flex items-center gap-2 w-36">
                         <img
                           src={`${imageBaseURL}${team.short_name}.webp`}
@@ -100,14 +104,15 @@ export default function H2HTable() {
         </div>
       </TabsContent>
 
-      
+      {/* Full Table */}
       <TabsContent value="full">
         <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
               <tr>
-                <th className="px-4 py-2 text-left font-semibold"></th>
-                <th className="px-4 py-2 text-left font-semibold"></th>
+                <th className="px-4 py-2 text-left font-semibold sticky left-0 bg-gradient-to-r from-blue-100 to-blue-200 z-20"></th>
+                <th className="px-4 py-2 text-left font-semibold sticky left-12 bg-gradient-to-r from-blue-100 to-blue-200 z-20 border-r border-gray-300">
+</th>
                 <th className="px-4 py-2 text-left">P</th>
                 <th className="px-4 py-2 text-left">W</th>
                 <th className="px-4 py-2 text-left">D</th>
@@ -141,8 +146,9 @@ export default function H2HTable() {
                       isBottomThree ? "bg-red-100" : isTopFour ? "bg-blue-200" : index % 2 === 0 ? "bg-white" : "bg-blue-50"
                     }`}
                   >
-                    <td className="px-4 py-2 font-semibold">{index + 1}</td>
-                    <td className="px-4 py-2">
+                      <td className="px-4 py-2 font-semibold sticky left-0 z-10 bg-inherit">{index + 1}</td>
+                      <td className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
+
                       <div className="flex items-center gap-2 w-36">
                         <img
                           src={`${imageBaseURL}${team.short_name}.webp`}
@@ -169,7 +175,7 @@ export default function H2HTable() {
           </table>
         </div>
       </TabsContent>
-    </>)}
+        </>)}
     </Tabs>
   );
 }

@@ -38,6 +38,8 @@ export default function Tables() {
   };
 
   return (
+    <div className=" mt-15 md:mt-0 w-[320px] sm:w-full">
+    
     <div className="space-y-6">
       <div className="flex gap-2 mb-4">
         <Button
@@ -65,6 +67,7 @@ export default function Tables() {
       {view === "classic" && <ClassicTable />}
       {view === "h2h" && <H2hTable />}
       {view === "f1" && <F1Table />}
+    </div>
     </div>
   );
 }

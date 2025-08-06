@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function PlayerData({ players }) {
   const dbName = useSelector((state) => state.database.dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState(() => {
@@ -124,8 +125,9 @@ export default function PlayerData({ players }) {
 
 
   return (
+    <>
     <div className="w-full overflow-x-auto space-y-4">
-      <h2 className="text-xl font-semibold">Top Players</h2>
+      {/*<h2 className="text-xl font-semibold">Top Players</h2>*/}
 
       <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
@@ -178,7 +180,7 @@ export default function PlayerData({ players }) {
             >
               Rank{sortIcon("overallRank")}
             </th>
-            <th className="px-4 py-2 text-center">Actions</th>
+            { userInfo && <th className="px-4 py-2 text-center">Actions</th> }
           </tr>
         </thead>
         <tbody>
@@ -203,7 +205,7 @@ export default function PlayerData({ players }) {
               <td className="px-4 py-2">{player.fplId}</td>
               <td className="px-4 py-2">{player.overallPoints}</td>
               <td className="px-4 py-2">{player.overallRank}</td>
-              <td className="px-4 py-2 text-center space-x-2">
+              { userInfo && <td className="px-4 py-2 text-center space-x-2">
                 <button
                   onClick={() => openEditModal(player)}
                   className="text-blue-600 hover:text-blue-800"
@@ -216,13 +218,13 @@ export default function PlayerData({ players }) {
                 >
                   <Trash2 size={16} />
                 </button>
-              </td>
+              </td>}
             </tr>
           ))}
         </tbody>
       </table>
 
-    
+    </div>
       {totalPages > 1 && (
         <div className="flex justify-between items-center mt-2">
           <button
@@ -317,6 +319,6 @@ export default function PlayerData({ players }) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

@@ -11,7 +11,7 @@ const baseQuery = fetchBaseQuery({baseUrl,                                creden
 export const apiSlice = createApi({
     baseQuery,
     tagTypes: ['User', 'Team', 'Player', 'Fixture', 'League',
-        'H2HLeague', 'ClassicLeague', "Player", "Leaderboard", "PlayerTable", "PlayerFixture", "TeamClassic", 'TeamH2H', 'FormulaOne', 'FormulaOneTotal', 'Event'
+        'H2HLeague', 'ClassicLeague', "Player", "Leaderboard", "PlayerTable", "PlayerFixture", "TeamClassic", 'TeamH2H', 'FormulaOne', 'FormulaOneTotal', 'Event', 'Help'
     ],
     endpoints: (builder) => ({})
 })

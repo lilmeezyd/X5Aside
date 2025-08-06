@@ -19,11 +19,11 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/dashboard";
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/dashboard", { replace: true });
+      navigate("/", { replace: true });
     }
   }, [userInfo, navigate]);
 
@@ -33,7 +33,7 @@ export default function Login() {
       const res = await login({ username, password }).unwrap();
      console.log(res);
       dispatch(setCredentials(res));
-     // navigate("/dashboard");
+     // navigate("/");
       navigate(from, { replace: true })
     } catch (err) {
       console.error("Login error:", err);

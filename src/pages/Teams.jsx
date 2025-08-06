@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 export default function Teams() {
   const dbName = useSelector((state) => state.database.dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo); 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { data: teams = [], isLoading, refetch, isError } = useGetQuery(dbName);
   const [addTeams] = useAddMutation();
@@ -49,9 +50,9 @@ export default function Teams() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Teams</h2>
-      {/*<Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
-      <Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>*/}
+      <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Teams</h2>
+      {/*{userInfo && <Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
+      <Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>}*/}
 
 
       {isLoading ? (
@@ -62,7 +63,8 @@ export default function Teams() {
     <Button onClick={handleRetry}>Retry</Button>
   </div>
 ) : teams.length > 0 ? (
-  <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-4">
+  <div className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+
     {teams.map((team) => (
       <TeamCard key={team._id} team={team} />
     ))}

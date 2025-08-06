@@ -13,6 +13,7 @@ const paginatedData = leaderboard.slice(
 );
   
   return (
+    <>
     <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
@@ -26,7 +27,7 @@ const paginatedData = leaderboard.slice(
             <th className="px-4 py-2 text-left">PA</th>
             <th className="px-4 py-2 text-left">PD</th>
             <th className="px-4 py-2 text-left">Pts</th>
-            <th className="px-4 py-2 text-left">Last 5</th>
+            <th className="px-4 py-2 text-left">Form</th>
           </tr>
         </thead>
         <tbody>
@@ -101,6 +102,7 @@ const paginatedData = leaderboard.slice(
           })}
         </tbody>
       </table>
+    </div>
       <div className="flex justify-center mt-4 gap-2">
   <Button
     variant="outline"
@@ -121,6 +123,6 @@ const paginatedData = leaderboard.slice(
   </Button>
 </div>
       
-    </div>
+    </>
   );
 }
