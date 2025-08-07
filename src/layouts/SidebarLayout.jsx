@@ -124,7 +124,7 @@ export default function SidebarLayout() {
       <div className={`flex flex-1 mt-${!userInfo ? "20" : "5"} pt-${!userInfo ? "20" : "0"}`}>
         {userInfo && (
           <aside className="hidden md:block w-64 bg-gray-800 text-white p-4">
-            <h1 className="text-xl font-bold mb-6">5Aside Admin</h1>
+            <h1 className="text-xl font-bold mb-6">{dbName === 'app5Aside' ? 'FFK' : dbName === 'X5Aside' ? X5 : '5Aside'} Admin</h1>
             <nav className="space-y-1">
               {loggedInNavItems.map(({ name, path }) => (
                 <Link

@@ -47,7 +47,10 @@ export default function H2HTable() {
                   points,
                   result,
                 } = entry;
-                const lastFive = result?.sort((a, b) => b.event - a.event)?.slice(-5);
+      const lastFive = [...(result || [])]
+      .sort((a, b) => (Number(a.event) || 0) - (Number(b.event) || 0)) // oldest first
+      .slice(-5); // last 5 in ascending order
+
                 const isBottomThree = index >= data.length - 3;
       const isTopFour = index < 4
 

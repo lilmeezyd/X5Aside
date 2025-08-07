@@ -1,20 +1,25 @@
-// components/PlayerLeaderboard.jsx
+// components/PlayerTable.jsx
 import React from "react";
 import { useState } from "react";
 import { Button } from "../../@/components/ui/button";
 export default function PlayerTable({ leaderboard }) {
   const [currentPage, setCurrentPage] = useState(1);
 const itemsPerPage = 10;
-const totalPages = Math.ceil(leaderboard.length / itemsPerPage);
+  const totalPages = Math.ceil((leaderboard?.length || 0) / itemsPerPage);
 
-const paginatedData = leaderboard.slice(
+const paginatedData = leaderboard?.slice(
   (currentPage - 1) * itemsPerPage,
   currentPage * itemsPerPage
 );
+  console.log(paginatedData)
+  if (!leaderboard || leaderboard.length === 0) {
+  return <p className="text-center mt-4">No leaderboard data available.</p>;
+  }
+  
   
   return (
     <>
-    <div className="overflow-auto rounded-lg border">
+      <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
@@ -31,7 +36,7 @@ const paginatedData = leaderboard.slice(
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((entry, index) => {
+          {paginatedData?.map((entry, index) => {
             const {
               player,
               played,
@@ -44,28 +49,32 @@ const paginatedData = leaderboard.slice(
               points,
               result,
             } = entry;
-            const lastFive = result?.sort((a, b) => b.event - a.event)?.slice(-5).reverse();
+      const lastFive = [...(result || [])]
+      .sort((a, b) => (Number(a.event) || 0) - (Number(b.event) || 0)) // oldest first
+      .slice(-5); // last 5 in ascending order
+
+
 
             return (
-              <tr key={player._id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
+              <tr key={player?._id} className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}>
                 <td className="px-4 py-3">
                   <div className="flex flex-col text-sm">
-                    <span className="font-medium">{player.manager}</span>
+                    <span className="font-medium">{player?.manager}</span>
                     <a
-                      href={`https://fantasy.premierleague.com/entry/${player.fplId}/history`}
+                      href={`https://fantasy.premierleague.com/entry/${player?.fplId}/history`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-blue-600 hover:underline text-xs"
                     >
-                      {player.teamName}
+                      {player?.teamName}
                     </a>
                     <a
-                      href={`https://x.com/${player.xHandle.replace(/^@/, "")}`}
+                      href={`https://x.com/${player?.xHandle.replace(/^@/, "")}`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-xs text-gray-500 hover:underline"
                     >
-                      {player.xHandle}
+                      {player?.xHandle}
                     </a>
                   </div>
                 </td>
@@ -79,7 +88,7 @@ const paginatedData = leaderboard.slice(
                 <td className="px-4 py-2 font-semibold">{points}</td>
                 <td className="px-4 py-2">
                   <div className="flex gap-1">
-                    {lastFive.map((r, i) => {
+                    {lastFive?.map((r, i) => {
                       const bg =
                         r.result === "W"
                           ? "bg-green-500"
@@ -91,7 +100,7 @@ const paginatedData = leaderboard.slice(
                         <div
                           key={i}
                           className={`w-4 h-4 rounded ${bg}`}
-                          title={`GW${r.event}: ${r.result} (${r.score})`}
+                          title={`GW${r?.event}: ${r?.result} (${r?.score})`}
                         />
                       );
                     })}

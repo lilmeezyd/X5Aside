@@ -34,6 +34,7 @@ const PlayerFixtures = lazy(() => import("./PlayerFixtures"));
 
 export default function Players() {
   const dbName = useSelector((state) => state.database.dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [activeTab, setActiveTab] = useState("data");
 
   // Fetch queries with loading, error, refetch
@@ -154,7 +155,7 @@ export default function Players() {
     <div className="w-[320px] sm:w-full">
         <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Players</h2>
 
-      <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+      {userInfo && <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
         {/*<Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
         </Button>*/}
@@ -173,7 +174,7 @@ export default function Players() {
         {/*<Button onClick={handleTableUpdate} variant="default">
           Update Players H2H Table
         </Button>*/}
-      </div>
+      </div>}
 
       <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
