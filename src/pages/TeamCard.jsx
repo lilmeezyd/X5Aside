@@ -31,7 +31,7 @@ export default function TeamCard({ team }) {
   const [addPlayer] = useAddPlayerMutation();
   const [showPlayers, setShowPlayers] = useState(false);
   const [players, setPlayers] = useState(team.players || []);
-const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
   const handlePlayerAdded = (newPlayer) => {
     setPlayers((prev) => [...prev, newPlayer]);
   };

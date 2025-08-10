@@ -7,7 +7,7 @@ export default function TopFiveTeamsH2H() {
   const { data = [], isLoading } = useGetH2HTableQuery(dbName);
 
   if (isLoading) return <p>Loading Table...</p>;
-  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
   const topFive = data?.slice(0, 5);
 

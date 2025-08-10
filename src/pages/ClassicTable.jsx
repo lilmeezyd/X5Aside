@@ -7,7 +7,7 @@ export default function ClassicTable() {
   const dbName = useSelector((state) => state.database.dbName);
   const { data = [], isLoading } = useGetClassicTableQuery(dbName);
   const [view, setView] = useState("short");
-  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
   if (isLoading) return <p>Loading Classic Table...</p>;
 
   const imageBaseURL = "https://ik.imagekit.io/cap10/";

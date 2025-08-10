@@ -6,7 +6,7 @@ import {
 
 export default function TopFiveTeamsF1() {
   const dbName = useSelector((state) => state.database.dbName);
-  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
   const imageBaseURL = "https://ik.imagekit.io/cap10/"
 
   const {

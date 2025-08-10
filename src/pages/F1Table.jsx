@@ -8,7 +8,7 @@ import {
 export default function F1Table() {
   const dbName = useSelector((state) => state.database.dbName);
   const [eventId, setEventId] = useState(null);
-  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
 
   const {
     data: standings,
@@ -46,7 +46,7 @@ export default function F1Table() {
           {isLoadingEvent ? (
             <div>Loading...</div>
           ) : (
-            <F1TableDisplay data={eventResults} isEvent />
+            <F1TableDisplay data={eventResults} isEvent imageComp={imageComp} />
           )}
         </>
       ) : (

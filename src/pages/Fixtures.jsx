@@ -1,11 +1,14 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import FixtureStats from "./FixtureStats";
 import {
   useGetFixturesQuery,
   useAddFixturesMutation,
   useCalculateClassicScoresMutation,
   useCalculateH2HScoresMutation,
-} from "../slices/fixtureApiSlice";
+} from "../slices/fixtureApiSlice"
+import { useGetEventsQuery }
+from "../slices/eventApiSlice";
+
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
@@ -22,7 +25,17 @@ export default function Fixtures() {
   const [filterTeam, setFilterTeam] = useState("");
   const [expandedFixtureId, setExpandedFixtureId] = useState(null);
   const [page, setPage] = useState(1);
-const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
+  const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
+
+useEffect(() => {
+  if (!eventsLoading && events.length > 0) {
+    const currentEvent = events.find(event => event.current === true);
+    if (currentEvent && currentEvent.eventId !== page) {
+      setPage(currentEvent.eventId);
+    }
+  }
+}, [events, eventsLoading, page]);
   const [calculateClassicScores] = useCalculateClassicScoresMutation();
   const [calculateH2HScores] = useCalculateH2HScoresMutation();
 

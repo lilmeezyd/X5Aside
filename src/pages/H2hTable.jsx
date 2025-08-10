@@ -7,7 +7,7 @@ export default function H2HTable() {
   const dbName = useSelector((state) => state.database.dbName);
   const { data = [], isLoading } = useGetH2HTableQuery(dbName);
   const [view, setView] = useState("short");
-  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5';
   if (isLoading) return <p>Loading H2H Table...</p>;
 
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
