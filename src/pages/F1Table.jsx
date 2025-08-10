@@ -8,7 +8,7 @@ import {
 export default function F1Table() {
   const dbName = useSelector((state) => state.database.dbName);
   const [eventId, setEventId] = useState(null);
-  
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
 
   const {
     data: standings,
@@ -54,7 +54,7 @@ export default function F1Table() {
           {isLoadingStandings ? (
             <div>Loading...</div>
           ) : (
-            <F1TableDisplay data={standings} />
+            <F1TableDisplay data={standings} imageComp={imageComp} />
           )}
         </>
       )}
@@ -62,7 +62,7 @@ export default function F1Table() {
   );
 }
 
-function F1TableDisplay({ data, isEvent = false }) {
+function F1TableDisplay({ data, isEvent = false, imageComp }) {
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
   if (!data || data.length === 0) return <div>No data</div>;
 
@@ -91,7 +91,7 @@ function F1TableDisplay({ data, isEvent = false }) {
               
               <div className="flex items-center gap-2 w-36">
                 <img
-                  src={`${imageBaseURL}${team?.teamId?.short_name}.webp`}
+                  src={`${imageBaseURL}${team?.teamId?.short_name}_${imageComp}.png`}
                   alt={team?.teamId?.name}
                   className="w-6 h-6 object-contain"
                 />

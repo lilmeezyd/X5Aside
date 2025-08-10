@@ -7,7 +7,7 @@ export default function TopFiveTeamsClassic() {
   const { data = [], isLoading } = useGetClassicTableQuery(dbName);
 
   if (isLoading) return <p>Loading Table...</p>;
-
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
   const topFive = data?.slice(0, 5);
 
@@ -46,7 +46,7 @@ export default function TopFiveTeamsClassic() {
                 <td className="px-4 py-2">
                   <div className={`flex items-center gap-2 w-36 ${isTopOne ? "text-lg font-bold" : ""}`}>
                     <img
-                      src={`${imageBaseURL}${team.short_name}.webp`}
+                      src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
                       alt={team.name}
                       className="w-6 h-6 object-contain"
                     />

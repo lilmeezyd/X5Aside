@@ -22,7 +22,7 @@ const Dashboard = () => {
           className="ml-2 border px-2 py-1 rounded"
         >
           <option value="">-- Select DB --</option>
-          {/*<option value="test">Test</option>*/}
+          <option value="test">Test</option>
           <option value="app5Aside">WhatsApp</option>
           <option value="X5Aside">X5Aside</option>
         </select>

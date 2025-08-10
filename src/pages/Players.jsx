@@ -89,6 +89,7 @@ export default function Players() {
     toast("Fetching Player Points...");
     try {
       await fetchPointsFromApi(dbName).unwrap();
+      refetchPlayers();
       toast.success("Player Points successfully updated");
     } catch {
       toast.error("Failed to fetch points");
@@ -109,9 +110,11 @@ export default function Players() {
     toast("Updating Player H2H Fixtures...");
     try {
       await updateH2HFixtures(dbName).unwrap();
+      refetchFixtures();
+      refetchLeaderboard();
       toast.success("Player H2H fixtures updated");
-    } catch {
-      toast.error("Failed to update fixtures");
+    } catch(error) {
+      toast.error(error.data.message || "Failed to update player H2H scores");
     }
   };
 
@@ -119,6 +122,7 @@ export default function Players() {
     toast("Updating Top Scorers...");
     try {
       await updateTopScorers(dbName).unwrap();
+      refetchScorers();
       toast.success("Top scorers updated");
     } catch {
       toast.error("Failed to update top scorers");
@@ -159,10 +163,10 @@ export default function Players() {
         {/*<Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
         </Button>*/}
-        <Button disabled onClick={handleCreateFixtures} variant="default">
+        <Button onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
         </Button>
-        <Button onClick={handleUpdatePoints} variant="default">
+        <Button disabled onClick={handleUpdatePoints} variant="default">
           Fetch Player Points
         </Button>
         <Button onClick={handleUpdateFixtures} variant="default">

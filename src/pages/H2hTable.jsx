@@ -7,7 +7,7 @@ export default function H2HTable() {
   const dbName = useSelector((state) => state.database.dbName);
   const { data = [], isLoading } = useGetH2HTableQuery(dbName);
   const [view, setView] = useState("short");
-
+  const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : null
   if (isLoading) return <p>Loading H2H Table...</p>;
 
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
@@ -66,7 +66,7 @@ export default function H2HTable() {
 
                       <div className="flex items-center gap-2 w-36">
                         <img
-                          src={`${imageBaseURL}${team.short_name}.webp`}
+                          src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
                           alt={team.name}
                           className="w-6 h-6 object-contain"
                         />
@@ -154,7 +154,7 @@ export default function H2HTable() {
 
                       <div className="flex items-center gap-2 w-36">
                         <img
-                          src={`${imageBaseURL}${team.short_name}.webp`}
+                          src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
                           alt={team.name}
                           className="w-6 h-6 object-contain"
                         />

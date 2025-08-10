@@ -90,7 +90,7 @@ console.log(paginatedFixtures)
       toast.success("Classic Scores Updated");
     } catch (error) {
       console.log(error);
-      toast.error("Failed to update classic scores");
+      toast.error(error.data.message || "Failed to update classic scores");
     }
   };
 
@@ -102,7 +102,7 @@ console.log(paginatedFixtures)
       toast.success("H2H Scores Updated");
     } catch (error) {
       console.log(error);
-      toast.error("Failed to update h2h scores");
+      toast.error(error.data.message || "Failed to update h2h scores");
     }
   };
 
