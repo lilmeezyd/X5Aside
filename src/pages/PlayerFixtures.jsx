@@ -18,7 +18,7 @@ export default function PlayerFixtures() {
   const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
   const { data = [], isLoading } = useGetPlayerFixturesQuery(dbName);
   const initialEventId = !eventsLoading && events.length > 0
-    ? (events.find(event => event.current === true)?.eventId)
+    ? (events.find(event => event.current === true)?.eventId ?? 1)
     : 1;
 
   const [selectedEvent, setSelectedEvent] = useState(initialEventId);
