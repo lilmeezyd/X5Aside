@@ -26,7 +26,7 @@ export default function Fixtures() {
   const [expandedFixtureId, setExpandedFixtureId] = useState(null);
   const [page, setPage] = useState(1);
 const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
-  const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
+ /* const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
 
 useEffect(() => {
   if (!eventsLoading && events.length > 0) {
@@ -35,7 +35,7 @@ useEffect(() => {
       setPage(currentEvent.eventId);
     }
   }
-}, [events, eventsLoading, page]);
+}, [events, eventsLoading, page]);*/
   const [calculateClassicScores] = useCalculateClassicScoresMutation();
   const [calculateH2HScores] = useCalculateH2HScoresMutation();
 
