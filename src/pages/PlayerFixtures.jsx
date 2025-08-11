@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useGetEventsQuery } from "../slices/eventApiSlice";
 import { useGetPlayerFixturesQuery } from "../slices/fixtureApiSlice";
 import { Button } from "../../@/components/ui/button";
 import {
@@ -14,10 +15,23 @@ const FIXTURES_PER_PAGE = 20;
 
 export default function PlayerFixtures() {
   const dbName = useSelector((state) => state.database.dbName);
+  const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
   const { data = [], isLoading } = useGetPlayerFixturesQuery(dbName);
-  const [selectedEvent, setSelectedEvent] = useState("1");
+  const initialEventId = !eventsLoading && events.length > 0
+    ? (events.find(event => event.current === true)?.eventId)
+    : 1;
+
+  const [selectedEvent, setSelectedEvent] = useState(initialEventId);
   const [selectedPosition, setSelectedPosition] = useState("Captain");
   const [page, setPage] = useState(1);
+  useEffect(() => {
+    if (!eventsLoading && events.length > 0) {
+      const currentEvent = events.find(event => event.current === true);
+      if (currentEvent) {
+        setSelectedEvent(prev => (prev !== currentEvent.eventId ? currentEvent.eventId : prev));
+      }
+    }
+  }, [events, eventsLoading]);
 
   const filteredFixtures = useMemo(() => {
     let fixtures = [...data];
@@ -32,11 +46,14 @@ export default function PlayerFixtures() {
   const renderLink = (fplId) => `https://fantasy.premierleague.com/entry/${fplId}/history/`;
 
   return (
-    <div className="p-4">
+    <>{eventsLoading ? (<p>Loading Events...</p>) : (<div className="p-4">
       {/*<h2 className="text-2xl font-bold mb-4">Player Fixtures</h2>*/}
 
-      <div className="flex gap-4 flex-wrap mb-6">
-        <Select value={selectedEvent} onValueChange={setSelectedEvent}>
+      {!eventsLoading && <div className="flex gap-4 flex-wrap mb-6">
+          <Select
+            value={String(selectedEvent)}
+            onValueChange={val => setSelectedEvent(Number(val))}
+          >
           <SelectTrigger className="w-[150px]">
             <SelectValue placeholder="Filter by Event" />
           </SelectTrigger>
@@ -57,9 +74,9 @@ export default function PlayerFixtures() {
             ))}
           </SelectContent>
         </Select>
-      </div>
+      </div>}
 
-      {selectedEvent && (
+      {selectedEvent && !eventsLoading && (
         <h3 className="text-xl font-semibold mb-4">Gameweek {selectedEvent}</h3>
       )}
 
@@ -126,6 +143,7 @@ export default function PlayerFixtures() {
           */}
         </div>
       )}
-    </div>
+    </div>)}
+    </>
   );
 }

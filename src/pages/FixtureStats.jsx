@@ -63,8 +63,10 @@ export default function FixtureStats({ f }) {
                     <th></th>
                     <th>Pts</th>
                     <th>Hits</th>
+                    <th>Goals</th>
                     <th className="text-center font-bold sm:text-base">{homeTeam}</th>
                     <th className="text-center font-bold text-sm sm:text-base">{awayTeam}</th>
+                    <th>Goals</th>
                     <th>Hits</th>
                     <th>Pts</th>
                     <th></th>
@@ -109,8 +111,18 @@ export default function FixtureStats({ f }) {
                           {home?.eventPoints ?? "-"}
                         </td>
                         <td>{home?.eventTransfersCost ?? "-"}</td>
+                        <td className="text-green-600">
+                          {home?.goals ? [...Array(home.goals)].map((_, idx) => (
+                            <FaFutbol key={idx} className="inline-block mr-1" />
+                          )) : ""}
+                        </td>
                         <td className="text-center font-bold sm:text-base">{i === 0 ? homeTotal : ""}</td>
                         <td className="text-center font-bold sm:text-base">{i === 0 ? awayTotal : ""}</td>
+                        <td className="text-green-600">
+                          {away?.goals ? [...Array(away.goals)].map((_, idx) => (
+                            <FaFutbol key={idx} className="inline-block mr-1" />
+                          )) : ""}
+                        </td>
                         <td>{away?.eventTransfersCost ?? "-"}</td>
                         <td className={topAway.includes(away?.fplId) ? "text-green-600 font-semibold" : ""}>
                           {away?.eventPoints ?? "-"}
@@ -162,10 +174,8 @@ export default function FixtureStats({ f }) {
                     <th></th>
                     <th>Goals</th>
                     <th>Pts</th>
-                    <th>Hits</th>
                     <th className="text-center font-bold sm:text-base">{homeTeam}</th>
                     <th className="text-center font-bold sm:text-base">{awayTeam}</th>
-                    <th>Hits</th>
                     <th>Pts</th>
                     <th>Goals</th>
                     <th></th>
@@ -212,14 +222,14 @@ export default function FixtureStats({ f }) {
                           )) : ""}
                         </td>
                         <td className={topHomeH2H.includes(home?.fplId) ? "text-green-600 font-semibold" : ""}>
-                          {home?.eventPoints ?? "-"}
+                          {(home?.eventPoints - home?.eventTransfersCost) ?? "-"}
                         </td>
-                        <td>{home?.eventTransfersCost ?? "-"}</td>
+                        
                         <td className="text-center font-bold sm:text-base">{i === 0 ? f.homeScoreH2H : ""}</td>
                         <td className="text-center font-bold sm:text-base">{i === 0 ? f.awayScoreH2H : ""}</td>
-                        <td>{away?.eventTransfersCost ?? "-"}</td>
+                        
                         <td className={topAwayH2H.includes(away?.fplId) ? "text-green-600 font-semibold" : ""}>
-                          {away?.eventPoints ?? "-"}
+                          {(away?.eventPoints-away?.eventTransfersCost) ?? "-"}
                         </td>
                         <td className="text-green-600">
                           {away?.goals ? [...Array(away.goals)].map((_, idx) => (
