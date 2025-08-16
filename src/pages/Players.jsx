@@ -91,7 +91,8 @@ export default function Players() {
       await fetchPointsFromApi(dbName).unwrap();
       refetchPlayers();
       toast.success("Player Points successfully updated");
-    } catch {
+    } catch(error) {
+      console.log(error)
       toast.error("Failed to fetch points");
     }
   };
@@ -162,11 +163,11 @@ export default function Players() {
       {userInfo && <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
         {/*<Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
-        </Button>*/}
+        </Button>
         <Button onClick={handleCreateFixtures} variant="default">
           Create Player H2H fixtures
-        </Button>
-        <Button disabled onClick={handleUpdatePoints} variant="default">
+        </Button>*/}
+        <Button onClick={handleUpdatePoints} variant="default">
           Fetch Player Points
         </Button>
         <Button onClick={handleUpdateFixtures} variant="default">
