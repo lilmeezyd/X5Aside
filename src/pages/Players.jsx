@@ -184,7 +184,7 @@ export default function Players() {
       <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="data">Players</TabsTrigger>
-          <TabsTrigger value="table">Players H2H</TabsTrigger>
+          <TabsTrigger value="table">Players H2H Table</TabsTrigger>
           <TabsTrigger value="top">Top Scorers</TabsTrigger>
           <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
         </TabsList>

@@ -7,7 +7,8 @@ import {
   Table2,
   LogOut,
   ChevronDown,
-  HelpCircle
+  HelpCircle,
+  Star
 } from "lucide-react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useLogoutMutation } from "../slices/userApiSlice";
@@ -23,6 +24,7 @@ const loggedInNavItems = [
   { name: "Players", path: "/players", icon: <ShieldCheck className="h-5 w-5" /> },
   { name: "Tables", path: "/tables", icon: <Table2 className="h-5 w-5" /> },
   { name: "Events", path: "/events", icon: <CalendarCheck className="h-5 w-5" /> },
+  { name: "TOW", path: "/tow",icon: <Star className="h-5 w-5" /> },
   { name: "Help", path: "/help", icon: <HelpCircle className="h-5 w-5" />}
 
 ];
@@ -33,6 +35,7 @@ const guestNavItems = [
   { name: "Fixtures", path: "/fixtures", icon: <CalendarCheck size={20} /> },
   { name: "Players", path: "/players", icon: <ShieldCheck size={20} /> },
   { name: "Tables", path: "/tables", icon: <Table2 size={20} /> },
+  { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
   { name: "Help", path: "/help",
   icon: <HelpCircle size={20} />}
 ];
@@ -88,7 +91,7 @@ export default function SidebarLayout() {
               {dbName === "X5Aside" ? "X5ASIDE" : dbName === "app5Aside" ? "FFK" : "5ASIDE"}
             </h1>
             <nav className="flex gap-6">
-              {guestNavItems.map(({ name, path }) => (
+              {guestNavItems.filter(item => !(item.name === "TOW" && dbName !== "app5Aside")).map(({ name, path }) => (
                 <Link
                   key={path}
                   to={path}
@@ -162,7 +165,7 @@ export default function SidebarLayout() {
       {userInfo && (
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 shadow">
           <div className="flex justify-around items-center py-2">
-            {loggedInNavItems.map(({ name, path, icon }) => (
+            {loggedInNavItems.filter(item => !(item.name === "TOW" && dbName !== "app5Aside")).map(({ name, path, icon }) => (
               <Link
                 key={path}
                 to={path}
@@ -206,7 +209,7 @@ export default function SidebarLayout() {
             {dropdownOpen && (
               <div className="absolute top-12 right-0 bg-white border rounded shadow-lg w-48 z-50">
                 <nav className="flex flex-col p-2">
-                  {guestNavItems.map(({ name, path }) => (
+                  {guestNavItems.filter(item => !(item.name === "TOW" && dbName !== "app5Aside")).map(({ name, path }) => (
                     <Link
                       key={path}
                       to={path}

@@ -15,6 +15,7 @@ const Players = lazy(() => import('./pages/Players'));
 const Tables = lazy(() => import('./pages/Tables'));
 const Events = lazy(() => import('./pages/Events'));
 const Help = lazy(() => import('./pages/Help'));
+const EventImages = lazy(() => import('./pages/EventImages'));
 
 export default function App() {
   return (
@@ -40,8 +41,11 @@ export default function App() {
             <Route path="/players" element={<Players />} />
             <Route path="/tables" element={<Tables />} />
           <Route path="/help" element={<Help />} />
+            <Route path="/tow" element={<EventImages />} />
+            <Route path="*" element="Page not found" />
           </Route>
-          <Route path="*" element="Page not found" />
+          
+          
         </Routes>
       </Suspense>
     </>
