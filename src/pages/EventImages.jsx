@@ -88,10 +88,10 @@ const EventImages = () => {
               <img
                 src={img.url}
                 alt={`Event ${img.eventId}`}
-                className="w-full h-48 object-cover rounded-xl"
+                className="w-full h-100 object-cover rounded-xl"
               />
             ) : (
-              <div className="w-full h-48 flex items-center justify-center bg-gray-100 text-gray-500 rounded-xl">
+              <div className="w-full h-100 flex items-center justify-center bg-gray-100 text-gray-500 rounded-xl">
                 
               </div>
             )}
