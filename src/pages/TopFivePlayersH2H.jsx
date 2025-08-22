@@ -13,6 +13,7 @@ export default function PlayerTable() {
      { leaderboard.length === 0? <p>No data</p> : (<table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
+            <th className="px-4 py-2 text-left"></th>
             <th className="px-4 py-2 text-left font-semibold"></th>
             <th className="px-4 py-2 text-left">P</th>
             <th className="px-4 py-2 text-left">Pts</th>
@@ -31,6 +32,7 @@ export default function PlayerTable() {
                   key={player._id}
                   className={index === 0 ? "bg-yellow-100 text-font-bold" : index % 2 === 0 ? "bg-white text-sm" : "bg-blue-50 text-sm"}
                 >
+                  <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>{index + 1}</td>
 
                   <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>
                   <div className="flex flex-col">

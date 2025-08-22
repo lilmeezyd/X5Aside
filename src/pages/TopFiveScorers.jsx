@@ -21,6 +21,7 @@ export default function TopFiveScorers() {
           <tr>
             <th className="px-4 py-2 text-left"></th>
             <th className="px-4 py-2 text-left"></th>
+            <th className="px-4 py-2 text-left"></th>
             <th className="px-4 py-2 text-left">Goals</th>
           </tr>
         </thead>
@@ -32,6 +33,7 @@ export default function TopFiveScorers() {
                 index === 0 ? "bg-yellow-100" : index % 2 === 0 ? "bg-white" : "bg-blue-50"
               }`}
             >
+              <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>{index + 1}</td>
               <td className={`px-4 py-3 ${index === 0 ? "text-lg font-bold" : ""}`}>
                 <div className="flex flex-col">
                     <span className="">{player?.player?.manager}</span>

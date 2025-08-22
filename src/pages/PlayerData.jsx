@@ -132,6 +132,7 @@ export default function PlayerData({ players }) {
       <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
+            <th className="px-4 py-2"></th>
             <th
               className={`px-4 py-2 text-left cursor-pointer ${
                 sortConfig.key === "manager" ? "font-bold text-blue-700" : ""
@@ -189,6 +190,7 @@ export default function PlayerData({ players }) {
               key={player._id}
               className={index % 2 === 0 ? "bg-white" : "bg-blue-50"}
             >
+              <td className="px-4 py-2 text-center font-semibold">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
               <td className="px-4 py-2">
                 <a
                   href={`https://fantasy.premierleague.com/entry/${player.fplId}/history`}
