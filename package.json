@@ -21,6 +21,7 @@
     "@sentry/react": "^9.37.0",
     "@sentry/tracing": "^7.120.3",
     "@tailwindcss/vite": "^4.1.10",
+    "@vercel/analytics": "^1.5.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.1",

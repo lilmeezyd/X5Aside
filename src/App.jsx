@@ -5,7 +5,7 @@ import { Toaster } from '../@/components/ui/sonner';
 import SidebarLayout from './layouts/SidebarLayout';
 import ProtectedRoute from './pages/ProtectedRoute';
 import PageSkeleton from './components/PageSkeleton'; //  import skeleton loader
-
+import { Analytics } from "@vercel/analytics/react"
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -48,6 +48,7 @@ export default function App() {
           
         </Routes>
       </Suspense>
+      <Analytics />
     </>
   );
 }
