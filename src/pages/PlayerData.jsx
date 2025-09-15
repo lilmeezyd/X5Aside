@@ -19,6 +19,7 @@ export default function PlayerData({ players }) {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [editFplId, setEditFplId] = useState("");
   const [editPosition, setEditPosition] = useState("");
+  const [filterPosition, setFilterPosition] = useState("");
   const [editPlayer] = useEditPlayerMutation();
   const [deletePlayer] = useDeletePlayerMutation();
 
@@ -28,8 +29,10 @@ export default function PlayerData({ players }) {
 
   const sortedPlayers = useMemo(() => {
     const sortable = [...players];
+    const filtered = filterPosition ? sortable.filter(player => player.position === filterPosition) : sortable;
+    
     if (sortConfig.key) {
-      sortable.sort((a, b) => {
+      filtered.sort((a, b) => {
         const valA =
           sortConfig.key === "manager"
             ? a.manager?.toLowerCase() || ""
@@ -49,8 +52,8 @@ export default function PlayerData({ players }) {
         return 0;
       });
     }
-    return sortable;
-  }, [players, sortConfig]);
+    return filtered;
+  }, [players, sortConfig, filterPosition]);
 
   const paginated = sortedPlayers.slice(
     (currentPage - 1) * itemsPerPage,
@@ -126,9 +129,54 @@ export default function PlayerData({ players }) {
 
   return (
     <>
+      <div className="flex space-x-4 overflow-x-auto pb-2 text-sm">
+        <button
+          className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "" ? "bg-gray-600" : ""} ${ filterPosition === "" ? "text-white" : ""}`}
+          onClick={() => {setFilterPosition("")
+                         setCurrentPage(1)}}
+        >
+          All
+        </button>
+        <button
+          className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "Captain" ? "bg-gray-600" : ""} ${ filterPosition === "Captain" ? "text-white" : ""}`}
+          onClick={() => {setFilterPosition("Captain")
+                          setCurrentPage(1)
+          }}
+        >
+          Cap
+        </button>
+        <button
+          className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "Ace" ? "bg-gray-600" : ""} ${ filterPosition === "Ace" ? "text-white" : ""}`}
+          onClick={() => {setFilterPosition("Ace")
+                         setCurrentPage(1)}}
+        >
+          Ace
+        </button>
+        <button
+          className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "Forward" ? "bg-gray-600" : ""} ${ filterPosition === "Forward" ? "text-white" : ""}`}
+          onClick={() => {setFilterPosition("Forward")
+                         setCurrentPage(1)}}
+        >
+          Fwd
+        </button>
+        <button
+          className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "Midfielder" ? "bg-gray-600" : ""} ${ filterPosition === "Midfielder" ? "text-white" : ""}`}
+          onClick={() => {setFilterPosition("Midfielder")
+                         setCurrentPage(1)}}
+        >
+          Mid
+        </button>
+		<button
+      className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "Defender" ? "bg-gray-600" : ""} ${ filterPosition === "Defender" ? "text-white" : ""}`}
+          onClick={() => {setFilterPosition("Defender")
+                         setCurrentPage(1)}}
+        >
+          Def
+        </button>
+      </div>
     <div className="w-full overflow-x-auto space-y-4">
       {/*<h2 className="text-xl font-semibold">Top Players</h2>*/}
-
+      
       <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
@@ -165,6 +213,9 @@ export default function PlayerData({ players }) {
             >
               FPL ID {sortIcon("fplId")}
             </th>
+            <th className={`px-4 py-2 text-left cursor-pointer sortConfig.key === "eventPoints" ? "font-bold text-blue-700" : ""}`} onClick={() => requestSort("eventPoints")}> GW Score{sortIcon("eventPoints")} </th>
+
+
             <th
               className={`px-4 py-2 text-left cursor-pointer ${
                 sortConfig.key === "overallPoints" ? "font-bold text-blue-700" : ""
@@ -205,7 +256,8 @@ export default function PlayerData({ players }) {
               <td className="px-4 py-2">{player.position}</td>
               <td className="px-4 py-2">{player.team?.short_name || "—"}</td>
               <td className="px-4 py-2">{player.fplId}</td>
-              <td className="px-4 py-2">{player.overallPoints}</td>
+              <td className="px-4 py-2">{player?.eventPoints}</td>
+              <td className="px-4 py-2">{player?.overallPoints}</td>
               <td className="px-4 py-2">{player.overallRank}</td>
               { userInfo && <td className="px-4 py-2 text-center space-x-2">
                 <button
