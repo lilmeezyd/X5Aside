@@ -59,7 +59,7 @@ export default function PlayerData({ players }) {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  const totalPages = Math.ceil(players.length / itemsPerPage);
+  const totalPages = Math.ceil(sortedPlayers?.length / itemsPerPage);
 
   const requestSort = (key) => {
     let direction = "asc";
