@@ -20,7 +20,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: {dbName, ...rest},
       }),
-      invalidatesTags: ["Player", "Team", "Leaderboard", "PlayerTable"],
+      invalidatesTags: ["Player", "Leaderboard", "PlayerTable"],
     }),
     editPlayer: builder.mutation({
       query: ({ dbName, id, ...rest }) => ({
@@ -66,7 +66,7 @@ export const playerApiSlice = apiSlice.injectEndpoints({
       query: (dbName) => ({
         url: `${PLAYERS_URL}/get-leading-scorers?dbName=${dbName}`,
       }),
-      provideTags: ["Player"],
+      providesTags: ["Player"],
     }),
   }),
 });

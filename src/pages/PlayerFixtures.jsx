@@ -58,7 +58,7 @@ export default function PlayerFixtures() {
             <SelectValue placeholder="Filter by Event" />
           </SelectTrigger>
           <SelectContent>
-            {[...new Set(data.map(f => f.eventId))].map(event => (
+            {[...new Set(data.map(f => f.eventId))].sort((x,y) => x-y).map(event => (
               <SelectItem key={event} value={String(event)}>Gameweek {event}</SelectItem>
             ))}
           </SelectContent>

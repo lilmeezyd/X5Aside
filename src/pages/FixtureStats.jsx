@@ -363,31 +363,6 @@ export default function FixtureStats({ f }) {
                   <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
 
                     <div className="flex flex-wrap">
-                      {homeMid.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
-                          {index < homeMid.length - 1 && ","}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                    <div className="w-1/6 text-center self-center font-semibold">Midfielder</div>
-                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-
-                    <div className="flex flex-wrap">
-                      {awayMid.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
-                          {index < awayMid.length - 1 && ","}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap border rounded my-1">
-                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-
-                    <div className="flex flex-wrap">
                       {homeFwd.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
                           {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
@@ -404,6 +379,31 @@ export default function FixtureStats({ f }) {
                         <div key={pick.element} className="mr-2 mb-1">
                           {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
                           {index < awayFwd.length - 1 && ","}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap border rounded my-1">
+                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
+
+                    <div className="flex flex-wrap">
+                      {homeMid.map((pick, index) => (
+                        <div key={pick.element} className="mr-2 mb-1">
+                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {index < homeMid.length - 1 && ","}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                    <div className="w-1/6 text-center self-center font-semibold">Midfielder</div>
+                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
+
+                    <div className="flex flex-wrap">
+                      {awayMid.map((pick, index) => (
+                        <div key={pick.element} className="mr-2 mb-1">
+                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {index < awayMid.length - 1 && ","}
                         </div>
                       ))}
                     </div>

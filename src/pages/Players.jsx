@@ -98,12 +98,12 @@ export default function Players() {
   };
 
   const handleCreateFixtures = async () => {
-    toast("Updating Player H2H Fixtures...");
+    toast("Creating Player H2H Fixtures...");
     try {
       await createPlayerFixtures(dbName).unwrap();
       toast.success("Player H2H fixtures created");
-    } catch {
-      toast.error("Failed to update fixtures");
+    } catch(error) {
+      toast.error(error.data.message ||  "Failed to update fixtures");
     }
   };
 

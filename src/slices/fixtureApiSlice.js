@@ -18,7 +18,7 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
       query: (dbName) => ({
         url: `${FIXTURES_URL}/player-fixtures?dbName=${dbName}`,
       }),
-      providesTag: ["PlayerFixture"],
+      providesTags: ["PlayerFixture"],
     }),
     addFixtures: builder.mutation({
       query: (dbName) => ({

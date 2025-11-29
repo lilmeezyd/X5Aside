@@ -18,6 +18,9 @@ export default function PlayerData({ players }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [editFplId, setEditFplId] = useState("");
+const [ editStart, setEditStart ] = useState(0.0);
+  const [ editCurrent, setEditCurrent ] = useState(0.0);
+
   const [editPosition, setEditPosition] = useState("");
   const [filterPosition, setFilterPosition] = useState("");
   const [editPlayer] = useEditPlayerMutation();
@@ -102,7 +105,8 @@ export default function PlayerData({ players }) {
   const openEditModal = (player) => {
     setSelectedPlayer(player);
     setEditFplId(player.fplId);
-    setEditPosition(player.position);
+    setEditStart(player?.startPrice);
+setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
     setShowEditModal(true);
   };
 
@@ -116,6 +120,8 @@ export default function PlayerData({ players }) {
       id: selectedPlayer._id,
         fplId: editFplId,
         position: editPosition,
+        startPrice: editStart,
+        currentPrice: editCurrent
     }).unwrap();
 
     toast.success('Player updated!', { id: 'updatePlayer' });
@@ -205,6 +211,28 @@ export default function PlayerData({ players }) {
             >
               Team {sortIcon("team")}
             </th>
+            {dbName !== "X5Aside" && <><th
+              className={`px-4 py-2 text-left cursor-pointer ${
+                sortConfig.key === "startPrice" ? "font-bold text-blue-700" : ""
+              }`}
+              onClick={() => requestSort("startPrice")}
+            >
+              Start Price {sortIcon("startPrice")}
+            </th><th
+              className={`px-4 py-2 text-left cursor-pointer ${
+                sortConfig.key === "currentPrice" ? "font-bold text-blue-700" : ""
+              }`}
+              onClick={() => requestSort("currentPrice")}
+            >
+              Current Price{sortIcon("currentPrice")}
+            </th><th
+              className={`px-4 py-2 text-left cursor-pointer ${
+                sortConfig.key === "delta" ? "font-bold text-blue-700" : ""
+              }`}
+              onClick={() => requestSort("delta")}
+            >
+              Price Change{sortIcon("delta")}
+            </th></>}
             <th
               className={`px-4 py-2 text-left cursor-pointer ${
                 sortConfig.key === "fplId" ? "font-bold text-blue-700" : ""
@@ -239,7 +267,8 @@ export default function PlayerData({ players }) {
           {paginated.map((player, index) => (
             <tr
               key={player._id}
-              className={index % 2 === 0 ? "bg-white" : "bg-blue-50"}
+              className={`${index % 2 === 0 ? "bg-white" : "bg-blue-50"}`}
+              style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}
             >
               <td className="px-4 py-2 text-center font-semibold">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
               <td className="px-4 py-2">
@@ -248,13 +277,20 @@ export default function PlayerData({ players }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"
+                  style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}
                 >
                   {player.teamName}
                 </a>
-                <div className="text-xs text-gray-500">{player.manager}</div>
+                <div className="text-xs text-gray-500"
+                 style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}>{player.manager}</div>
               </td>
               <td className="px-4 py-2">{player.position}</td>
               <td className="px-4 py-2">{player.team?.short_name || "—"}</td>
+              {dbName !== "X5Aside" && <>
+              <td className="px-4 py-2">{(player.startPrice)?.toFixed(1)}</td>
+              <td className="px-4 py-2">{(player.currentPrice)?.toFixed(1)}</td>
+              <td className="px-4 py-2">{(player?.currentPrice - player?. startPrice)?.toFixed(1)}</td>
+              </>}
               <td className="px-4 py-2">{player.fplId}</td>
               <td className="px-4 py-2">{player?.eventPoints}</td>
               <td className="px-4 py-2">{player?.overallPoints}</td>
@@ -264,13 +300,13 @@ export default function PlayerData({ players }) {
                   onClick={() => openEditModal(player)}
                   className="text-blue-600 hover:text-blue-800"
                 >
-                  <Pencil size={16} />
+                  <Pencil style={{color: !player?.isActive && 'black'}} size={16} />
                 </button>
                 <button
                   onClick={() => openDeleteModal(player)}
                   className="text-red-600 hover:text-red-800"
                 >
-                  <Trash2 size={16} />
+                  <Trash2  style={{color: !player?.isActive && 'black'}} size={16} />
                 </button>
               </td>}
             </tr>
@@ -355,6 +391,24 @@ export default function PlayerData({ players }) {
                 <option value="Forward">Forward</option>
                 <option value="Captain">Captain</option>
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Start Price</label>
+              <input
+                type="number"
+                value={editStart}
+                onChange={(e) => setEditStart(e.target.value)}
+                className="w-full px-3 py-1 border rounded"
+              />
+            </div>
+			<div>
+              <label className="block text-sm font-medium">Current Price</label>
+              <input
+                type="number"
+                value={editCurrent}
+                onChange={(e) => setEditCurrent(e.target.value)}
+                className="w-full px-3 py-1 border rounded"
+              />
             </div>
             <div className="flex justify-end space-x-3">
               <button

@@ -73,7 +73,6 @@ useEffect(() => {
       page * ITEMS_PER_PAGE
     );
   }, [groupedFixtures, page]);
-console.log(paginatedFixtures)
   const totalPages = useMemo(() => {
     return Math.ceil(groupedFixtures.length / ITEMS_PER_PAGE);
   }, [groupedFixtures]);
@@ -88,10 +87,8 @@ console.log(paginatedFixtures)
     });
     try {
       const res = await addFixtures(dbName).unwrap();
-      console.log(res);
       toast.success(res.message);
     } catch (error) {
-      console.log(error)
       toast.error("Fetching Fixtures failed");
     }
   };
@@ -100,10 +97,8 @@ console.log(paginatedFixtures)
     try {
       toast("Updating Classic Scores...");
       const res = await calculateClassicScores(dbName).unwrap();
-      console.log(res);
       toast.success("Classic Scores Updated");
     } catch (error) {
-      console.log(error);
       toast.error(error.data.message || "Failed to update classic scores");
     }
   };
@@ -112,10 +107,8 @@ console.log(paginatedFixtures)
     try {
       toast("Updating H2H Scores...");
       const res = await calculateH2HScores(dbName).unwrap();
-      console.log(res);
       toast.success("H2H Scores Updated");
     } catch (error) {
-      console.log(error);
       toast.error(error.data.message || "Failed to update h2h scores");
     }
   };
@@ -143,8 +136,8 @@ console.log(paginatedFixtures)
             setFilterEventId("");
           }}
         />
-          { /*
-        <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>*/}
+          
+        <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
           { userInfo && <><Button onClick={handleClassicFixtures}>Update Classic Scores</Button>
         <Button onClick={handleH2HFixtures}>Update H2H Scores</Button></> }
       </div>

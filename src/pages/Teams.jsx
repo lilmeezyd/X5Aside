@@ -12,7 +12,7 @@ export default function Teams() {
   const { data: teams = [], isLoading, refetch, isError } = useGetQuery(dbName);
   const [addTeams] = useAddMutation();
   const [deleteAll ] = useDeleteAllMutation()
-
+//console.log(teams)
   const handleAddTeams = async () => {
     toast("Fetching teams from FPL API...");
     try {
@@ -46,13 +46,18 @@ export default function Teams() {
     console.error(err);
   }
 };
+  /*const handleRefresh = async () => {
+    const result = await refetch();
+  console.log(result);
+    return result;
+  };*/
 
 
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Teams</h2>
-      {/*{userInfo && <Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>
-      <Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>}*/}
+     {/*} {userInfo && <Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>}
+      {/*<Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>*/}
 
 
       {isLoading ? (
@@ -66,7 +71,7 @@ export default function Teams() {
   <div className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
 
     {teams.map((team) => (
-      <TeamCard key={team._id} team={team} />
+      <TeamCard refetch={refetch} key={team._id} team={team} />
     ))}
   </div>
 ) : (

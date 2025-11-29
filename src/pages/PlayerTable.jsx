@@ -70,14 +70,14 @@ const paginatedData = leaderboard?.slice(
                     >
                       {player?.teamName}
                     </a>
-                    <a
-                      href={`https://x.com/${player?.xHandle.replace(/^@/, "")}`}
+                    {player?.xHandle && <a
+                      href={`https://x.com/${player?.xHandle?.replace(/^@/, "")}`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-xs text-gray-500 hover:underline"
                     >
                       {player?.xHandle}
-                    </a>
+                    </a>}
                   </div>
                 </td>
                 <td className="px-4 py-2">{played}</td>

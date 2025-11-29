@@ -1,11 +1,14 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { Toaster } from '../@/components/ui/sonner';
 
 import SidebarLayout from './layouts/SidebarLayout';
 import ProtectedRoute from './pages/ProtectedRoute';
 import PageSkeleton from './components/PageSkeleton'; //  import skeleton loader
 import { Analytics } from "@vercel/analytics/react"
+{/*import { useGetAuthUserQuery } from "./slices/userApiSlice";
+import { logout, setCredentials } from "./slices/authSlice";*/}
+import { useDispatch } from "react-redux";
 // Lazy-loaded pages
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -18,6 +21,14 @@ const Help = lazy(() => import('./pages/Help'));
 const EventImages = lazy(() => import('./pages/EventImages'));
 
 export default function App() {
+  /*useEffect(() => {
+    if (data) {
+      dispatch(setCredentials(data));
+    }
+    if (error?.status === 401) {
+      dispatch(logout());
+    }
+  }, []);*/
   return (
     <>
       <Toaster />
