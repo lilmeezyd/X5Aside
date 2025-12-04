@@ -273,7 +273,9 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               <td className="px-4 py-2 text-center font-semibold">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
               <td className="px-4 py-2">
                 <a
-                  href={`https://fantasy.premierleague.com/entry/${player.fplId}/history`}
+                  href={player.eventId ? 
+                    `https://fantasy.premierleague.com/entry/${player.fplId}/event/${player.eventId}` : 
+                  `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"

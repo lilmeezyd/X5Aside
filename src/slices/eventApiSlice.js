@@ -9,6 +9,12 @@ export const eventApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Event"],
     }),
+    getCurrentEvent: builder.query({
+      query: (dbName) => ({
+    url: `${EVENTS_URL}/current/?dbName=${dbName}`,
+      }),
+      providesTags: ["Event"],
+    }),
     setCurrentEvent: builder.mutation({
       query: (dbName) => ({
         url: `${EVENTS_URL}/set-current-event`,
@@ -36,6 +42,7 @@ export const eventApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetEventsQuery,
+  useGetCurrentEventQuery,
   useSetCurrentEventMutation,
   useResetEventsMutation,
   useFetchEventsQuery

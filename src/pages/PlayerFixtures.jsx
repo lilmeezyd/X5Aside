@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { useGetEventsQuery } from "../slices/eventApiSlice";
+import { useGetEventsQuery, useGetCurrentEventQuery } from "../slices/eventApiSlice";
 import { useGetPlayerFixturesQuery } from "../slices/fixtureApiSlice";
 import { Button } from "../../@/components/ui/button";
 import {
@@ -16,6 +16,7 @@ const FIXTURES_PER_PAGE = 20;
 export default function PlayerFixtures() {
   const dbName = useSelector((state) => state.database.dbName);
   const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
+  const { data: eventId } = useGetCurrentEventQuery(dbName)
   const { data = [], isLoading } = useGetPlayerFixturesQuery(dbName);
   const initialEventId = !eventsLoading && events.length > 0
     ? (events.find(event => event.current === true)?.eventId ?? 1)
@@ -43,7 +44,8 @@ export default function PlayerFixtures() {
   const totalPages = Math.ceil(filteredFixtures.length / FIXTURES_PER_PAGE);
   const paginated = filteredFixtures.slice((page - 1) * FIXTURES_PER_PAGE, page * FIXTURES_PER_PAGE);
 
-  const renderLink = (fplId) => `https://fantasy.premierleague.com/entry/${fplId}/history/`;
+  const renderLink = (fplId) => eventId ? `https://fantasy.premierleague.com/entry/${fplId}/event/${eventId}` : 
+  `https://fantasy.premierleague.com/entry/${fplId}/history/`;
 
   return (
     <>{eventsLoading ? (<p>Loading Events...</p>) : (<div className="p-4">

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useGetCurrentEventQuery } from "../slices/eventApiSlice";
+import { useSelector } from "react-redux";
 
 export default function TopScorers({ scorers }) {
+  const dbName = useSelector((state) => state.database.dbName);
+    const { data: eventId } = useGetCurrentEventQuery(dbName)
   const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -33,7 +37,9 @@ export default function TopScorers({ scorers }) {
               <td className="px-4 py-2 text-center font-semibold">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
               <td className="px-4 py-2">
                 <a
-                  href={`https://fantasy.premierleague.com/entry/${player.player?.fplId}/history`}
+                 href={eventId ? 
+                    `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${eventId}` : 
+                  `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"

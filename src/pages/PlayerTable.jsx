@@ -2,7 +2,11 @@
 import React from "react";
 import { useState } from "react";
 import { Button } from "../../@/components/ui/button";
+import { useGetCurrentEventQuery } from "../slices/eventApiSlice";
+import { useSelector } from "react-redux";
 export default function PlayerTable({ leaderboard }) {
+  const dbName = useSelector((state) => state.database.dbName);
+  const { data: eventId } = useGetCurrentEventQuery(dbName)
   const [currentPage, setCurrentPage] = useState(1);
 const itemsPerPage = 10;
   const totalPages = Math.ceil((leaderboard?.length || 0) / itemsPerPage);
@@ -11,7 +15,7 @@ const paginatedData = leaderboard?.slice(
   (currentPage - 1) * itemsPerPage,
   currentPage * itemsPerPage
 );
-  console.log(paginatedData)
+  
   if (!leaderboard || leaderboard.length === 0) {
   return <p className="text-center mt-4">No leaderboard data available.</p>;
   }
@@ -63,7 +67,9 @@ const paginatedData = leaderboard?.slice(
                   <div className="flex flex-col text-sm">
                     <span className="font-medium">{player?.manager}</span>
                     <a
-                      href={`https://fantasy.premierleague.com/entry/${player?.fplId}/history`}
+                      href={eventId ? 
+                    `https://fantasy.premierleague.com/entry/${player?.fplId}/event/${eventId}` : 
+                  `https://fantasy.premierleague.com/entry/${player?.fplId}/history`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-blue-600 hover:underline text-xs"
