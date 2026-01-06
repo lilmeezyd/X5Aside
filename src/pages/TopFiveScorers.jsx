@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useGetTopScorersQuery } from "../slices/playerApiSlice";
 export default function TopFiveScorers() {
-  const dbName = useSelector((state) => state.database.dbName);
+  const dbName = useSelector((state) => state.database.dbName); 
   const {
     data: topScorersData = [],
     isLoading: scorersLoading,
@@ -11,6 +11,7 @@ export default function TopFiveScorers() {
   } = useGetTopScorersQuery(dbName)
   if (scorersLoading) return <p>Loading...</p>
   const topFive = topScorersData?.slice(0, 5);
+  console.log(topFive)
 
   return (
     <div className="w-full overflow-x-auto space-y-4">
@@ -38,7 +39,9 @@ export default function TopFiveScorers() {
                 <div className="flex flex-col">
                     <span className="">{player?.player?.manager}</span>
                     <a
-                      href={`https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`}
+                      href={player?.eventId ? 
+                    `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${player?.eventId}` : 
+                  `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-blue-600 hover:underline"

@@ -119,33 +119,65 @@ export default function FixtureStats({ f }) {
                           )}
                         </td>
                         <td>{home && shortPosition[home.position]}</td>
-                        <td className={topHome.includes(home?.fplId) ? "text-green-600 font-semibold" : ""}>
+                        <td
+                          className={
+                            topHome.includes(home?.fplId)
+                              ? "text-green-600 font-semibold"
+                              : ""
+                          }
+                        >
                           {home?.eventPoints ?? "-"}
                         </td>
                         <td>{home?.eventTransfersCost ?? "-"}</td>
                         <td className="text-green-600">
-                          {home?.goals ? [...Array(home.goals)].map((_, idx) => (
-                            <FaFutbol key={idx} className="inline-block mr-1" />
-                          )) : ""}
+                          {home?.goals
+                            ? [...Array(home.goals)].map((_, idx) => (
+                                <FaFutbol
+                                  key={idx}
+                                  className="inline-block mr-1"
+                                />
+                              ))
+                            : ""}
                         </td>
-                        <td className="text-center font-bold sm:text-base">{i === 0 ? homeTotal : ""}</td>
-                        <td className="text-center font-bold sm:text-base">{i === 0 ? awayTotal : ""}</td>
+                        <td className="absolute border border-gray-800 text-center font-bold flex flex-col text-3xl">
+                          {i === 0 ? homeTotal : ""}
+                        </td>
+                        <td className="absolute border border-gray-800 text-center font-bold flex flex-col text-3xl">
+                          {i === 0 ? awayTotal : ""}
+                        </td>
                         <td className="text-green-600">
-                          {away?.goals ? [...Array(away.goals)].map((_, idx) => (
-                            <FaFutbol key={idx} className="inline-block mr-1" />
-                          )) : ""}
+                          {away?.goals
+                            ? [...Array(away.goals)].map((_, idx) => (
+                                <FaFutbol
+                                  key={idx}
+                                  className="inline-block mr-1"
+                                />
+                              ))
+                            : ""}
                         </td>
                         <td>{away?.eventTransfersCost ?? "-"}</td>
-                        <td className={topAway.includes(away?.fplId) ? "text-green-600 font-semibold" : ""}>
+                        <td
+                          className={
+                            topAway.includes(away?.fplId)
+                              ? "text-green-600 font-semibold"
+                              : ""
+                          }
+                        >
                           {away?.eventPoints ?? "-"}
                         </td>
                         <td>{away && shortPosition[away.position]}</td>
                         <td className="px-2 py-2">
                           {away && (
                             <div className="flex flex-col">
-                              <span className="font-medium">{away.manager}</span>
+                              <span className="font-medium">
+                                {away.manager}
+                              </span>
                               <a
-                                href={`https://fantasy.premierleague.com/entry/${away.fplId}/history`}
+                                href={
+                                  eventId
+                                    ? `https://fantasy.premierleague.com/entry/${away?.fplId}/event/${eventId}`
+                                    : `https://fantasy.premierleague.com/entry/${away?.fplId}/history/`
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs"
@@ -154,7 +186,10 @@ export default function FixtureStats({ f }) {
                               </a>
                               {away.xHandle && (
                                 <a
-                                  href={`https://x.com/${away.xHandle.replace(/^@/, "")}`}
+                                  href={`https://x.com/${away.xHandle.replace(
+                                    /^@/,
+                                    ""
+                                  )}`}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="text-gray-500 hover:underline text-xs"
@@ -174,29 +209,28 @@ export default function FixtureStats({ f }) {
                 <h4 className="font-semibold">Differentials</h4>
                 <div className="flex flex-wrap justify-between border rounded">
                   <div className=" bg-blue-100 p-2 flex-wrap w-1/2">
-                    
                     <div className="flex flex-wrap">
                       {homePicks.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < homePicks.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className=" bg-red-100 p-2 flex-wrap w-1/2">
-                    
                     <div className="flex flex-wrap">
                       {awayPicks.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < awayPicks.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -205,7 +239,9 @@ export default function FixtureStats({ f }) {
         {/* H2H Stats */}
         <TabsContent value="h2h">
           <div className="bg-white p-4 my-4 rounded shadow text-sm w-full overflow-x-auto">
-            <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">H2H Stats</h3>
+            <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
+              H2H Stats
+            </h3>
             <div className="min-w-[800px]">
               <table className="w-full text-left border">
                 <thead>
@@ -214,8 +250,12 @@ export default function FixtureStats({ f }) {
                     <th></th>
                     <th>Goals</th>
                     <th>Pts</th>
-                    <th className="text-center font-bold sm:text-base">{homeTeam}</th>
-                    <th className="text-center font-bold sm:text-base">{awayTeam}</th>
+                    <th className="text-center font-bold sm:text-base">
+                      {homeTeam}
+                    </th>
+                    <th className="text-center font-bold sm:text-base">
+                      {awayTeam}
+                    </th>
                     <th>Pts</th>
                     <th>Goals</th>
                     <th></th>
@@ -233,9 +273,13 @@ export default function FixtureStats({ f }) {
                         <td className="px-2 py-2">
                           {home && (
                             <div className="flex flex-col">
-                              <span className="font-medium">{home.manager}</span>
+                              <span className="font-medium">
+                                {home.manager}
+                              </span>
                               <a
-                                href={`https://fantasy.premierleague.com/entry/${home.fplId}/history`}
+                                href={eventId
+                                    ? `https://fantasy.premierleague.com/entry/${home?.fplId}/event/${eventId}`
+                                    : `https://fantasy.premierleague.com/entry/${home?.fplId}/history/`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs"
@@ -244,7 +288,10 @@ export default function FixtureStats({ f }) {
                               </a>
                               {home.xHandle && (
                                 <a
-                                  href={`https://x.com/${home.xHandle.replace(/^@/, "")}`}
+                                  href={`https://x.com/${home.xHandle.replace(
+                                    /^@/,
+                                    ""
+                                  )}`}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="text-gray-500 hover:underline text-xs"
@@ -257,32 +304,62 @@ export default function FixtureStats({ f }) {
                         </td>
                         <td>{home && shortPosition[home.position]}</td>
                         <td className="text-green-600">
-                          {home?.goals ? [...Array(home.goals)].map((_, idx) => (
-                            <FaFutbol key={idx} className="inline-block mr-1" />
-                          )) : ""}
+                          {home?.goals
+                            ? [...Array(home.goals)].map((_, idx) => (
+                                <FaFutbol
+                                  key={idx}
+                                  className="inline-block mr-1"
+                                />
+                              ))
+                            : ""}
                         </td>
-                        <td className={topHomeH2H.includes(home?.fplId) ? "text-green-600 font-semibold" : ""}>
-                          {(home?.eventPoints - home?.eventTransfersCost) ?? "-"}
+                        <td
+                          className={
+                            topHomeH2H.includes(home?.fplId)
+                              ? "text-green-600 font-semibold"
+                              : ""
+                          }
+                        >
+                          {home?.eventPoints - home?.eventTransfersCost ?? "-"}
                         </td>
-                        
-                        <td className="text-center font-bold sm:text-base">{i === 0 ? f.homeScoreH2H : ""}</td>
-                        <td className="text-center font-bold sm:text-base">{i === 0 ? f.awayScoreH2H : ""}</td>
-                        
-                        <td className={topAwayH2H.includes(away?.fplId) ? "text-green-600 font-semibold" : ""}>
-                          {(away?.eventPoints-away?.eventTransfersCost) ?? "-"}
+
+                        <td className="text-center font-bold sm:text-base">
+                          {i === 0 ? f.homeScoreH2H : ""}
+                        </td>
+                        <td className="text-center font-bold sm:text-base">
+                          {i === 0 ? f.awayScoreH2H : ""}
+                        </td>
+
+                        <td
+                          className={
+                            topAwayH2H.includes(away?.fplId)
+                              ? "text-green-600 font-semibold"
+                              : ""
+                          }
+                        >
+                          {away?.eventPoints - away?.eventTransfersCost ?? "-"}
                         </td>
                         <td className="text-green-600">
-                          {away?.goals ? [...Array(away.goals)].map((_, idx) => (
-                            <FaFutbol key={idx} className="inline-block mr-1" />
-                          )) : ""}
+                          {away?.goals
+                            ? [...Array(away.goals)].map((_, idx) => (
+                                <FaFutbol
+                                  key={idx}
+                                  className="inline-block mr-1"
+                                />
+                              ))
+                            : ""}
                         </td>
                         <td>{away && shortPosition[away.position]}</td>
                         <td className="px-2 py-2">
                           {away && (
                             <div className="flex flex-col">
-                              <span className="font-medium">{away.manager}</span>
+                              <span className="font-medium">
+                                {away.manager}
+                              </span>
                               <a
-                                href={`https://fantasy.premierleague.com/entry/${away.fplId}/history`}
+                                href={eventId
+                                    ? `https://fantasy.premierleague.com/entry/${away?.fplId}/event/${eventId}`
+                                    : `https://fantasy.premierleague.com/entry/${away?.fplId}/history/`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs"
@@ -291,7 +368,10 @@ export default function FixtureStats({ f }) {
                               </a>
                               {away.xHandle && (
                                 <a
-                                  href={`https://x.com/${away.xHandle.replace(/^@/, "")}`}
+                                  href={`https://x.com/${away.xHandle.replace(
+                                    /^@/,
+                                    ""
+                                  )}`}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="text-gray-500 hover:underline text-xs"
@@ -311,23 +391,25 @@ export default function FixtureStats({ f }) {
                 <h4 className="font-semibold">Differentials</h4>
                 <div className="flex flex-wrap border rounded my-1">
                   <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {homeCap.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < homeCap.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="w-1/6 text-center self-center font-semibold">Captain</div>
+                  <div className="w-1/6 text-center self-center font-semibold">
+                    Captain
+                  </div>
                   <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {awayCap.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < awayCap.length - 1 && ","}
                         </div>
                       ))}
@@ -336,23 +418,25 @@ export default function FixtureStats({ f }) {
                 </div>
                 <div className="flex flex-wrap border rounded my-1">
                   <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {homeAce.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < homeAce.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
-                    <div className="w-1/6 text-center self-center font-semibold">Ace</div>
+                  <div className="w-1/6 text-center self-center font-semibold">
+                    Ace
+                  </div>
                   <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {awayAce.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < awayAce.length - 1 && ","}
                         </div>
                       ))}
@@ -361,23 +445,25 @@ export default function FixtureStats({ f }) {
                 </div>
                 <div className="flex flex-wrap border rounded my-1">
                   <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {homeFwd.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < homeFwd.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
-                    <div className="w-1/6 text-center self-center font-semibold">Forward</div>
+                  <div className="w-1/6 text-center self-center font-semibold">
+                    Forward
+                  </div>
                   <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {awayFwd.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < awayFwd.length - 1 && ","}
                         </div>
                       ))}
@@ -386,23 +472,25 @@ export default function FixtureStats({ f }) {
                 </div>
                 <div className="flex flex-wrap border rounded my-1">
                   <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {homeMid.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < homeMid.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
-                    <div className="w-1/6 text-center self-center font-semibold">Midfielder</div>
+                  <div className="w-1/6 text-center self-center font-semibold">
+                    Midfielder
+                  </div>
                   <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {awayMid.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < awayMid.length - 1 && ","}
                         </div>
                       ))}
@@ -411,23 +499,25 @@ export default function FixtureStats({ f }) {
                 </div>
                 <div className="flex flex-wrap border rounded my-1">
                   <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {homeDef.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < homeDef.length - 1 && ","}
                         </div>
                       ))}
                     </div>
                   </div>
-                    <div className="w-1/6 text-center self-center font-semibold">Defender</div>
+                  <div className="w-1/6 text-center self-center font-semibold">
+                    Defender
+                  </div>
                   <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-
                     <div className="flex flex-wrap">
                       {awayDef.map((pick, index) => (
                         <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 &&(`${pick.multiplier}x`)}{pick.webName}
+                          {pick.multiplier > 1 && `${pick.multiplier}x`}
+                          {pick.webName}
                           {index < awayDef.length - 1 && ","}
                         </div>
                       ))}

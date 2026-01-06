@@ -9,7 +9,7 @@ import {
   SelectContent,
   SelectItem,
 } from "../../@/components/ui/select";
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"; 
 
 const FIXTURES_PER_PAGE = 20;
 
