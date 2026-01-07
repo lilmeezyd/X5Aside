@@ -1,6 +1,13 @@
 import { FaFutbol } from "react-icons/fa";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../@/components/ui/tabs"; // adjust path if needed
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "../../@/components/ui/tabs"; // adjust path if needed
 import { useState } from "react";
+import { useGetCurrentEventQuery } from "../slices/eventApiSlice";
+import { useSelector } from "react-redux";
 
 export default function FixtureStats({ f }) {
   const {
@@ -23,10 +30,12 @@ export default function FixtureStats({ f }) {
     homeFwd = [],
     awayFwd = [],
     homeDef = [],
-    awayDef = []
+    awayDef = [],
   } = f;
 
+  const dbName = useSelector((state) => state.database.dbName);
   const [tab, setTab] = useState("classic");
+  const { data: eventId } = useGetCurrentEventQuery(dbName);
 
   const positions = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
   const shortPosition = {
@@ -66,7 +75,9 @@ export default function FixtureStats({ f }) {
         {/* Classic Stats */}
         <TabsContent value="classic">
           <div className="bg-white p-4 my-4 rounded shadow text-sm w-full overflow-x-auto">
-            <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">Classic Stats</h3>
+            <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
+              Classic Stats
+            </h3>
             <div className="min-w-[800px]">
               <table className="w-full text-left border">
                 <thead>
@@ -76,8 +87,13 @@ export default function FixtureStats({ f }) {
                     <th>Pts</th>
                     <th>Hits</th>
                     <th>Goals</th>
-                    <th className="text-center font-bold sm:text-base">{homeTeam}</th>
-                    <th className="text-center font-bold text-sm sm:text-base">{awayTeam}</th>
+                    <th className="text-center font-bold sm:text-base">
+                      {homeTeam}
+                    </th>
+                    <th className="w-[50px]"></th>
+                    <th className="text-center font-bold text-sm sm:text-base">
+                      {awayTeam}
+                    </th>
                     <th>Goals</th>
                     <th>Hits</th>
                     <th>Pts</th>
@@ -96,9 +112,15 @@ export default function FixtureStats({ f }) {
                         <td className="px-2 py-2">
                           {home && (
                             <div className="flex flex-col">
-                              <span className="font-medium">{home.manager}</span>
+                              <span className="font-medium">
+                                {home.manager}
+                              </span>
                               <a
-                                href={`https://fantasy.premierleague.com/entry/${home.fplId}/history`}
+                                href={
+                                  eventId
+                                    ? `https://fantasy.premierleague.com/entry/${home?.fplId}/event/${eventId}`
+                                    : `https://fantasy.premierleague.com/entry/${home?.fplId}/history/`
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs"
@@ -107,7 +129,10 @@ export default function FixtureStats({ f }) {
                               </a>
                               {home.xHandle && (
                                 <a
-                                  href={`https://x.com/${home.xHandle.replace(/^@/, "")}`}
+                                  href={`https://x.com/${home.xHandle.replace(
+                                    /^@/,
+                                    ""
+                                  )}`}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="text-gray-500 hover:underline text-xs"
@@ -139,12 +164,35 @@ export default function FixtureStats({ f }) {
                               ))
                             : ""}
                         </td>
-                        <td className="absolute border border-gray-800 text-center font-bold flex flex-col text-3xl">
-                          {i === 0 ? homeTotal : ""}
-                        </td>
-                        <td className="absolute border border-gray-800 text-center font-bold flex flex-col text-3xl">
-                          {i === 0 ? awayTotal : ""}
-                        </td>
+                        {i === 0 && (
+                          <td rowSpan={5} className="border">
+                            <div className="flex flex-col justify-center items-center font-semibold text-2xl">
+                              {String(homeTotal)
+                                .split("")
+                                .map((d, i) => (
+                                  <span key={i}>{d}</span>
+                                ))}
+                            </div>
+                          </td>
+                        )}
+                        {i === 0 && (
+                          <td rowSpan={5} className="w-[50px]">
+                            <div className="difference bg-red-700 text-3xl p-2 rounded-lg font-bold text-white">
+                              {Math.abs(homeTotal - awayTotal)}
+                            </div>
+                          </td>
+                        )}
+                        {i === 0 && (
+                          <td rowSpan={5} className="border">
+                            <div className="flex flex-col justify-center items-center font-semibold text-2xl">
+                              {String(awayTotal)
+                                .split("")
+                                .map((d, i) => (
+                                  <span key={i}>{d}</span>
+                                ))}
+                            </div>
+                          </td>
+                        )}
                         <td className="text-green-600">
                           {away?.goals
                             ? [...Array(away.goals)].map((_, idx) => (
@@ -277,9 +325,11 @@ export default function FixtureStats({ f }) {
                                 {home.manager}
                               </span>
                               <a
-                                href={eventId
+                                href={
+                                  eventId
                                     ? `https://fantasy.premierleague.com/entry/${home?.fplId}/event/${eventId}`
-                                    : `https://fantasy.premierleague.com/entry/${home?.fplId}/history/`}
+                                    : `https://fantasy.premierleague.com/entry/${home?.fplId}/history/`
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs"
@@ -320,7 +370,10 @@ export default function FixtureStats({ f }) {
                               : ""
                           }
                         >
-                          {home?.eventPoints - home?.eventTransfersCost ?? "-"}
+                          {home?.eventPoints != null &&
+                          home?.eventTransfersCost != null
+                            ? home.eventPoints - home.eventTransfersCost
+                            : "-"}
                         </td>
 
                         <td className="text-center font-bold sm:text-base">
@@ -337,7 +390,10 @@ export default function FixtureStats({ f }) {
                               : ""
                           }
                         >
-                          {away?.eventPoints - away?.eventTransfersCost ?? "-"}
+                          {away?.eventPoints != null &&
+                          away?.eventTransfersCost != null
+                            ? away.eventPoints - away.eventTransfersCost
+                            : "-"}
                         </td>
                         <td className="text-green-600">
                           {away?.goals
@@ -357,9 +413,11 @@ export default function FixtureStats({ f }) {
                                 {away.manager}
                               </span>
                               <a
-                                href={eventId
+                                href={
+                                  eventId
                                     ? `https://fantasy.premierleague.com/entry/${away?.fplId}/event/${eventId}`
-                                    : `https://fantasy.premierleague.com/entry/${away?.fplId}/history/`}
+                                    : `https://fantasy.premierleague.com/entry/${away?.fplId}/history/`
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs"

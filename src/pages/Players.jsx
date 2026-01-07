@@ -157,7 +157,7 @@ export default function Players() {
   }
 
   return (
-    <div className="w-[320px] sm:w-full">
+    <div className="">
         <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Players</h2>
 
       {userInfo && <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">

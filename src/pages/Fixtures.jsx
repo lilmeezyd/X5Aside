@@ -114,7 +114,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="p-4 mt-15 md:mt-0 w-[320px] sm:w-full">
+    <div className="p-4 mt-15 md:mt-0 sm:w-full">
       <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
         <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
@@ -175,11 +175,11 @@ useEffect(() => {
 
 
                return (
-                 <div className="w-[320px] sm:w-full" key={f._id}>
+                 <div className="w-[360px] sm:w-full" key={f._id}>
                    <div
                      className={`${
                        expandedFixtureId === f._id ? "bg-teal-300" : "bg-white"
-                     } rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer`}
+                     } w-full rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer`}
                      onClick={() => handleFixtureClick(f._id)}
                    >
                      {/* Home team */}

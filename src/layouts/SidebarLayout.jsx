@@ -8,7 +8,7 @@ import {
   LogOut,
   ChevronDown,
   HelpCircle,
-  Star
+  Star,
 } from "lucide-react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useLogoutMutation } from "../slices/userApiSlice";
@@ -16,17 +16,29 @@ import { logout } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import CompetitionDropdown from "../components/CompetitionDropdown";
+import { FaWhatsapp, FaXTwitter } from "react-icons/fa6";
 
 const loggedInNavItems = [
   { name: "Home", path: "/", icon: <LayoutDashboard className="h-5 w-5" /> },
   { name: "Teams", path: "/teams", icon: <Users className="h-5 w-5" /> },
-  { name: "Fixtures", path: "/fixtures", icon: <CalendarCheck className="h-5 w-5" /> },
-  { name: "Players", path: "/players", icon: <ShieldCheck className="h-5 w-5" /> },
+  {
+    name: "Fixtures",
+    path: "/fixtures",
+    icon: <CalendarCheck className="h-5 w-5" />,
+  },
+  {
+    name: "Players",
+    path: "/players",
+    icon: <ShieldCheck className="h-5 w-5" />,
+  },
   { name: "Tables", path: "/tables", icon: <Table2 className="h-5 w-5" /> },
-  { name: "Events", path: "/events", icon: <CalendarCheck className="h-5 w-5" /> },
-  { name: "TOW", path: "/tow",icon: <Star className="h-5 w-5" /> },
-  { name: "Help", path: "/help", icon: <HelpCircle className="h-5 w-5" />}
-
+  {
+    name: "Events",
+    path: "/events",
+    icon: <CalendarCheck className="h-5 w-5" />,
+  },
+  { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
+  { name: "Help", path: "/help", icon: <HelpCircle className="h-5 w-5" /> },
 ];
 
 const guestNavItems = [
@@ -36,14 +48,13 @@ const guestNavItems = [
   { name: "Players", path: "/players", icon: <ShieldCheck size={20} /> },
   { name: "Tables", path: "/tables", icon: <Table2 size={20} /> },
   { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
-  { name: "Help", path: "/help",
-  icon: <HelpCircle size={20} />}
+  { name: "Help", path: "/help", icon: <HelpCircle size={20} /> },
 ];
 
 const competitions = [
   { name: "X5Aside", db: "X5Aside" },
   { name: "WhatsApp5", db: "app5Aside" },
- /* { name: "Test", db: "test"}*/
+  /* { name: "Test", db: "test"}*/
 ];
 
 export default function SidebarLayout() {
@@ -81,27 +92,40 @@ export default function SidebarLayout() {
   };
 
   return (
-      <div className={`relative flex flex-col min-h-0 ${loadingDbChange ? "cursor-wait" : ""}`}>
-
+    <div
+      className={`relative flex flex-col min-h-0 ${
+        loadingDbChange ? "cursor-wait" : ""
+      }`}
+    >
       {/* Top Navbar for guest (desktop) */}
       {!userInfo && (
         <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
           <div className="flex items-center gap-8">
             <h1 className="text-lg font-bold">
-              {dbName === "X5Aside" ? "X5ASIDE" : dbName === "app5Aside" ? "FFK" : "5ASIDE"}
+              {dbName === "X5Aside"
+                ? "X5ASIDE"
+                : dbName === "app5Aside"
+                ? "FFK"
+                : "5ASIDE"}
             </h1>
             <nav className="flex gap-6">
-              {guestNavItems.filter(item => !(item.name === "TOW" && dbName !== "app5Aside")).map(({ name, path }) => (
-                <Link
-                  key={path}
-                  to={path}
-                  className={`hover:text-gray-300 ${
-                    location.pathname === path ? "text-blue-400" : "text-white"
-                  }`}
-                >
-                  {name}
-                </Link>
-              ))}
+              {guestNavItems
+                .filter(
+                  (item) => !(item.name === "TOW" && dbName !== "app5Aside")
+                )
+                .map(({ name, path }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className={`hover:text-gray-300 ${
+                      location.pathname === path
+                        ? "text-blue-400"
+                        : "text-white"
+                    }`}
+                  >
+                    {name}
+                  </Link>
+                ))}
             </nav>
           </div>
           <div className="relative">
@@ -128,7 +152,14 @@ export default function SidebarLayout() {
         {/* mt-${!userInfo ? "20" : "5"} pt-${!userInfo ? "20" : "0"} */}
         {userInfo && (
           <aside className="hidden md:block w-64 bg-gray-800 text-white p-4">
-            <h1 className="text-xl font-bold mb-6">{dbName === 'app5Aside' ? 'FFK' : dbName === 'X5Aside' ? 'X5' : '5Aside'} Admin</h1>
+            <h1 className="text-xl font-bold mb-6">
+              {dbName === "app5Aside"
+                ? "FFK"
+                : dbName === "X5Aside"
+                ? "X5"
+                : "5Aside"}{" "}
+              Admin
+            </h1>
             <nav className="space-y-1">
               {loggedInNavItems.map(({ name, path }) => (
                 <Link
@@ -152,11 +183,10 @@ export default function SidebarLayout() {
         )}
 
         <main
-            className={`flex-1 bg-gray-100 pb-20 md:pt-20 px-4 ${
-              !userInfo ? "md:px-20" : "md:px-4"
-            }`}
-          >
-
+          className={`flex-1 bg-gray-100 pb-20 md:pt-20 px-4 ${
+            !userInfo ? "md:px-20" : "md:px-4"
+          }`}
+        >
           <Outlet />
         </main>
       </div>
@@ -165,18 +195,24 @@ export default function SidebarLayout() {
       {userInfo && (
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 shadow">
           <div className="flex justify-around items-center py-2">
-            {loggedInNavItems.filter(item => !(item.name === "TOW" && dbName !== "app5Aside")).map(({ name, path, icon }) => (
-              <Link
-                key={path}
-                to={path}
-                className={`flex flex-col items-center text-xs ${
-                  location.pathname === path ? "text-blue-600" : "text-gray-600"
-                }`}
-              >
-                {icon}
-                <span>{name}</span>
-              </Link>
-            ))}
+            {loggedInNavItems
+              .filter(
+                (item) => !(item.name === "TOW" && dbName !== "app5Aside")
+              )
+              .map(({ name, path, icon }) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`flex flex-col items-center text-xs ${
+                    location.pathname === path
+                      ? "text-blue-600"
+                      : "text-gray-600"
+                  }`}
+                >
+                  {icon}
+                  <span>{name}</span>
+                </Link>
+              ))}
             <button
               onClick={handleLogout}
               className="flex flex-col items-center text-xs text-red-600"
@@ -191,9 +227,16 @@ export default function SidebarLayout() {
       {/* Mobile Top Nav for guests */}
       {!userInfo && (
         <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-t z-50 shadow px-4 py-3 flex justify-between items-center">
-         <Link to="/"> <h1 className="text-lg font-bold">
-            {dbName === "X5Aside" ? "X5ASIDE" : dbName === "app5Aside" ? "FFK" : "5ASIDE"}
-          </h1></Link>
+          <Link to="/">
+            {" "}
+            <h1 className="text-lg font-bold">
+              {dbName === "X5Aside"
+                ? "X5ASIDE"
+                : dbName === "app5Aside"
+                ? "FFK"
+                : "5ASIDE"}
+            </h1>
+          </Link>
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -209,18 +252,24 @@ export default function SidebarLayout() {
             {dropdownOpen && (
               <div className="absolute top-12 right-0 bg-white border rounded shadow-lg w-48 z-50">
                 <nav className="flex flex-col p-2">
-                  {guestNavItems.filter(item => !(item.name === "TOW" && dbName !== "app5Aside")).map(({ name, path }) => (
-                    <Link
-                      key={path}
-                      to={path}
-                      onClick={() => setDropdownOpen(false)}
-                      className={`px-4 py-2 text-sm hover:bg-gray-100 ${
-                        location.pathname === path ? "text-blue-600 font-medium" : "text-gray-800"
-                      }`}
-                    >
-                      {name}
-                    </Link>
-                  ))}
+                  {guestNavItems
+                    .filter(
+                      (item) => !(item.name === "TOW" && dbName !== "app5Aside")
+                    )
+                    .map(({ name, path }) => (
+                      <Link
+                        key={path}
+                        to={path}
+                        onClick={() => setDropdownOpen(false)}
+                        className={`px-4 py-2 text-sm hover:bg-gray-100 ${
+                          location.pathname === path
+                            ? "text-blue-600 font-medium"
+                            : "text-gray-800"
+                        }`}
+                      >
+                        {name}
+                      </Link>
+                    ))}
                   <hr className="my-1" />
                   <button
                     onClick={() => setMobileCompOpen(!mobileCompOpen)}
@@ -259,10 +308,11 @@ export default function SidebarLayout() {
       {loadingDbChange && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex flex-col items-center justify-center pointer-events-auto space-y-4">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid" />
-          <p className="text-white text-lg font-semibold">Switching Competition...</p>
+          <p className="text-white text-lg font-semibold">
+            Switching Competition...
+          </p>
         </div>
       )}
-
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white text-center text-sm p-4">
@@ -272,15 +322,50 @@ export default function SidebarLayout() {
             alt="fiveaside"
             className="h-20 w-20 object-contain rounded"
           />
-          <p>© {new Date().getFullYear()} 5-a-Side Mini League. All rights reserved.</p>
           <div className="flex gap-4 text-xs">
-            <Link to="/home" className="hover:underline">Home</Link>
-            <Link to="/teams" className="hover:underline">Teams</Link>
-            <Link to="/players" className="hover:underline">Players</Link>
-            <Link to="/fixtures" className="hover:underline">Fixtures</Link>
-            <Link to="/tables" className="hover:underline">Tables</Link>
-            <Link to="/help" className="hover:underline">Help</Link>
+            <Link to="/home" className="hover:underline">
+              Home
+            </Link>
+            <Link to="/teams" className="hover:underline">
+              Teams
+            </Link>
+            <Link to="/players" className="hover:underline">
+              Players
+            </Link>
+            <Link to="/fixtures" className="hover:underline">
+              Fixtures
+            </Link>
+            <Link to="/tables" className="hover:underline">
+              Tables
+            </Link>
+            <Link to="/help" className="hover:underline">
+              Help
+            </Link>
           </div>
+          <div className="flex gap-4 px-2">
+            {dbName === 'app5Aside' && <Link
+              to="https://chat.whatsapp.com/CVY7NqxCVktD1YK508wNLy"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaWhatsapp size={24} className="text-green-500" />
+            </Link>}
+            <Link
+              to={`${
+                dbName === "app5Aside"
+                  ? "https://x.com/fantasykings021"
+                  : "https://x.com/rookie_been"
+              }`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaXTwitter size={24} className="text-white" />
+            </Link>
+          </div>
+          <p className="text-xs">
+            © {new Date().getFullYear()} 5-a-Side Mini League. All rights
+            reserved.
+          </p>
         </div>
       </footer>
     </div>
