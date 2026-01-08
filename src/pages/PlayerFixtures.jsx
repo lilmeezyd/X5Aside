@@ -85,7 +85,7 @@ export default function PlayerFixtures() {
       {isLoading ? (
         <p>Loading fixtures...</p>
       ) : (
-        <div className="overflow-x-auto  min-w-[360px]">
+        <div className="overflow-x-auto  min-w-[320px]">
           <table className="min-w-full table-auto border border-gray-300 text-sm">
             <thead className="bg-gray-100 text-center">
               <tr>

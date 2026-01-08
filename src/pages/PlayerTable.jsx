@@ -23,7 +23,7 @@ const paginatedData = leaderboard?.slice(
   
   return (
     <>
-      <div className="overflow-auto rounded-lg border min-w-[360px]">
+      <div className="overflow-auto rounded-lg border">
           <table className="min-w-full border rounded-lg shadow text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>

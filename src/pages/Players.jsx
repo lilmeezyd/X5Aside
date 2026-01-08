@@ -181,8 +181,8 @@ export default function Players() {
         </Button>*/}
       </div>}
 
-      <Tabs className="min-w-[360px]" defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4 m-auto">
+      <Tabs className="min-w-[320px]" defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="min-w-[320px] mb-4 m-auto 0verflow-x-auto text-xs">
           <TabsTrigger value="data">Players</TabsTrigger>
           <TabsTrigger value="table">Players H2H Table</TabsTrigger>
           <TabsTrigger value="top">Top Scorers</TabsTrigger>
