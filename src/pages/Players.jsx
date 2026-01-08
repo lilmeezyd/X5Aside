@@ -182,11 +182,11 @@ export default function Players() {
       </div>}
 
       <Tabs className="min-w-[320px]" defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="min-w-[320px] mb-4 m-auto 0verflow-x-auto text-xs">
-          <TabsTrigger value="data">Players</TabsTrigger>
-          <TabsTrigger value="table">Players H2H Table</TabsTrigger>
-          <TabsTrigger value="top">Top Scorers</TabsTrigger>
-          <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
+        <TabsList className="mb-4 m-auto overflow-x-auto">
+          <TabsTrigger className="text-xs sm:text-sm" value="data">Players</TabsTrigger>
+          <TabsTrigger className="text-xs sm:text-sm" value="table">Players H2H Table</TabsTrigger>
+          <TabsTrigger className="text-xs sm:text-sm" value="top">Top Scorers</TabsTrigger>
+          <TabsTrigger className="text-xs sm:text-sm" value="fixtures">Fixtures</TabsTrigger>
         </TabsList>
 
         <TabsContent className="w-full" value="data">
