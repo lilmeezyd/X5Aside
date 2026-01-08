@@ -135,7 +135,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
 
   return (
     <>
-      <div className="flex space-x-4 overflow-x-auto pb-2 text-sm">
+      <div className="flex justify-center space-x-4 overflow-x-auto pb-2 text-sm">
         <button
           className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "" ? "bg-gray-600" : ""} ${ filterPosition === "" ? "text-white" : ""}`}
           onClick={() => {setFilterPosition("")
@@ -180,15 +180,13 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
           Def
         </button>
       </div>
-    <div className="w-full overflow-x-auto space-y-4">
-      {/*<h2 className="text-xl font-semibold">Top Players</h2>*/}
-      
-      <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+    <div className="w-full  border rounded-sm overflow-x-auto space-y-4">
+      <table className="rounded-lg shadow text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
             <th className="px-4 py-2"></th>
             <th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`w-[60px] px-4 py-2 text-left cursor-pointer ${
                 sortConfig.key === "manager" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("manager")}
@@ -196,7 +194,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               Manager {sortIcon("manager")}
             </th>
             <th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "position" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("position")}
@@ -204,7 +202,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               Position {sortIcon("position")}
             </th>
             <th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "team" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("team")}
@@ -212,21 +210,21 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               Team {sortIcon("team")}
             </th>
             {dbName !== "X5Aside" && <><th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "startPrice" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("startPrice")}
             >
               Start Price {sortIcon("startPrice")}
             </th><th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "currentPrice" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("currentPrice")}
             >
               Current Price{sortIcon("currentPrice")}
             </th><th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "delta" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("delta")}
@@ -234,7 +232,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               Price Change{sortIcon("delta")}
             </th></>}
             <th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "fplId" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("fplId")}
@@ -245,7 +243,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
 
 
             <th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "overallPoints" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("overallPoints")}
@@ -253,7 +251,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               Points{sortIcon("overallPoints")}
             </th>
             <th
-              className={`px-4 py-2 text-left cursor-pointer ${
+              className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "overallRank" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("overallRank")}
@@ -271,7 +269,8 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}
             >
               <td className="px-4 py-2 text-center font-semibold">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
-              <td className="px-4 py-2">
+              <td className="w-[60px] px-4 py-2">
+                <div className="overflow-stuff w-[100px]">
                 <a
                   href={player.eventId ? 
                     `https://fantasy.premierleague.com/entry/${player.fplId}/event/${player.eventId}` : 
@@ -283,20 +282,23 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
                 >
                   {player.teamName}
                 </a>
-                <div className="text-xs text-gray-500"
+                </div>
+                <div className="overflow-stuff w-[100px] text-xs text-gray-500"
                  style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}>{player.manager}</div>
               </td>
-              <td className="px-4 py-2">{player.position}</td>
-              <td className="px-4 py-2">{player.team?.short_name || "—"}</td>
+              <td className="px-4 py-2"><div className="text-center">{player.position}</div></td>
+              <td className="px-4 py-2"><div className="text-center">{player.team?.short_name || "—"}</div></td>
               {dbName !== "X5Aside" && <>
-              <td className="px-4 py-2">{(player.startPrice)?.toFixed(1)}</td>
-              <td className="px-4 py-2">{(player.currentPrice)?.toFixed(1)}</td>
-              <td className="px-4 py-2">{(player?.currentPrice - player?. startPrice)?.toFixed(1)}</td>
+              <td className="px-4 py-2"><div className="text-center">{(player.startPrice)?.toFixed(1)}</div></td>
+              <td className="px-4 py-2"><div className="text-center">{(player.currentPrice)?.toFixed(1)}</div></td>
+              <td className="px-4 py-2"><div className="text-center">{(player?.currentPrice - player?. startPrice)?.toFixed(1)}</div></td>
               </>}
-              <td className="px-4 py-2">{player.fplId}</td>
-              <td className="px-4 py-2">{player?.eventPoints}</td>
-              <td className="px-4 py-2">{player?.overallPoints}</td>
-              <td className="px-4 py-2">{player.overallRank}</td>
+              <td className="px-4 py-2">
+                <div className=" overflow-stuff w-[100px] text-center">{player.fplId}</div></td>
+              <td className="px-4 py-2"><div className="text-center">{player?.eventPoints}</div></td>
+              <td className="px-4 py-2">
+                <div className="text-center">{player?.overallPoints}</div></td>
+              <td className="px-4 py-2"><div className=" overflow-stuff w-[100px] text-center">{player.overallRank}</div></td>
               { userInfo && <td className="px-4 py-2 text-center space-x-2">
                 <button
                   onClick={() => openEditModal(player)}
@@ -315,10 +317,9 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
           ))}
         </tbody>
       </table>
-
     </div>
       {totalPages > 1 && (
-        <div className="flex justify-between items-center mt-2">
+        <div className="w-[300px] m-auto flex gap-2 justify-center items-center mt-2">
           <button
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}

@@ -148,10 +148,10 @@ export default function SidebarLayout() {
       )}
 
       {/* Layout Body */}
-      <div className={`flex flex-1 `}>
+      <div className={`flex`}>
         {/* mt-${!userInfo ? "20" : "5"} pt-${!userInfo ? "20" : "0"} */}
         {userInfo && (
-          <aside className="hidden md:block w-64 bg-gray-800 text-white p-4">
+          <aside className="w-[20%] hidden md:block w-64 bg-gray-800 text-white p-4">
             <h1 className="text-xl font-bold mb-6">
               {dbName === "app5Aside"
                 ? "FFK"
@@ -183,7 +183,7 @@ export default function SidebarLayout() {
         )}
 
         <main
-          className={`flex-1 bg-gray-100 pb-20 md:pt-20 px-4 ${
+          className={`w-[80%] flex-1 bg-gray-100 pb-20 md:pt-20 px-4 ${
             !userInfo ? "md:px-20" : "md:px-4"
           }`}
         >
@@ -315,7 +315,7 @@ export default function SidebarLayout() {
       )}
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white text-center text-sm p-4">
+      <footer style={{paddingBottom: '60px'}} className="w-full bg-gray-900 text-white text-center text-sm p-4">
         <div className="container mx-auto flex flex-col justify-between items-center gap-2">
           <img
             src={`https://ik.imagekit.io/cap10/fiveaside.png`}

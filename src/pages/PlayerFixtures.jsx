@@ -48,10 +48,10 @@ export default function PlayerFixtures() {
   `https://fantasy.premierleague.com/entry/${fplId}/history/`;
 
   return (
-    <>{eventsLoading ? (<p>Loading Events...</p>) : (<div className="p-4">
+    <>{eventsLoading ? (<p>Loading Events...</p>) : (<div className="p-4 w-full">
       {/*<h2 className="text-2xl font-bold mb-4">Player Fixtures</h2>*/}
 
-      {!eventsLoading && <div className="flex gap-4 flex-wrap mb-6">
+      {!eventsLoading && <div className="flex justify-center gap-4 flex-wrap mb-6">
           <Select
             value={String(selectedEvent)}
             onValueChange={val => setSelectedEvent(Number(val))}
@@ -85,8 +85,8 @@ export default function PlayerFixtures() {
       {isLoading ? (
         <p>Loading fixtures...</p>
       ) : (
-        <div className="overflow-x-auto max-w-full">
-          <table className="w-[320px] sm:w-full table-auto border border-gray-300 text-sm">
+        <div className="overflow-x-auto  min-w-[360px]">
+          <table className="min-w-full table-auto border border-gray-300 text-sm">
             <thead className="bg-gray-100 text-center">
               <tr>
                 <th className="p-2 border w-[60px]"></th>

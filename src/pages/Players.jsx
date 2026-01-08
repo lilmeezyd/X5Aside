@@ -181,15 +181,15 @@ export default function Players() {
         </Button>*/}
       </div>}
 
-      <Tabs defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
+      <Tabs className="min-w-[360px]" defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="mb-4 m-auto">
           <TabsTrigger value="data">Players</TabsTrigger>
           <TabsTrigger value="table">Players H2H Table</TabsTrigger>
           <TabsTrigger value="top">Top Scorers</TabsTrigger>
           <TabsTrigger value="fixtures">Fixtures</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="data">
+        <TabsContent className="w-full" value="data">
           <Suspense fallback={<p>Loading Players...</p>}>
             <RetryWrapper
               isError={playersError}
@@ -202,7 +202,7 @@ export default function Players() {
           </Suspense>
         </TabsContent>
 
-        <TabsContent value="table">
+        <TabsContent className="w-full" value="table">
           <Suspense fallback={<p>Loading Player Table...</p>}>
             <RetryWrapper
               isError={leaderboardError}
@@ -215,7 +215,7 @@ export default function Players() {
           </Suspense>
         </TabsContent>
 
-        <TabsContent value="top">
+        <TabsContent className="w-full" value="top">
           <Suspense fallback={<p>Loading Top Scorers...</p>}>
             <RetryWrapper
               isError={scorersError}
@@ -228,7 +228,7 @@ export default function Players() {
           </Suspense>
         </TabsContent>
 
-        <TabsContent value="fixtures">
+        <TabsContent className="w-full" value="fixtures">
           <Suspense fallback={<p>Loading Player Fixtures...</p>}>
             <RetryWrapper
               isError={fixturesError}

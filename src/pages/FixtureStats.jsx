@@ -45,11 +45,62 @@ export default function FixtureStats({ f }) {
     Midfielder: "Mid",
     Defender: "Def",
   };
+  const homeStatsH2HWithPosition = homeStatsH2H.map((x) => {
+    return {
+      ...x,
+      turf: "home",
+    };
+  });
+  const awayStatsH2HWithPosition = awayStatsH2H.map((x) => {
+    return {
+      ...x,
+      turf: "away",
+    };
+  });
+  const homeStatsH2HMap = new Map(
+    homeStatsH2H
+      .map((x) => {
+        return {
+          position: x.position,
+          points: x.eventPoints - x.eventTransfersCost,
+        };
+      })
+      .map((x) => [x.position, x.points])
+  );
+  const awayStatsH2HMap = new Map(
+    awayStatsH2H
+      .map((x) => {
+        return {
+          position: x.position,
+          points: x.eventPoints - x.eventTransfersCost,
+        };
+      })
+      .map((x) => [x.position, x.points])
+  );
 
-  const sortByPosition = (stats) =>
-    [...stats].sort(
-      (a, b) => positions.indexOf(a.position) - positions.indexOf(b.position)
-    );
+  const sortByPosition = (stats) => {
+    return [...stats]
+      .map((x) => {
+        const diff =
+          x.turf === "home"
+            ? x.eventPoints -
+              x.eventTransfersCost -
+              awayStatsH2HMap.get(x.position)
+            : x.eventPoints -
+              x.eventTransfersCost -
+              homeStatsH2HMap.get(x.position);
+        return {
+          ...x,
+          result: diff > 0 ? "W" : diff < 0 ? "L" : "D",
+        };
+      })
+      .sort(
+        (a, b) => positions.indexOf(a.position) - positions.indexOf(b.position)
+      );
+  };
+
+  console.log(sortByPosition(awayStatsH2HWithPosition));
+  console.log(sortByPosition(homeStatsH2HWithPosition));
 
   const highlightTopScorer = (sideStats) => {
     const max = Math.max(...sideStats.map((s) => s?.eventPoints || 0));
@@ -82,23 +133,23 @@ export default function FixtureStats({ f }) {
               <table className="w-full text-left border">
                 <thead>
                   <tr className="border-b text-gray-600">
-                    <th></th>
-                    <th></th>
-                    <th>Pts</th>
-                    <th>Hits</th>
-                    <th>Goals</th>
-                    <th className="text-center font-bold sm:text-base">
-                      {homeTeam}
+                    <th className="px-2 border"></th>
+                    <th className="px-2 border"></th>
+                    <th className="px-2 border text-center">Pts</th>
+                    <th className="px-2 border text-center">Hits</th>
+                    <th className="px-2 border text-center">Goals</th>
+                    <th className="px-2 border w-[50px] text-center font-bold sm:text-base">
+                      Home
                     </th>
-                    <th className="w-[50px]"></th>
-                    <th className="text-center font-bold text-sm sm:text-base">
-                      {awayTeam}
+                    <th className="w-[50px] px-2 border "></th>
+                    <th className="px-2 border w-[50px] text-center font-bold text-sm sm:text-base">
+                      Away
                     </th>
-                    <th>Goals</th>
-                    <th>Hits</th>
-                    <th>Pts</th>
-                    <th></th>
-                    <th></th>
+                    <th className="px-2 border text-center">Goals</th>
+                    <th className="px-2 border text-center">Hits</th>
+                    <th className="px-2 border text-center">Pts</th>
+                    <th className="px-2 border"></th>
+                    <th className="px-2 border"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -109,7 +160,7 @@ export default function FixtureStats({ f }) {
                     const away = sortByPosition(awayStats)[i];
                     return (
                       <tr key={i} className="border-t">
-                        <td className="px-2 py-2">
+                        <td className="px-2 border">
                           {home && (
                             <div className="flex flex-col">
                               <span className="font-medium">
@@ -143,18 +194,24 @@ export default function FixtureStats({ f }) {
                             </div>
                           )}
                         </td>
-                        <td>{home && shortPosition[home.position]}</td>
+                        <td className="px-2 border text-center">
+                          {home && shortPosition[home.position]}
+                        </td>
                         <td
-                          className={
-                            topHome.includes(home?.fplId)
-                              ? "text-green-600 font-semibold"
-                              : ""
-                          }
+                          className={`px-2 border text-center
+                            ${
+                              topHome.includes(home?.fplId)
+                                ? "text-green-600 font-semibold"
+                                : ""
+                            }
+                          `}
                         >
                           {home?.eventPoints ?? "-"}
                         </td>
-                        <td>{home?.eventTransfersCost ?? "-"}</td>
-                        <td className="text-green-600">
+                        <td className="px-2 border text-center">
+                          {home?.eventTransfersCost ?? "-"}
+                        </td>
+                        <td className="px-2 border text-center text-green-600">
                           {home?.goals
                             ? [...Array(home.goals)].map((_, idx) => (
                                 <FaFutbol
@@ -165,7 +222,7 @@ export default function FixtureStats({ f }) {
                             : ""}
                         </td>
                         {i === 0 && (
-                          <td rowSpan={5} className="border">
+                          <td rowSpan={5} className="px-2 border">
                             <div className="flex flex-col justify-center items-center font-semibold text-2xl">
                               {String(homeTotal)
                                 .split("")
@@ -183,7 +240,7 @@ export default function FixtureStats({ f }) {
                           </td>
                         )}
                         {i === 0 && (
-                          <td rowSpan={5} className="border">
+                          <td rowSpan={5} className="border px-2">
                             <div className="flex flex-col justify-center items-center font-semibold text-2xl">
                               {String(awayTotal)
                                 .split("")
@@ -193,7 +250,7 @@ export default function FixtureStats({ f }) {
                             </div>
                           </td>
                         )}
-                        <td className="text-green-600">
+                        <td className="px-2 border text-center text-green-600">
                           {away?.goals
                             ? [...Array(away.goals)].map((_, idx) => (
                                 <FaFutbol
@@ -203,17 +260,21 @@ export default function FixtureStats({ f }) {
                               ))
                             : ""}
                         </td>
-                        <td>{away?.eventTransfersCost ?? "-"}</td>
+                        <td className="px-2 border text-center">
+                          {away?.eventTransfersCost ?? "-"}
+                        </td>
                         <td
-                          className={
+                          className={`px-2 border text-center ${
                             topAway.includes(away?.fplId)
                               ? "text-green-600 font-semibold"
                               : ""
-                          }
+                          }`}
                         >
                           {away?.eventPoints ?? "-"}
                         </td>
-                        <td>{away && shortPosition[away.position]}</td>
+                        <td className="px-2 border text-center">
+                          {away && shortPosition[away.position]}
+                        </td>
                         <td className="px-2 py-2">
                           {away && (
                             <div className="flex flex-col">
@@ -294,28 +355,28 @@ export default function FixtureStats({ f }) {
               <table className="w-full text-left border">
                 <thead>
                   <tr className="border-b text-gray-600">
-                    <th></th>
-                    <th></th>
-                    <th>Goals</th>
-                    <th>Pts</th>
-                    <th className="text-center font-bold sm:text-base">
-                      {homeTeam}
+                    <th className="px-2 border text-center "></th>
+                    <th className="px-2 border text-center "></th>
+                    <th className="px-2 border text-center ">Goals</th>
+                    <th className="px-2 border text-center ">Pts</th>
+                    <th className="px-2 border text-center font-bold sm:text-base">
+                      Home
                     </th>
-                    <th className="text-center font-bold sm:text-base">
-                      {awayTeam}
+                    <th className="px-2 border text-center font-bold sm:text-base">
+                      Away
                     </th>
-                    <th>Pts</th>
-                    <th>Goals</th>
-                    <th></th>
-                    <th></th>
+                    <th className="px-2 border text-center">Pts</th>
+                    <th className="px-2 border text-center">Goals</th>
+                    <th className="px-2 border text-center"></th>
+                    <th className="px-2 border text-center"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {Array.from({
                     length: Math.max(homeStatsH2H.length, awayStatsH2H.length),
                   }).map((_, i) => {
-                    const home = sortByPosition(homeStatsH2H)[i];
-                    const away = sortByPosition(awayStatsH2H)[i];
+                    const home = sortByPosition(homeStatsH2HWithPosition)[i];
+                    const away = sortByPosition(awayStatsH2HWithPosition)[i];
                     return (
                       <tr key={i} className="border-t">
                         <td className="px-2 py-2">
@@ -352,8 +413,10 @@ export default function FixtureStats({ f }) {
                             </div>
                           )}
                         </td>
-                        <td>{home && shortPosition[home.position]}</td>
-                        <td className="text-green-600">
+                        <td className="px-2 border text-center">
+                          {home && shortPosition[home.position]}
+                        </td>
+                        <td className="px-2 border text-center text-green-600">
                           {home?.goals
                             ? [...Array(home.goals)].map((_, idx) => (
                                 <FaFutbol
@@ -364,11 +427,11 @@ export default function FixtureStats({ f }) {
                             : ""}
                         </td>
                         <td
-                          className={
+                          className={` px-2 border text-center ${
                             topHomeH2H.includes(home?.fplId)
                               ? "text-green-600 font-semibold"
                               : ""
-                          }
+                          }`}
                         >
                           {home?.eventPoints != null &&
                           home?.eventTransfersCost != null
@@ -376,26 +439,43 @@ export default function FixtureStats({ f }) {
                             : "-"}
                         </td>
 
-                        <td className="text-center font-bold sm:text-base">
-                          {i === 0 ? f.homeScoreH2H : ""}
+                        <td>
+                          <div className={`${
+                            home.result === "W"
+                              ? "bg-green-700"
+                              : home.result === "L"
+                              ? "bg-red-700"
+                              : "bg-gray-700"
+                          } border text-center font-bold sm:text-base w-[80%] rounded-lg m-auto py-2  text-white`}>
+                          {home.result}
+                          </div>
                         </td>
-                        <td className="text-center font-bold sm:text-base">
-                          {i === 0 ? f.awayScoreH2H : ""}
+                        <td
+                         
+                        ><div className={`${
+                            away.result === "W"
+                              ? "bg-green-700"
+                              : away.result === "L"
+                              ? "bg-red-700"
+                              : "bg-gray-700"
+                          } border text-center font-bold sm:text-base w-[80%] rounded-lg m-auto py-2 text-white`}>
+                          {away.result}
+                          </div>
                         </td>
 
                         <td
-                          className={
+                          className={`px-2 border text-center ${
                             topAwayH2H.includes(away?.fplId)
                               ? "text-green-600 font-semibold"
                               : ""
-                          }
+                          }`}
                         >
                           {away?.eventPoints != null &&
                           away?.eventTransfersCost != null
                             ? away.eventPoints - away.eventTransfersCost
                             : "-"}
                         </td>
-                        <td className="text-green-600">
+                        <td className="px-2 border text-center text-green-600">
                           {away?.goals
                             ? [...Array(away.goals)].map((_, idx) => (
                                 <FaFutbol
@@ -405,8 +485,10 @@ export default function FixtureStats({ f }) {
                               ))
                             : ""}
                         </td>
-                        <td>{away && shortPosition[away.position]}</td>
-                        <td className="px-2 py-2">
+                        <td className="px-2 border text-center">
+                          {away && shortPosition[away.position]}
+                        </td>
+                        <td className="px-2 py-2 border">
                           {away && (
                             <div className="flex flex-col">
                               <span className="font-medium">
