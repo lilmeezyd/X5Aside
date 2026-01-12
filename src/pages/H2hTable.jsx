@@ -18,6 +18,7 @@ export default function H2HTable() {
       <TabsList className="mb-4 flex gap-2">
         <TabsTrigger value="short">Short Table</TabsTrigger>
         <TabsTrigger value="full">Full Table</TabsTrigger>
+        <TabsTrigger value="form">Form</TabsTrigger>
       </TabsList>
 
       {/* Short Table */}
@@ -90,10 +91,11 @@ export default function H2HTable() {
                           return (
                             <div
                               key={i}
-                              className={`w-5 h-5 text-[11px] font-bold text-white rounded flex items-center justify-center ${color}`}
+                              className={`flex flex-col w-5 align-center justify-center text-[11px] font-bold text-white rounded flex items-center justify-center ${color}`}
                               title={`GW${r?.event}: ${r?.result} (${r?.score})`}
                             >
-                              {r?.result}
+                              <div className="self-stretch text-center bg-white text-black">{r?.event}</div>
+                              <div className="">{r?.result}</div>
                             </div>
                           );
                         })}
@@ -178,6 +180,74 @@ export default function H2HTable() {
           </table>
         </div>
       </TabsContent>
+
+      {/* Form */}       
+            <TabsContent value="form">
+              <div className="overflow-auto rounded-lg border">
+                    {data.map((entry, index) => {
+                      const {
+                        team,
+                        result,
+                      } = entry;
+                const lastFive = [...(result || [])]
+                .sort((a, b) => (Number(a.event) || 0) - (Number(b.event) || 0)) // oldest first
+                 // last 5 in ascending order
+      
+      
+                      const isBottomThree = index >= data.length - 3;
+            const isTopFour = index < 4
+      
+                      return (
+                        <div
+                          key={team._id}
+                          className={`border-b border-gray500 ${
+                            isBottomThree ? "bg-red-100" : isTopFour ? "bg-blue-200" : index % 2 === 0 ? "bg-white" : "bg-blue-50"
+                          }`}
+                        >
+                          <div className="flex items-center">
+                          <div className="px-4 py-2 font-semibold sticky left-0 z-10 bg-inherit">{index + 1}</div>
+                            <div className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
+      
+                            <div className="flex items-center gap-2 w-36">
+                              <img
+                                src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                alt={team.name}
+                                className="w-6 h-6 object-contain"
+                              />
+                              <span className="truncate whitespace-nowrap overflow-hidden">
+                                {team.name}
+                              </span>
+                            </div>
+                          </div>
+                          </div>
+                          <div className="px-4 py-2">
+                            <div className="flex gap-1">
+                              {lastFive.map((r, i) => {
+                                const color =
+                                  r.result === "W"
+                                    ? "bg-green-500"
+                                    : r.result === "L"
+                                    ? "bg-red-500"
+                                    : "bg-gray-500";
+                                return (
+                                  <div
+                                    key={i}
+                                    className={`flex flex-col w-5 align-center justify-center text-[11px] font-bold text-white rounded flex items-center justify-center ${color}`}
+                                    title={`GW${r?.event}: ${r?.result} (${r?.score})`}
+                                  >
+                                    <div className="self-stretch text-center bg-white text-black">{r?.event}</div>
+                                    <div className="">{r?.result}</div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  
+              </div>
+            </TabsContent>
         </>)}
     </Tabs>
   );
