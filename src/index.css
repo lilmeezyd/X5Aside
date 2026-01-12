@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -120,6 +121,10 @@
   }
 }
 
+body {
+  font-family: manrope, 'Segoe UI', 'Roboto', sans-serif;
+}
+
 .difference {
   box-shadow: 0 5px 20px 5px rgba(0, 0, 0, .5);
   text-align: center;
@@ -129,4 +134,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.form-class {
+  width: 30px;
 }
