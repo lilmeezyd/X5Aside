@@ -37,7 +37,7 @@ export default function TeamCard({ team, refetch }) {
   const handlePlayerAdded = (newPlayer) => {
     setPlayers((prev) => [...prev, newPlayer]);
   };
-  const teamLength = team?.players?.filter(x => x.isActive)?.length 
+  const teamLength = team?.players?.filter((x) => x.isActive)?.length;
 
   const handleAddPlayer = async () => {
     toast("Adding player...");
@@ -89,9 +89,17 @@ export default function TeamCard({ team, refetch }) {
 
           <div>
             <h3 className="text-lg font-semibold">{team.name}</h3>
-            <p className="text-sm text-gray-600">
-              Players: {teamLength ?? 0}
-            </p>
+            <p className="text-sm text-gray-600">Players: {teamLength ?? 0}</p>
+          </div>
+        </div>
+        <div className="shadow flex justify-between items-center border border-gray-300 rounded px-2">
+          <div className="flex flex-col text-center justify-center px-2 ">
+            <div className="border-b border-gray-500  font-bold">Rank:</div>
+            <div>{team?.rank}</div>
+          </div>
+          <div className="flex flex-col text-center justify-center px-2 ">
+            <div className="border-b border-gray-500 font-semibold">Total Points:</div>
+            <div>{team?.total}</div>
           </div>
         </div>
 
@@ -155,35 +163,41 @@ export default function TeamCard({ team, refetch }) {
         <div className="mt-2 ml-4 border-l-2 border-gray-200 pl-4">
           <h4 className="font-semibold mb-1 text-gray-700">Players:</h4>
           <ul className="space-y-1 text-sm py-1">
-            {team?.players?.filter(x => x.isActive)?.map((player, index) => (
-              <li key={index} className="text-gray-600">
-                • {player.manager} —{" "}
-                <span className="italic">{player.position}</span>
-                &nbsp;&nbsp;
-                <span className="italic font-bold">
+            {team?.players
+              ?.filter((x) => x.isActive)
+              ?.map((player, index) => (
+                <li key={index} className="text-gray-600">
+                  • {player.manager} —{" "}
+                  <span className="italic">{player.position}</span>
+                  &nbsp;&nbsp;
+                  <span className="italic font-bold">
                     Joined in GW{player.startGW}
-                </span>
-                <span>
+                  </span>
+                  <span>
                     <MdCheckCircle color="green" size={24} />
-                </span>
-              </li>
-            ))}
+                  </span>
+                </li>
+              ))}
           </ul>
-          {team?.players?.filter(x => !x.isActive)?.length > 0 && <h4 className="font-semibold mb-1 text-gray-700">Ex Players:</h4>}
+          {team?.players?.filter((x) => !x.isActive)?.length > 0 && (
+            <h4 className="font-semibold mb-1 text-gray-700">Ex Players:</h4>
+          )}
           <ul className="space-y-1 text-sm py-1">
-            {team?.players?.filter(x => !x.isActive)?.map((player, index) => (
-              <li key={index} className="text-gray-600">
-                • {player.manager} —{" "}
-                <span className="italic">{player.position}</span>
-                &nbsp;&nbsp;
-                <span className="italic font-bold">
+            {team?.players
+              ?.filter((x) => !x.isActive)
+              ?.map((player, index) => (
+                <li key={index} className="text-gray-600">
+                  • {player.manager} —{" "}
+                  <span className="italic">{player.position}</span>
+                  &nbsp;&nbsp;
+                  <span className="italic font-bold">
                     Left after GW{player.endGW}
-                </span>
-                <span>
+                  </span>
+                  <span>
                     <MdCancel color="red" size={24} />
-                </span>
-              </li>
-            ))}
+                  </span>
+                </li>
+              ))}
           </ul>
         </div>
       )}

@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import TeamCard from "./TeamCard";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
-import { useGetQuery, useAddMutation, useDeleteAllMutation } from "../slices/teamApiSlice";
+import { useGetQuery, useAddMutation, useDeleteAllMutation, useGetTeamTotalPointsQuery } from "../slices/teamApiSlice";
 import { useSelector } from 'react-redux';
 
 export default function Teams() {
@@ -10,9 +10,19 @@ export default function Teams() {
   const userInfo = useSelector((state) => state.auth.userInfo); 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { data: teams = [], isLoading, refetch, isError } = useGetQuery(dbName);
+  const { data: totals = [] } = useGetTeamTotalPointsQuery(dbName)
   const [addTeams] = useAddMutation();
   const [deleteAll ] = useDeleteAllMutation()
-//console.log(teams)
+  const newTeams = useMemo(() => {
+    const totalsMap = new Map(totals.map(x => [x.teamName, {rank: x.rank, totalPoints: x.totalPoints}]))
+    return teams.map(x => {
+      return {
+        ...x,
+        rank: totalsMap.get(x.name).rank,
+        total: totalsMap.get(x.name).totalPoints
+      }
+    })
+  }, [teams, totals])
   const handleAddTeams = async () => {
     toast("Fetching teams from FPL API...");
     try {
@@ -70,7 +80,7 @@ export default function Teams() {
 ) : teams.length > 0 ? (
   <div className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
 
-    {teams.map((team) => (
+    {newTeams.map((team) => (
       <TeamCard refetch={refetch} key={team._id} team={team} />
     ))}
   </div>
