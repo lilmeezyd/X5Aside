@@ -11,7 +11,12 @@ export const teamApiSlice = apiSlice.injectEndpoints({
     }),
     getTeam: builder.query({
       query: (teamId, dbName) => ({
-        url: `${TEAMS_URL}/${teamId}? dbName=${dbName}`,
+        url: `${TEAMS_URL}/${teamId}?dbName=${dbName}`,
+      }),
+    }),
+    getTeamTotalPoints: builder.query({
+      query: (dbName) => ({
+        url: `${TEAMS_URL}/total?dbName=${dbName}`,
       }),
     }),
     add: builder.mutation({
@@ -52,6 +57,7 @@ body: {dbName}
 export const {
   useGetQuery,
   useGetTeamQuery,
+  useGetTeamTotalPointsQuery,
   useAddMutation,
   useEditMutation,
   useDeleteAllMutation,
