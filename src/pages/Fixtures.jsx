@@ -175,7 +175,7 @@ useEffect(() => {
 
 
                return (
-                 <div className="w-[360px] sm:w-full" key={f._id}>
+                 <div className="w-[320px] sm:w-full" key={f._id}>
                    <div
                      className={`${
                        expandedFixtureId === f._id ? "bg-teal-300" : "bg-white"
