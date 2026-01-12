@@ -147,10 +147,44 @@ export default function SidebarLayout() {
         </div>
       )}
 
+      {userInfo && (
+        <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
+          <div className="flex items-center gap-8">
+            <h1 className="text-xl font-bold">
+              {dbName === "app5Aside"
+                ? "FFK"
+                : dbName === "X5Aside"
+                ? "X5"
+                : "5Aside"}{" "}
+              Admin
+            </h1>
+            <nav className="flex gap-2">
+              {loggedInNavItems.map(({ name, path }) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`block px-3 py-2 rounded hover:bg-gray-700 ${
+                    location.pathname === path ? "bg-gray-700" : ""
+                  }`}
+                >
+                  {name}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-red-600 bg-red-500 text-white text-sm"
+              >
+                <LogOut className="h-4 w-4" /> Logout
+              </button>
+        </div>
+      )}
+
       {/* Layout Body */}
       <div className={`flex`}>
         {/* mt-${!userInfo ? "20" : "5"} pt-${!userInfo ? "20" : "0"} */}
-        {userInfo && (
+        {/*userInfo && (
           <aside className="w-[20%] hidden md:block w-64 bg-gray-800 text-white p-4">
             <h1 className="text-xl font-bold mb-6">
               {dbName === "app5Aside"
@@ -180,12 +214,10 @@ export default function SidebarLayout() {
               </button>
             </nav>
           </aside>
-        )}
+        )*/}
 
         <main
-          className={`w-[80%] flex-1 bg-gray-100 pb-20 md:pt-20 px-4 ${
-            !userInfo ? "md:px-20" : "md:px-4"
-          }`}
+          className={`w-[80%] flex-1 bg-gray-100 pb-20 md:pt-20 px-4 md:px-20`}
         >
           <Outlet />
         </main>
@@ -223,6 +255,7 @@ export default function SidebarLayout() {
           </div>
         </nav>
       )}
+      
 
       {/* Mobile Top Nav for guests */}
       {!userInfo && (
