@@ -199,50 +199,60 @@ export default function H2HTable() {
       
                       return (
                         <div
-                          key={team._id}
-                          className={`border-b border-gray500 ${
-                            isBottomThree ? "bg-red-100" : isTopFour ? "bg-blue-200" : index % 2 === 0 ? "bg-white" : "bg-blue-50"
-                          }`}
-                        >
-                          <div className="flex items-center">
-                          <div className="px-4 py-2 font-semibold sticky left-0 z-10 bg-inherit">{index + 1}</div>
-                            <div className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
-      
-                            <div className="flex items-center gap-2 w-36">
-                              <img
-                                src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
-                                alt={team.name}
-                                className="w-6 h-6 object-contain"
-                              />
-                              <span className="truncate whitespace-nowrap overflow-hidden">
-                                {team.name}
-                              </span>
-                            </div>
-                          </div>
-                          </div>
-                          <div className="px-4 py-2">
-                            <div className="flex gap-1">
-                              {lastFive.map((r, i) => {
-                                const color =
-                                  r.result === "W"
-                                    ? "bg-green-500"
-                                    : r.result === "L"
-                                    ? "bg-red-500"
-                                    : "bg-gray-500";
-                                return (
-                                  <div
-                                    key={i}
-                                    className={`flex flex-col w-5 align-center justify-center text-[11px] font-bold text-white rounded flex items-center justify-center ${color}`}
-                                    title={`GW${r?.event}: ${r?.result} (${r?.score})`}
-                                  >
-                                    <div className="self-stretch text-center bg-white text-black">{r?.event}</div>
-                                    <div className="">{r?.result}</div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
+                    key={team._id}
+                    className={`${
+                      isBottomThree
+                        ? "bg-red-100"
+                        : isTopFour
+                        ? "bg-blue-200"
+                        : index % 2 === 0
+                        ? "bg-white"
+                        : "bg-blue-50"
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <div className="text-sm sm:text-base px-4 py-2 font-bold">
+                        {index + 1}
+                      </div>
+                      <div className="px-4 py-2">
+                        <div className="flex items-center gap-2 w-36">
+                          <img
+                            src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                            alt={team.name}
+                            className="w-6 h-6 object-contain"
+                          />
+                          <span className="text-sm sm:text-base font-bold truncate whitespace-nowrap overflow-hidden">
+                            {team.name}
+                          </span>
                         </div>
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto border-t border-gray-600 min-w-[320px] px-4 py-2">
+                      <div className="flex gap-2">
+                        {lastFive.map((r, i) => {
+                          const color =
+                            r.result === "W"
+                              ? "bg-green-500"
+                              : r.result === "L"
+                              ? "bg-red-500"
+                              : "bg-gray-500";
+                          return (
+                            <div
+                              key={i}
+                              className={`border border-gray-500 flex flex-col w-[30px] flex-shrink-0
+ items-center justify-center text-[11px] font-bold text-white rounded-sm ${color}`}
+                              title={`GW${r?.event}: ${r?.result} (${r?.score})`}
+                            >
+                              <div className="rounded-t-sm self-stretch text-center bg-white text-black">
+                                {r?.event}
+                              </div>
+                              <div className="">{r?.result}</div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
                       );
                     })}
                   
