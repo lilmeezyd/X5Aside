@@ -38,10 +38,10 @@ export default function Tables() {
   };
 
   return (
-    <div className=" mt-15 md:mt-0 w-[320px] sm:w-full">
+    <div className=" mt-15 md:mt-0 sm:w-full">
     
     <div className="space-y-6">
-      <div className="flex gap-2 mb-4">
+      <div className="flex justify-center gap-2 mb-4">
         <Button
           variant={view === "classic" ? "default" : "outline"}
           onClick={() => setView("classic")}
