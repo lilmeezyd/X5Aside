@@ -120,7 +120,7 @@ const userInfo = useSelector((state) => state.auth.userInfo);
   <div key={heading.id} className="mb-6">
     {/* Heading Title & Controls */}
     <div className="flex justify-between items-center mb-2">
-      <h3 className="text-lg font-semibold">{heading.title}</h3>
+      <h5 className="font-semibold">{heading.title}</h5>
       {userInfo && <div className="flex gap-2">
         <Button
           variant="ghost"
@@ -183,7 +183,7 @@ const userInfo = useSelector((state) => state.auth.userInfo);
                   isExpanded ? "rotate-90 text-blue-500" : ""
                 }`}
               />
-              <p className="font-medium">{body.subheading}</p>
+              <h6 className="font-medium">{body.subheading}</h6>
             </div>
 
             {/* Edit/Delete Buttons for Body */}

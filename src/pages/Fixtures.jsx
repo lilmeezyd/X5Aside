@@ -114,7 +114,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="p-4 mt-15 md:mt-0 sm:w-full">
+    <div className="overflow-auto p-4 mt-15 md:mt-0 sm:w-full">
       <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
         <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
@@ -233,16 +233,18 @@ useEffect(() => {
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
             variant="outline"
+            className="text-xs"
           >
             Previous
           </Button>
-          <span className="text-sm font-medium">
+          <span className="text-xs sm:text-sm font-medium">
             Page {page} of {totalPages}
           </span>
           <Button
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={page === totalPages}
             variant="outline"
+            className="text-xs"
           >
             Next
           </Button>

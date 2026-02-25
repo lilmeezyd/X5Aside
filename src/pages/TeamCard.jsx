@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { useAddPlayerMutation } from "../slices/playerApiSlice";
 import { useSelector } from "react-redux";
 import { MdCheck, MdCheckCircle, MdClose, MdCancel } from "react-icons/md";
+import { FaArrowCircleDown, FaArrowCircleUp, FaCircle } from "react-icons/fa";
 
 const POSITIONS = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
 
@@ -95,10 +96,46 @@ export default function TeamCard({ team, refetch }) {
         <div className="shadow flex justify-between items-center border border-gray-300 rounded px-2">
           <div className="flex flex-col text-center justify-center px-2 ">
             <div className="border-b border-gray-500  font-bold">Rank:</div>
-            <div>{team?.rank}</div>
+            <div className="flex space-x-2 items-center p-1">
+              <span>{team?.rank}</span>
+              <div className="flex space-x-1 items-center">
+              <span>
+                {team?.oldRank > team?.rank && team?.oldRank > 0 && (
+                  <FaArrowCircleUp className="text-green-500" size={16} />
+                )}
+                {(team?.oldRank === team?.rank || team?.oldRank === 0) && (
+                  <FaCircle className="text-gray-500" size={16} />
+                )}
+                {team?.oldRank < team?.rank && team?.oldRank > 0 && (
+                  <FaArrowCircleDown className="text-red-500" size={16} />
+                )}
+              </span>
+              <span
+                className={`font-bold ${
+                  team?.oldRank > 0
+                    ? team?.oldRank < team?.rank
+                      ? "text-red-500"
+                      : team?.oldRank > team?.rank
+                        ? `text-green-500`
+                        : "text-gray-500"
+                    : "text-gray-500"
+                }`}
+              >
+                {team?.oldRank > 0
+                  ? team?.oldRank < team?.rank
+                    ? team?.oldRank - team?.rank
+                    : team?.oldRank > team?.rank
+                      ? `+${team?.oldRank - team?.rank}`
+                      : ""
+                  : ""}
+              </span>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col text-center justify-center px-2 ">
-            <div className="border-b border-gray-500 font-semibold">Total Points:</div>
+            <div className="border-b border-gray-500 font-semibold">
+              Total Points:
+            </div>
             <div>{team?.total}</div>
           </div>
         </div>

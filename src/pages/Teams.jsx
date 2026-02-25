@@ -14,11 +14,12 @@ export default function Teams() {
   const [addTeams] = useAddMutation();
   const [deleteAll ] = useDeleteAllMutation()
   const newTeams = useMemo(() => {
-    const totalsMap = new Map(totals.map(x => [x.teamName, {rank: x.rank, totalPoints: x.totalPoints}]))
+    const totalsMap = new Map(totals.map(x => [x.teamName, {rank: x.rank, oldRank: x.oldRank, totalPoints: x.totalPoints}]))
     return teams.map(x => {
       return {
         ...x,
         rank: totalsMap.get(x.name).rank,
+        oldRank: totalsMap.get(x.name).oldRank,
         total: totalsMap.get(x.name).totalPoints
       }
     })
@@ -64,7 +65,7 @@ export default function Teams() {
 
 
   return (
-    <div>
+    <div className="overflow-auto">
       <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Teams</h2>
      {/*} {userInfo && <Button onClick={handleAddTeams} className="mb-4">Add Teams from FPL API</Button>}
       {/*<Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">Delete Teams</Button>*/}
