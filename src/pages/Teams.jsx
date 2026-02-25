@@ -14,13 +14,13 @@ export default function Teams() {
   const [addTeams] = useAddMutation();
   const [deleteAll ] = useDeleteAllMutation()
   const newTeams = useMemo(() => {
-    const totalsMap = new Map(totals.map(x => [x.teamName, {rank: x.rank, oldRank: x.oldRank, totalPoints: x.totalPoints}]))
+    const totalsMap = new Map(totals?.map(x => [x?.teamName, {rank: x?.rank, oldRank: x?.oldRank, totalPoints: x?.totalPoints}]))
     return teams.map(x => {
       return {
         ...x,
-        rank: totalsMap.get(x.name).rank,
-        oldRank: totalsMap.get(x.name).oldRank,
-        total: totalsMap.get(x.name).totalPoints
+        rank: totalsMap?.get(x.name).rank,
+        oldRank: totalsMap?.get(x.name).oldRank,
+        total: totalsMap?.get(x.name).totalPoints
       }
     })
   }, [teams, totals])
