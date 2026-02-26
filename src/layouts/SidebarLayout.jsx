@@ -217,7 +217,7 @@ export default function SidebarLayout() {
         )*/}
 
         <main
-          className={`w-[80%] flex-1 bg-gray-100 pb-20 md:pt-20 px-4 md:px-20`}
+          className={`overflow-auto w-[80%] flex-1 bg-gray-100 pb-20 md:pt-20 px-4 md:px-20`}
         >
           <Outlet />
         </main>

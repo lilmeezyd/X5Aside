@@ -178,40 +178,47 @@ useEffect(() => {
                  <div className="min-w-[320px] sm:w-full" key={f._id}>
                    <div
                      className={`${
-                       expandedFixtureId === f._id ? "bg-teal-300" : "bg-white"
-                     } w-full rounded-lg border shadow-sm px-4 py-3 flex items-center justify-between hover:shadow-md transition cursor-pointer`}
+                       expandedFixtureId === f._id ? "bg-teal-200 border border-gray-200" : "bg-white"
+                     } cursor-pointer rounded p-2`}
                      onClick={() => handleFixtureClick(f._id)}
                    >
+                    <div className="flex">
                      {/* Home team */}
-                     <div className="w-1/3 flex items-center gap-1 px-1 justify-between">
+                     <div className="border-r border-gray-400 flex flex-1 items-center justify-between p-2">
                        
-                       <div className="font-semibold text-gray-900 truncate text-xs md:text-base w-3/4 text-right">{f.homeTeam}</div>
-                       <img src={homeBadge} alt={f.homeTeam} className="w-4 h-auto w-1/4 md:w-6" />
+                       <div className="font-semibold md:text-2xl p-1 truncate">{f.homeTeam}</div>
+                       <div className="border shadow box-shadow p-1 rounded">
+                        <img src={homeBadge} alt={f.homeTeam} className="w-6 md:w-12 h-6 md:h-12 object-contain" />
+                       </div>
                      </div>
 
-                     {/* Classic score */}
-                     <div className="w-16 text-center shadow-inner border border-gray-800 rounded p-1">
-                       <div className="text-xs text-muted-foreground">Classic</div>
-                       <div className="text-xs sm:text-base font-medium bg-gray-800 text-white">
+                     {/* Away team */}
+                     <div className="border-l border-gray-400 flex flex-1 items-center justify-between p-2">
+                      <div className="border shadow box-shadow p-1 rounded">
+                        <img src={awayBadge} alt={f.awayTeam} className="w-6 md:w-12 h-6 md:h-12 object-contain" />
+                      </div>
+                       <div className="font-semibold md:text-2xl p-1 truncate">
+                         {f.awayTeam}
+                       </div>
+                       
+                     </div>
+                     </div>
+                     <div className="border-t p-1 border-gray-400 flex justify-between">
+                      {/* Classic score */}
+                     <div className="flex flex-col items-center justify-center w-[100px]">
+                       <div className="font-bold">Classic</div>
+                       <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
                          {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
                        </div>
                      </div>
 
                      {/* H2H score */}
-                     <div className="w-16 text-center shadow-inner border border-gray-800 rounded p-1">
-                       <div className="text-xs text-muted-foreground">H2H</div>
-                       <div className="text-xs sm:text-base font-medium bg-gray-800 text-white">
+                     <div className="flex flex-col items-center justify-center w-[100px]">
+                       <div className="font-bold">H2H</div>
+                       <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
                          {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
                        </div>
                      </div>
-
-                     {/* Away team */}
-                     <div className="w-1/3 flex items-center gap-1 px-1 justify-between">
-                       <img src={awayBadge} alt={f.awayTeam} className="w-4 h-auto md:w-6 w-1/4" />
-                       <div className="font-semibold text-gray-900 truncate text-left text-xs md:text-base w-3/4">
-                         {f.awayTeam}
-                       </div>
-                       
                      </div>
                    </div>
 

@@ -11,7 +11,7 @@ const Dashboard = () => {
   const { dbName, changeDb } = useDatabase();
   const userInfo = useSelector((state) => state.auth.userInfo);
   return (
-    <div className="w-[320px] sm:w-full">
+    <div className="min-w-[320px] sm:w-full">
         <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Home</h2>
       {/* DB Selection */}
       {userInfo && <div className="mb-4">
@@ -31,7 +31,7 @@ const Dashboard = () => {
           Using database: <span className="font-semibold">{dbName === 'app5Aside' ? 'WhatsApp 5 Aside' : dbName === 'X5Aside' ? 'X 5 Aside' : dbName === 'ghj' ? 'Play Thang' : "none"}</span>
         </p>
       </div>}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="min-w-[320px] grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="bg-white p-4 rounded shadow">
           <h3 className="text-lg font-semibold">Top Scorers</h3>
           <TopFiveScorers />
