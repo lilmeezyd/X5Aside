@@ -116,7 +116,7 @@ export default function FixtureStats({ f }) {
   const topAwayH2H = highlightTopScorer(awayStatsH2H);
 
   return (
-    <div className="w-full">
+    <div className="w-full py-2">
       <Tabs value={tab} onValueChange={setTab} className="w-full">
         <TabsList className="w-full justify-center mb-4">
           <TabsTrigger value="classic">Classic</TabsTrigger>

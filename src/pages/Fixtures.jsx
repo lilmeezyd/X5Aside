@@ -5,37 +5,46 @@ import {
   useAddFixturesMutation,
   useCalculateClassicScoresMutation,
   useCalculateH2HScoresMutation,
-} from "../slices/fixtureApiSlice"
-import { useGetEventsQuery }
-from "../slices/eventApiSlice";
+} from "../slices/fixtureApiSlice";
+import { useGetEventsQuery } from "../slices/eventApiSlice";
 
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const ITEMS_PER_PAGE = 1;
 
 export default function Fixtures() {
   const dbName = useSelector((state) => state.database.dbName);
-  const userInfo = useSelector((state) => state.auth.userInfo)
-  const { data: fixtures = [], isLoading, refetch, isError } = useGetFixturesQuery(dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const {
+    data: fixtures = [],
+    isLoading,
+    refetch,
+    isError,
+  } = useGetFixturesQuery(dbName);
   const [addFixtures] = useAddFixturesMutation();
   const [filterEventId, setFilterEventId] = useState("");
   const [filterTeam, setFilterTeam] = useState("");
   const [expandedFixtureId, setExpandedFixtureId] = useState(null);
   const [page, setPage] = useState(1);
-const imageComp = dbName === 'X5Aside' ? 'X5' : dbName === 'app5Aside' ? 'FFK' : 'X5'
- const { data: events = [], isLoading: eventsLoading } = useGetEventsQuery(dbName);
+  const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+  const { data: events = [], isLoading: eventsLoading } =
+    useGetEventsQuery(dbName);
 
-useEffect(() => {
-  if (!eventsLoading && events.length > 0) {
-    const currentEvent = events.find(event => event.current === true);
-    if (currentEvent) {
-      setPage(prev => (prev !== currentEvent.eventId ? currentEvent.eventId : prev));
+  useEffect(() => {
+    if (!eventsLoading && events.length > 0) {
+      const currentEvent = events.find((event) => event.current === true);
+      if (currentEvent) {
+        setPage((prev) =>
+          prev !== currentEvent.eventId ? currentEvent.eventId : prev,
+        );
+      }
     }
-  }
-}, [events, eventsLoading]);
+  }, [events, eventsLoading]);
 
   const [calculateClassicScores] = useCalculateClassicScoresMutation();
   const [calculateH2HScores] = useCalculateH2HScoresMutation();
@@ -49,7 +58,7 @@ useEffect(() => {
       return fixtures.filter(
         (f) =>
           f.homeTeam.toLowerCase().includes(filterTeam.toLowerCase()) ||
-          f.awayTeam.toLowerCase().includes(filterTeam.toLowerCase())
+          f.awayTeam.toLowerCase().includes(filterTeam.toLowerCase()),
       );
     }
     return fixtures;
@@ -63,14 +72,14 @@ useEffect(() => {
         if (!acc[key]) acc[key] = [];
         acc[key].push(f);
         return acc;
-      }, {})
+      }, {}),
     );
   }, [filteredFixtures, filterEventId, filterTeam]);
 
   const paginatedFixtures = useMemo(() => {
     return groupedFixtures.slice(
       (page - 1) * ITEMS_PER_PAGE,
-      page * ITEMS_PER_PAGE
+      page * ITEMS_PER_PAGE,
     );
   }, [groupedFixtures, page]);
   const totalPages = useMemo(() => {
@@ -117,7 +126,7 @@ useEffect(() => {
     <div className="overflow-auto p-4 mt-15 md:mt-0 sm:w-full">
       <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
 
-        <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+      <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
         <Input
           placeholder="Filter by Gameweek (e.g. 1)"
           value={filterEventId}
@@ -136,102 +145,136 @@ useEffect(() => {
             setFilterEventId("");
           }}
         />
-          
-{/*<Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>*/}
-          { userInfo && <><Button onClick={handleClassicFixtures}>Update Classic Scores</Button>
-        <Button onClick={handleH2HFixtures}>Update H2H Scores</Button></> }
+
+        {/*<Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>*/}
+        {userInfo && (
+          <>
+            <Button onClick={handleClassicFixtures}>
+              Update Classic Scores
+            </Button>
+            <Button onClick={handleH2HFixtures}>Update H2H Scores</Button>
+          </>
+        )}
       </div>
 
-        {isLoading ? (
-          <div className="text-center text-sm py-10">Loading...</div>
-        ) : fixtures.length === 0 ? (
-          <div className="text-center py-10 space-y-4">
-            <p className="text-gray-500">No fixtures found. This could be due to a network issue or empty data.</p>
-            <Button onClick={() => {
+      {isLoading ? (
+        <div className="text-center text-sm py-10">Loading...</div>
+      ) : fixtures.length === 0 ? (
+        <div className="text-center py-10 space-y-4">
+          <p className="text-gray-500">
+            No fixtures found. This could be due to a network issue or empty
+            data.
+          </p>
+          <Button
+            onClick={() => {
               toast("Retrying fetch...");
               refetch();
-            }}>
-              Retry
-            </Button>
-          </div>
-        ) : (
-       paginatedFixtures.map((group, i) => (
-         <div key={i} className="mb-8">
-           {/* Gameweek title */}
-           <h3 className="text-xl font-bold text-gray-800 mb-3">
-             {filterEventId
-               ? `Gameweek ${filterEventId}`
-               : filterTeam
-               ? `Fixtures for ${filterTeam}`
-               : `Gameweek ${group[0].eventId}`}
-           </h3>
+            }}
+          >
+            Retry
+          </Button>
+        </div>
+      ) : (
+        paginatedFixtures.map((group, i) => (
+          <div key={i} className="mb-8">
+            {/* Gameweek title */}
+            <h3 className="text-xl font-bold text-gray-800 mb-3">
+              {filterEventId
+                ? `Gameweek ${filterEventId}`
+                : filterTeam
+                  ? `Fixtures for ${filterTeam}`
+                  : `Gameweek ${group[0].eventId}`}
+            </h3>
 
-           <div className="space-y-2">
-             {group?.sort((a,b) => {if(a.eventId !==b.eventId)return a.eventId-b.eventId
-     if(a.homeTeam !== b.homeTeam) return a.homeTeam.localeCompare(b.homeTeam) }                    )?.map((f) => {
-           
-               const homeBadge = `https://ik.imagekit.io/cap10/${f.homeTeamShort}_${imageComp}.png`;
-               const awayBadge = `https://ik.imagekit.io/cap10/${f.awayTeamShort}_${imageComp}.png`;
+            <div className="space-y-2">
+              {group
+                ?.sort((a, b) => {
+                  if (a.eventId !== b.eventId) return a.eventId - b.eventId;
+                  if (a.homeTeam !== b.homeTeam)
+                    return a.homeTeam.localeCompare(b.homeTeam);
+                })
+                ?.map((f) => {
+                  const homeBadge = `https://ik.imagekit.io/cap10/${f.homeTeamShort}_${imageComp}.png`;
+                  const awayBadge = `https://ik.imagekit.io/cap10/${f.awayTeamShort}_${imageComp}.png`;
 
+                  return (
+                    <div className="min-w-[320px] sm:w-full" key={f._id}>
+                      <div
+                        className={`${
+                          expandedFixtureId === f._id
+                            ? "bg-white "
+                            : "bg-white"
+                        } cursor-pointer rounded-lg shadow-lg p-2`}
+                        onClick={() => handleFixtureClick(f._id)}
+                      >
+                        <div className="flex">
+                          {/* Home team */}
+                          <div className="flex flex-1 items-center space-x-2 p-2">
+                            <div className="flex-1 text-right font-semibold md:text-2xl p-1 truncate">
+                              {f.homeTeam}
+                            </div>
+                            <div className="border border-blue-500 shadow box-shadow p-1 rounded">
+                              <img
+                                src={homeBadge}
+                                alt={f.homeTeam}
+                                className="w-6 md:w-12 h-6 md:h-12 object-contain"
+                              />
+                            </div>
+                          </div>
 
-               return (
-                 <div className="min-w-[320px] sm:w-full" key={f._id}>
-                   <div
-                     className={`${
-                       expandedFixtureId === f._id ? "bg-teal-200 border border-gray-200" : "bg-white"
-                     } cursor-pointer rounded p-2`}
-                     onClick={() => handleFixtureClick(f._id)}
-                   >
-                    <div className="flex">
-                     {/* Home team */}
-                     <div className="border-r border-gray-400 flex flex-1 items-center justify-between p-2">
-                       
-                       <div className="font-semibold md:text-2xl p-1 truncate">{f.homeTeam}</div>
-                       <div className="border shadow box-shadow p-1 rounded">
-                        <img src={homeBadge} alt={f.homeTeam} className="w-6 md:w-12 h-6 md:h-12 object-contain" />
-                       </div>
-                     </div>
+                          <div className="bg-blue-500 w-0.5"></div>
 
-                     {/* Away team */}
-                     <div className="border-l border-gray-400 flex flex-1 items-center justify-between p-2">
-                      <div className="border shadow box-shadow p-1 rounded">
-                        <img src={awayBadge} alt={f.awayTeam} className="w-6 md:w-12 h-6 md:h-12 object-contain" />
+                          {/* Away team */}
+                          <div className="flex flex-1 items-center space-x-2 p-2">
+                            <div className="border border-blue-500 shadow box-shadow p-1 rounded">
+                              <img
+                                src={awayBadge}
+                                alt={f.awayTeam}
+                                className="w-6 md:w-12 h-6 md:h-12 object-contain"
+                              />
+                            </div>
+                            <div className="flex-1 text-left font-semibold md:text-2xl p-1 truncate">
+                              {f.awayTeam}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="h-0.5 bg-blue-500 w-[80%] m-auto"></div>
+                        <div className="p-1 border-gray-400 flex justify-around items-center mt-2">
+                          {/* Classic score */}
+                          <div className="flex flex-col items-center justify-center w-[100px]">
+                            <div className="font-bold p-1 text-sm">Classic</div>
+                            <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
+                              {f.homeScoreClassic ?? "-"} :{" "}
+                              {f.awayScoreClassic ?? "-"}
+                            </div>
+                          </div>
+
+                          {/* H2H score */}
+                          <div className="flex flex-col items-center justify-center w-[100px]">
+                            <div className="font-bold p-1 text-sm">H2H</div>
+                            <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
+                              {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="text-blue-600 text-center font-bold text-xs flex space-x-2 justify-center items-center">
+                          {expandedFixtureId === f._id ? <>
+                          <span>Hide Details</span>
+                          <FaArrowUp /></> : <>
+                          <span>Show Details</span>
+                          <FaArrowDown /></>}
+                        </div>
                       </div>
-                       <div className="font-semibold md:text-2xl p-1 truncate">
-                         {f.awayTeam}
-                       </div>
-                       
-                     </div>
-                     </div>
-                     <div className="border-t p-1 border-gray-400 flex justify-between">
-                      {/* Classic score */}
-                     <div className="flex flex-col items-center justify-center w-[100px]">
-                       <div className="font-bold">Classic</div>
-                       <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
-                         {f.homeScoreClassic ?? "-"} : {f.awayScoreClassic ?? "-"}
-                       </div>
-                     </div>
 
-                     {/* H2H score */}
-                     <div className="flex flex-col items-center justify-center w-[100px]">
-                       <div className="font-bold">H2H</div>
-                       <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
-                         {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
-                       </div>
-                     </div>
-                     </div>
-                   </div>
-
-                   {/* Expanded fixture stats */}
-                   {expandedFixtureId === f._id && <FixtureStats f={f} />}
-                 </div>
-
-               );
-             })}
-           </div>
-         </div>
-  ))
-      
+                      {/* Expanded fixture stats */}
+                      {expandedFixtureId === f._id && <FixtureStats f={f} />}
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        ))
       )}
 
       {!isLoading && totalPages > 1 && (
@@ -260,4 +303,3 @@ useEffect(() => {
     </div>
   );
 }
-
