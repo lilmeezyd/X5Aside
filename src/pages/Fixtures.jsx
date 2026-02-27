@@ -258,7 +258,7 @@ export default function Fixtures() {
                           </div>
                         </div>
 
-                        <div className="text-blue-600 text-center font-bold text-xs flex space-x-2 justify-center items-center">
+                        <div className="p-1 text-blue-600 text-center font-bold text-xs flex space-x-2 justify-center items-center">
                           {expandedFixtureId === f._id ? <>
                           <span>Hide match details</span>
                           <FaArrowUp /></> : <>
