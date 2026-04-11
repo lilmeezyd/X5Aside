@@ -19,7 +19,6 @@ const Tables = lazy(() => import('./pages/Tables'));
 const Events = lazy(() => import('./pages/Events'));
 const Help = lazy(() => import('./pages/Help'));
 const EventImages = lazy(() => import('./pages/EventImages'));
-const Unknown = lazy(() => import('./pages/Unknown'))
 
 export default function App() {
   /*useEffect(() => {
@@ -36,10 +35,9 @@ export default function App() {
 
       <Suspense fallback={<PageSkeleton />}>
         <Routes>
-          {/*<Route path="/login" element={<Login />} />*/}
-          <Route path="*" element={<Unknown />} />
+          <Route path="/login" element={<Login />} />
 
-          {/*<Route
+          <Route
             element={
               
                 <SidebarLayout />
@@ -56,7 +54,7 @@ export default function App() {
           <Route path="/help" element={<Help />} />
             <Route path="/tow" element={<EventImages />} />
             <Route path="*" element="Page not found" />
-          </Route>*/}
+          </Route>
           
           
         </Routes>
