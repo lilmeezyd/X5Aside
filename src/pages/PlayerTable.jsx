@@ -66,7 +66,7 @@ export default function PlayerTable({ leaderboard }) {
                 >
                   <td className="px-4 py-3 font-semibold">
                     <div className="flex items-center justify-between w-16">
-                      <span className="text-center w-1/3">{rank}</span>
+                      <span className="text-center w-1/3">{(currentPage - 1) * itemsPerPage + index + 1}</span>
                       <span>
                         {entry.oldRank > entry.rank && entry.oldRank > 0 && (
                           <FaArrowCircleUp

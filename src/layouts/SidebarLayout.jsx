@@ -377,7 +377,7 @@ export default function SidebarLayout() {
           </div>
           <div className="flex gap-4 px-2">
             {dbName === 'app5Aside' && <Link
-              to="https://chat.whatsapp.com/CVY7NqxCVktD1YK508wNLy"
+              to="https://chat.whatsapp.com/DKKArKLg3UK7fiJWiYs2wV?mode=gi_t"
               target="_blank"
               rel="noreferrer"
             >
