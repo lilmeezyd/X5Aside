@@ -140,7 +140,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
     <>
-      <div className="flex justify-center space-x-2 overflow-x-auto pb-2 text-xs">
+      <div className="flex justify-center space-x-1 overflow-x-auto pb-2 text-xs">
         <button
           className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "" ? "bg-gray-600" : ""} ${ filterPosition === "" ? "text-white" : ""}`}
           onClick={() => {setFilterPosition("")

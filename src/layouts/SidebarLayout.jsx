@@ -344,7 +344,7 @@ export default function SidebarLayout() {
           </div>
         </div>
         <div className="flex md:hidden justify-center items-center m-2 px-2">
-        <p style={{background: "#101828", color: "white"}} className="text-center w-[80%] rounded-lg absolute top-20 border p-2 text-sm">
+        <p style={{background: "#101828", color: "white"}} className="text-center w-[80%] rounded-lg absolute top-20 border p-2 text-xs">
           There are 2 formats, X and WhatsApp. To switch between them, click the icon in the top right corner, click on competitions then select preferred format.
         </p>
         </div>
