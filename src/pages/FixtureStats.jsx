@@ -1,4 +1,5 @@
 import { FaFutbol } from "react-icons/fa";
+import CardIcon from "./CardIcon";
 import {
   Tabs,
   TabsList,
@@ -137,7 +138,9 @@ export default function FixtureStats({ f }) {
                     <th className="px-2 border"></th>
                     <th className="px-2 border text-center">Pts</th>
                     <th className="px-2 border text-center">Hits</th>
-                    <th className="px-2 border text-center">Goals</th>
+                    <th className="px-2 border text-center">YC</th>
+                    <th className="px-2 border text-center">A</th>
+                    <th className="px-2 border text-center">G</th>
                     <th className="px-2 border w-[50px] text-center font-bold sm:text-base">
                       Home
                     </th>
@@ -145,7 +148,9 @@ export default function FixtureStats({ f }) {
                     <th className="px-2 border w-[50px] text-center font-bold text-sm sm:text-base">
                       Away
                     </th>
-                    <th className="px-2 border text-center">Goals</th>
+                    <th className="px-2 border text-center">G</th>
+                    <th className="px-2 border text-center">A</th>
+                    <th className="px-2 border text-center">YC</th>
                     <th className="px-2 border text-center">Hits</th>
                     <th className="px-2 border text-center">Pts</th>
                     <th className="px-2 border"></th>
@@ -162,8 +167,8 @@ export default function FixtureStats({ f }) {
                       <tr key={i} className="border-t">
                         <td className="px-2 border">
                           {home && (
-                            <div className="flex flex-col">
-                              <span className="font-medium">
+                            <div className="flex flex-col w-32">
+                              <span className="font-medium truncate">
                                 {home.manager}
                               </span>
                               <a
@@ -174,7 +179,7 @@ export default function FixtureStats({ f }) {
                                 }
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-blue-600 hover:underline text-xs"
+                                className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {home.teamName}
                               </a>
@@ -210,6 +215,15 @@ export default function FixtureStats({ f }) {
                         </td>
                         <td className="px-2 border text-center">
                           {home?.eventTransfersCost ?? "-"}
+                        </td>
+                        <td className="px-2 border text-center">
+                          {home?.yellows ? <CardIcon type="yellow" /> :  ""}
+                        </td>
+                        <td className="px-2 border text-center">
+                          {home?.assists ?  [...Array(home?.assists)].map((_, idx) => (
+                                <div key={idx}
+                                  className="inline-block mr-1">🅰️</div>
+                              )) : ""}
                         </td>
                         <td className="px-2 border text-center text-green-600">
                           {home?.goals
@@ -261,6 +275,15 @@ export default function FixtureStats({ f }) {
                             : ""}
                         </td>
                         <td className="px-2 border text-center">
+                          {away?.assists ?  [...Array(away?.assists)].map((_, idx) => (
+                                <div key={idx}
+                                  className="inline-block mr-1">🅰️</div>
+                              )) : ""}
+                        </td>
+                        <td className="px-2 border text-center">
+                          {away?.yellows ? <CardIcon type="yellow" /> :  ""}
+                        </td>
+                        <td className="px-2 border text-center">
                           {away?.eventTransfersCost ?? "-"}
                         </td>
                         <td
@@ -277,8 +300,8 @@ export default function FixtureStats({ f }) {
                         </td>
                         <td className="px-2 py-2">
                           {away && (
-                            <div className="flex flex-col">
-                              <span className="font-medium">
+                            <div className="flex flex-col w-32">
+                              <span className="font-medium truncate">
                                 {away.manager}
                               </span>
                               <a
@@ -289,7 +312,7 @@ export default function FixtureStats({ f }) {
                                 }
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-blue-600 hover:underline text-xs"
+                                className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {away.teamName}
                               </a>
@@ -315,7 +338,8 @@ export default function FixtureStats({ f }) {
                 </tbody>
               </table>
               <div className="mt-2">
-                <h4 className="font-semibold">Differentials</h4>
+                <h4 className="font-semibold text-center p-1">Differentials</h4>
+                <div className="flex justify-center">
                 <div className="flex flex-wrap justify-between border rounded">
                   <div className=" bg-blue-100 p-2 flex-wrap w-1/2">
                     <div className="flex flex-wrap">
@@ -339,6 +363,7 @@ export default function FixtureStats({ f }) {
                       ))}
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -381,8 +406,8 @@ export default function FixtureStats({ f }) {
                       <tr key={i} className="border-t">
                         <td className="px-2 py-2">
                           {home && (
-                            <div className="flex flex-col">
-                              <span className="font-medium">
+                            <div className="flex flex-col w-32">
+                              <span className="font-medium truncate">
                                 {home.manager}
                               </span>
                               <a
@@ -393,7 +418,7 @@ export default function FixtureStats({ f }) {
                                 }
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-blue-600 hover:underline text-xs"
+                                className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {home.teamName}
                               </a>
@@ -416,7 +441,7 @@ export default function FixtureStats({ f }) {
                         <td className="px-2 border text-center">
                           {home && shortPosition[home.position]}
                         </td>
-                        <td className="px-2 border text-center text-green-600">
+                        <td className="px-2 border text-center text-red-600">
                           {home?.goals
                             ? [...Array(home.goals)].map((_, idx) => (
                                 <FaFutbol
@@ -475,7 +500,7 @@ export default function FixtureStats({ f }) {
                             ? away.eventPoints - away.eventTransfersCost
                             : "-"}
                         </td>
-                        <td className="px-2 border text-center text-green-600">
+                        <td className="px-2 border text-center text-red-600">
                           {away?.goals
                             ? [...Array(away.goals)].map((_, idx) => (
                                 <FaFutbol
@@ -490,8 +515,8 @@ export default function FixtureStats({ f }) {
                         </td>
                         <td className="px-2 py-2 border">
                           {away && (
-                            <div className="flex flex-col">
-                              <span className="font-medium">
+                            <div className="flex flex-col w-32">
+                              <span className="font-medium truncate">
                                 {away.manager}
                               </span>
                               <a
@@ -502,7 +527,7 @@ export default function FixtureStats({ f }) {
                                 }
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-blue-600 hover:underline text-xs"
+                                className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {away.teamName}
                               </a>

@@ -273,6 +273,22 @@ export default function Fixtures() {
                   );
                 })}
             </div>
+
+            <div className="p-2 my-2 text-sm w-[200px]">
+              <h6 className="font-bold">Key</h6>
+              <div className="flex gap-5 p-1 text-xs font-semibold">
+                <div className="w-[20px]">YC</div>
+                <span>Yellow Card</span>
+              </div>
+              <div className="flex gap-5 p-1 text-xs font-semibold">
+                <div className="w-[20px]">G</div>
+                <span>Goal</span>
+              </div>
+              <div className="flex gap-5 p-1 text-xs font-semibold">
+                <div className="w-[20px]">A</div>
+                <span>Assist</span>
+              </div>
+            </div>
           </div>
         ))
       )}
