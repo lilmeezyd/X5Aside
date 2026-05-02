@@ -99,6 +99,7 @@ export default function SidebarLayout() {
     >
       {/* Top Navbar for guest (desktop) */}
       {!userInfo && (
+        <>
         <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
           <div className="flex items-center gap-8">
             <h1 className="text-lg font-bold">
@@ -145,6 +146,12 @@ export default function SidebarLayout() {
             )}
           </div>
         </div>
+        <div className="hidden md:flex justify-center items-center m-2 px-2">
+        <p style={{background: "#101828", color: "white"}} className="rounded-lg absolute top-20 border p-2 text-sm">
+          There are 2 formats, X and WhatsApp. To switch between them use the menu which appears when you click on competitions
+        </p>
+        </div>
+        </>
       )}
 
       {userInfo && (
@@ -217,7 +224,7 @@ export default function SidebarLayout() {
         )*/}
 
         <main
-          className={`overflow-auto w-[80%] flex-1 bg-gray-100 pb-20 md:pt-20 px-4 md:px-20`}
+          className={`overflow-auto w-[80%] flex-1 bg-gray-100 ${userInfo ? 'pt-0 md:pt-30' : 'pb-20 pt-30'} px-4 md:px-20`}
         >
           <Outlet />
         </main>
@@ -259,6 +266,7 @@ export default function SidebarLayout() {
 
       {/* Mobile Top Nav for guests */}
       {!userInfo && (
+        <>
         <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-t z-50 shadow px-4 py-3 flex justify-between items-center">
           <Link to="/">
             {" "}
@@ -335,6 +343,12 @@ export default function SidebarLayout() {
             )}
           </div>
         </div>
+        <div className="flex md:hidden justify-center items-center m-2 px-2">
+        <p style={{background: "#101828", color: "white"}} className="text-center w-[80%] rounded-lg absolute top-20 border p-2 text-sm">
+          There are 2 formats, X and WhatsApp. To switch between them, click the icon in the top right corner, click on competitions then select preferred format.
+        </p>
+        </div>
+        </>
       )}
 
       {/* Spinner Overlay */}

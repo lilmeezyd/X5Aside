@@ -139,3 +139,7 @@ body {
 .form-class {
   width: 30px;
 }
+
+.custom-shadow {
+  box-shadow: #2c80ff 0px 0px 6px 2px;
+}

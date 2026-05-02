@@ -8,22 +8,22 @@ export default function TopScorers({ scorers }) {
   const { data: eventId } = useGetCurrentEventQuery(dbName);
   const itemsPerPage = 20;
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState(() => {
-    const saved = localStorage.getItem("sortConfig");
+  const [sortConfigOne, setSortConfigOne] = useState(() => {
+    const saved = localStorage.getItem("sortConfigOne");
     return saved ? JSON.parse(saved) : { key: "goals", direction: "desc" };
   });
 
   useEffect(() => {
-    localStorage.setItem("sortConfig", JSON.stringify(sortConfig));
-  }, [sortConfig]);
+    localStorage.setItem("sortConfigOne", JSON.stringify(sortConfigOne));
+  }, [sortConfigOne]);
 
   const sortedPlayers = useMemo(() => {
     const sortable = [...scorers];
 
-    if (sortConfig.key) {
-      if (sortConfig.key === "goals") {
-        const multiplier = sortConfig.direction === "asc" ? 1 : -1;
-        const multiplier_1 = sortConfig.direction === "asc" ? -1 : 1;
+    if (sortConfigOne.key) {
+      if (sortConfigOne.key === "goals") {
+        const multiplier = sortConfigOne.direction === "asc" ? 1 : -1;
+        const multiplier_1 = sortConfigOne.direction === "asc" ? -1 : 1;
 
         sortable.sort(
           (a, b) =>
@@ -33,30 +33,30 @@ export default function TopScorers({ scorers }) {
         );
       } else {
         sortable.sort((a, b) => {
-          const valA = a[sortConfig.key];
+          const valA = a[sortConfigOne.key];
 
-          const valB = b[sortConfig.key];
+          const valB = b[sortConfigOne.key];
 
-          if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
-          if (valA > valB) return sortConfig.direction === "asc" ? 1 : -1;
+          if (valA < valB) return sortConfigOne.direction === "asc" ? -1 : 1;
+          if (valA > valB) return sortConfigOne.direction === "asc" ? 1 : -1;
           return 0;
         });
       }
     }
     return sortable;
-  }, [scorers, sortConfig]);
+  }, [scorers, sortConfigOne]);
 
   const requestSort = (key) => {
     let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
+    if (sortConfigOne.key === key && sortConfigOne.direction === "asc") {
       direction = "desc";
     }
-    setSortConfig({ key, direction });
+    setSortConfigOne({ key, direction });
   };
 
   const sortIcon = (key) => {
-    if (sortConfig.key !== key) return null;
-    return sortConfig.direction === "asc" ? (
+    if (sortConfigOne.key !== key) return null;
+    return sortConfigOne.direction === "asc" ? (
       <ArrowUp size={14} className="inline ml-1" />
     ) : (
       <ArrowDown size={14} className="inline ml-1" />
@@ -72,25 +72,26 @@ export default function TopScorers({ scorers }) {
   const nextPage = () =>
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+
+const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
     <>
       <div className="w-full overflow-x-auto space-y-4">
         {/*<h2 className="text-xl font-semibold">Top Scorers</h2>*/}
 
-        <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
-          <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
-            <tr>
-              <th className="px-4 py-2"></th>
-              <th
-                className={`px-4 py-2 text-left font-bold text-blue-700`}
-              >
-                Manager
-              </th>
-              <th className="px-4 py-2 text-center border">Position</th>
-              <th
+          <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+            <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
+          <tr>
+            <th className="px-4 py-2"></th>
+            <th className="px-4 py-2 text-left">Manager</th>
+            <th className="px-4 py-2 text-center">Team</th>
+            <th className="px-4 py-2 text-center">Position</th>
+            <th
                 className={`px-4 py-2 text-center cursor-pointer border ${
-                  sortConfig.key === "yellows" ? "font-bold text-blue-700" : ""
+                  sortConfigOne.key === "yellows" ? "font-bold text-blue-700" : ""
                 }`}
                 onClick={() => requestSort("yellows")}
               >
@@ -98,7 +99,7 @@ export default function TopScorers({ scorers }) {
               </th>
               <th
                 className={`px-4 py-2 text-center cursor-pointer border ${
-                  sortConfig.key === "assists" ? "font-bold text-blue-700" : ""
+                  sortConfigOne.key === "assists" ? "font-bold text-blue-700" : ""
                 }`}
                 onClick={() => requestSort("assists")}
               >
@@ -106,14 +107,14 @@ export default function TopScorers({ scorers }) {
               </th>
               <th
                 className={`px-4 py-2 text-center cursor-pointer border ${
-                  sortConfig.key === "goals" ? "font-bold text-blue-700" : ""
+                  sortConfigOne.key === "goals" ? "font-bold text-blue-700" : ""
                 }`}
                 onClick={() => requestSort("goals")}
               >
                 <div className="flex justify-center items-center w-[80px]"><span>Goals</span>{sortIcon("goals")}</div>
               </th>
-            </tr>
-          </thead>
+          </tr>
+        </thead>
           <tbody>
             {paginated.map((player, index) => (
               <tr
@@ -142,6 +143,16 @@ export default function TopScorers({ scorers }) {
                   </div>
                   </div>
                 </td>
+                <td className="px-4 py-2">
+                <div className="w-20 border border-blue-500  mx-auto rounded shadow-lg flex items-center justify-evenly p-1">
+                <img
+                                  src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
+                                  alt={player.team?.short_name}
+                                  className="w-6 h-6 object-contain"
+                                />
+                <span className="font-bold truncate whitespace-nowrap overflow-hidden">{player.team?.short_name || "—"}
+                  </span>
+                </div></td>
                 <td className="px-4 py-2 text-center">{player.player.position}</td>
                 <td className="px-4 py-2 text-center font-semibold w-[80px]">
                   {player.yellows}

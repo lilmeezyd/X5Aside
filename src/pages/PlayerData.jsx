@@ -132,6 +132,11 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
   }
 };
 
+const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+
+const imageBaseURL = "https://ik.imagekit.io/cap10/";
+
 
   return (
     <>
@@ -192,7 +197,7 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
               onClick={() => requestSort("manager")}
             >
               Manager {sortIcon("manager")}
-            </th>
+            </th> 
             <th
               className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "position" ? "font-bold text-blue-700" : ""
@@ -287,7 +292,16 @@ setEditCurrent(player?.currentPrice);   setEditPosition(player.position);
                  style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}>{player.manager}</div>
               </td>
               <td className="px-4 py-2"><div className="text-center">{player.position}</div></td>
-              <td className="px-4 py-2"><div className="text-center">{player.team?.short_name || "—"}</div></td>
+              <td className="px-4 py-2">
+                <div className="border border-blue-500 rounded shadow-lg flex items-center justify-evenly gap-2 w-20 p-1">
+                <img
+                                  src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
+                                  alt={player.team?.short_name}
+                                  className="w-6 h-6 object-contain"
+                                />
+                <span className="font-bold truncate whitespace-nowrap overflow-hidden">{player.team?.short_name || "—"}
+                  </span>
+                </div></td>
               {dbName !== "X5Aside" && <>
               <td className="px-4 py-2"><div className="text-center">{(player.startPrice)?.toFixed(1)}</div></td>
               <td className="px-4 py-2"><div className="text-center">{(player.currentPrice)?.toFixed(1)}</div></td>

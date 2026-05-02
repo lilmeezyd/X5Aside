@@ -21,6 +21,11 @@ export default function PlayerTable({ leaderboard }) {
     return <p className="text-center mt-4">No leaderboard data available.</p>;
   }
 
+  const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+
+  const imageBaseURL = "https://ik.imagekit.io/cap10/";
+
   return (
     <>
       <div className="overflow-auto rounded-lg border">
@@ -29,15 +34,16 @@ export default function PlayerTable({ leaderboard }) {
             <tr>
               <th className="w-16 px-4 py-2"></th>
               <th className="px-4 py-2 text-left font-semibold"></th>
-              <th className="px-4 py-2 text-left ">P</th>
-              <th className="px-4 py-2 text-left">W</th>
-              <th className="px-4 py-2 text-left">D</th>
-              <th className="px-4 py-2 text-left">L</th>
-              <th className="px-4 py-2 text-left">PF</th>
-              <th className="px-4 py-2 text-left">PA</th>
-              <th className="px-4 py-2 text-left">PD</th>
-              <th className="px-4 py-2 text-left">Pts</th>
-              <th className="px-4 py-2 text-left">Form</th>
+              <th className="px-4 py-2 text-left font-semibold"></th>
+              <th className="px-4 py-2 text-center">P</th>
+              <th className="px-4 py-2 text-center">W</th>
+              <th className="px-4 py-2 text-center">D</th>
+              <th className="px-4 py-2 text-center">L</th>
+              <th className="px-4 py-2 text-center">PF</th>
+              <th className="px-4 py-2 text-center">PA</th>
+              <th className="px-4 py-2 text-center">PD</th>
+              <th className="px-4 py-2 text-center">Pts</th>
+              <th className="px-4 py-2 text-center">Form</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +72,9 @@ export default function PlayerTable({ leaderboard }) {
                 >
                   <td className="px-4 py-3 font-semibold">
                     <div className="flex items-center justify-between w-16">
-                      <span className="text-center w-1/3">{(currentPage - 1) * itemsPerPage + index + 1}</span>
+                      <span className="text-center w-1/3">
+                        {(currentPage - 1) * itemsPerPage + index + 1}
+                      </span>
                       <span>
                         {entry.oldRank > entry.rank && entry.oldRank > 0 && (
                           <FaArrowCircleUp
@@ -107,8 +115,8 @@ export default function PlayerTable({ leaderboard }) {
                     </div>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex flex-col text-sm">
-                      <span className="font-medium">{player?.manager}</span>
+                    <div className="flex flex-col text-sm w-32 p-1">
+                      <span className="font-medium truncate">{player?.manager}</span>
                       <a
                         href={
                           eventId
@@ -117,7 +125,7 @@ export default function PlayerTable({ leaderboard }) {
                         }
                         target="_blank"
                         rel="noreferrer"
-                        className="text-blue-600 hover:underline text-xs"
+                        className="text-blue-600 hover:underline text-xs truncate"
                       >
                         {player?.teamName}
                       </a>
@@ -126,22 +134,32 @@ export default function PlayerTable({ leaderboard }) {
                           href={`https://x.com/${player?.xHandle?.replace(/^@/, "")}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-xs text-gray-500 hover:underline"
+                          className="text-xs text-gray-500 hover:underline truncate"
                         >
                           {player?.xHandle}
                         </a>
                       )}
                     </div>
                   </td>
-                  <td className="px-4 py-2">{played}</td>
-                  <td className="px-4 py-2">{win}</td>
-                  <td className="px-4 py-2">{draw}</td>
-                  <td className="px-4 py-2">{loss}</td>
-                  <td className="px-4 py-2">{pointsFor}</td>
-                  <td className="px-4 py-2">{pointsAgainst}</td>
-                  <td className="px-4 py-2">{pointsDifference}</td>
-                  <td className="px-4 py-2 font-semibold">{points}</td>
                   <td className="px-4 py-2">
+                <div className="border border-blue-500 rounded shadow-lg flex items-center justify-evenly gap-2 w-20 p-1">
+                <img
+                                  src={`${imageBaseURL}${entry.team?.short_name}_${imageComp}.png`}
+                                  alt={entry.team?.short_name}
+                                  className="w-6 h-6 object-contain"
+                                />
+                <span className="font-bold truncate whitespace-nowrap overflow-hidden">{entry.team?.short_name || "—"}
+                  </span>
+                </div></td>
+                  <td className="px-4 py-2 text-center">{played}</td>
+                  <td className="px-4 py-2 text-center">{win}</td>
+                  <td className="px-4 py-2 text-center">{draw}</td>
+                  <td className="px-4 py-2 text-center">{loss}</td>
+                  <td className="px-4 py-2 text-center">{pointsFor}</td>
+                  <td className="px-4 py-2 text-center">{pointsAgainst}</td>
+                  <td className="px-4 py-2 text-center">{pointsDifference}</td>
+                  <td className="px-4 py-2 font-semibold text-center">{points}</td>
+                  <td className="px-4 py-2 text-center">
                     <div className="flex gap-1">
                       {lastFive?.map((r, i) => {
                         const bg =

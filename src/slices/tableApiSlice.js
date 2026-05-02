@@ -44,7 +44,25 @@ export const tableApiSlice = apiSlice.injectEndpoints({
         body: { dbName }
       }),
       invalidatesTags: ["TeamH2H"],
-    }), 
+    }),
+    getPartialClassicTable: builder.query({
+      query: ({dbName, sid, eid}) => ({
+        url: `${TABLES_URL}/classic/startGW/${sid}/endGW/${eid}?dbName=${dbName}`,
+      }),
+      providesTags: ["TeamClassic"],
+    }),
+    getPartialH2HTable: builder.query({
+      query: ({dbName, sid, eid}) => ({
+      url: `${TABLES_URL}/h2h/startGW/${sid}/endGW/${eid}?dbName=${dbName}`,
+      }),
+      providesTags: ["TeamH2H"],
+    }),
+    getPartialPlayerTable: builder.query({
+      query: ({dbName, sid, eid}) => ({
+        url: `${TABLES_URL}/players/startGW/${sid}/endGW/${eid}?dbName=${dbName}`,
+      }),
+      providesTags: ["PlayerTable"],
+    })
   }),
 });
 
@@ -54,5 +72,8 @@ export const {
   useGetClassicTableQuery,
     useUpdateClassicTableMutation,
   useGetH2HTableQuery,
-    useUpdateH2HTableMutation
+    useUpdateH2HTableMutation,
+    useGetPartialClassicTableQuery,
+    useGetPartialH2HTableQuery,
+    useGetPartialPlayerTableQuery
 } = tableApiSlice;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useGetTopScorersQuery } from "../slices/playerApiSlice";
+import { useGetTopScorersQuery } from "../slices/playerApiSlice"; 
 export default function TopFiveScorers() {
   const dbName = useSelector((state) => state.database.dbName); 
   const {
@@ -11,7 +11,10 @@ export default function TopFiveScorers() {
   } = useGetTopScorersQuery(dbName)
   if (scorersLoading) return <p>Loading...</p>
   const topFive = topScorersData?.slice(0, 5);
-  console.log(topFive)
+  const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+
+const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
     <div className="w-full overflow-x-auto space-y-4">
@@ -36,15 +39,15 @@ export default function TopFiveScorers() {
             >
               <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>{index + 1}</td>
               <td className={`px-4 py-3 ${index === 0 ? "text-lg font-bold" : ""}`}>
-                <div className="flex flex-col">
-                    <span className="">{player?.player?.manager}</span>
+                <div className="flex flex-col w-32 p-1 relative">
+                    <span className="truncate">{player?.player?.manager}</span>
                     <a
                       href={player?.eventId ? 
                     `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${player?.eventId}` : 
                   `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline truncate"
                     >
                       {player?.player?.teamName}
                     </a>
@@ -58,6 +61,11 @@ export default function TopFiveScorers() {
                         {player?.player?.xHandle}
                       </a>
                     )}
+                    <img
+                                  src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
+                                  alt={player.team?.short_name}
+                                  className="custom-shadow w-6 h-6 object-contain absolute border border-blue-500 bg-white bottom-0 right-0 rounded-full p-1"
+                                />
                   </div>
                 
               </td>

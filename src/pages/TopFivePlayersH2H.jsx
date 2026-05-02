@@ -6,7 +6,11 @@ export default function PlayerTable() {
   const { data: leaderboard= [], isLoading, isError } = useGetPlayerTableQuery(dbName);
   if (isLoading) return <p>Loading....</p>
   const topFive = leaderboard?.slice(0, 5);
-  console.log(topFive)
+  
+  const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+
+  const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
       <div className="w-full overflow-x-auto space-y-4"> 
@@ -36,15 +40,15 @@ export default function PlayerTable() {
                   <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>{index + 1}</td>
 
                   <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>
-                  <div className="flex flex-col">
-                    <span className="">{player.manager}</span>
+                  <div className="flex flex-col text-sm w-32 p-1 relative">
+                    <span className="truncate">{player.manager}</span>
                     <a
                       href={entry.eventId ? 
                     `https://fantasy.premierleague.com/entry/${player.fplId}/event/${entry.eventId}` : 
                   `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline truncate"
                     >
                       {player.teamName}
                     </a>
@@ -53,11 +57,16 @@ export default function PlayerTable() {
                         href={`https://x.com/${player.xHandle.replace(/^@/, "")}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-gray-500 hover:underline"
+                        className="text-gray-500 hover:underline truncate"
                       >
                         {player.xHandle}
                       </a>
                     )}
+                    <img
+                                  src={`${imageBaseURL}${entry.team?.short_name}_${imageComp}.png`}
+                                  alt={entry.team?.short_name}
+                                  className="custom-shadow w-6 h-6 object-contain absolute border border-blue-500 bg-white bottom-0 right-0 rounded-full p-1"
+                                />
                   </div>
                 </td>
                   <td className={`px-4 py-2 ${index === 0 ? "font-bold text-lg" : "font-semibold"}`}>{played}</td>
