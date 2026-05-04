@@ -37,7 +37,7 @@ export default function FixtureStats({ f, eventId }) {
   const [tab, setTab] = useState("classic");
   //const { data: eventId } = useGetCurrentEventQuery(dbName);
 
-  console.log(eventId)
+  console.log(`eventId: ${eventId}`)
 
   const positions = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
   const shortPosition = {
