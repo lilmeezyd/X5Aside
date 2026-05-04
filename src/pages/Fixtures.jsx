@@ -34,7 +34,7 @@ export default function Fixtures() {
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
   const { data: events = [], isLoading: eventsLoading } =
     useGetEventsQuery(dbName);
-    const { data: eventId } = useGetCurrentEventQuery(dbName);
+    const { data: currentEvent } = useGetCurrentEventQuery(dbName);
 
   useEffect(() => {
     if (!eventsLoading && events.length > 0) {
@@ -269,7 +269,7 @@ export default function Fixtures() {
                       </div>
 
                       {/* Expanded fixture stats */}
-                      {expandedFixtureId === f._id && <FixtureStats f={f} eventId={eventId} />}
+                      {expandedFixtureId === f._id && <FixtureStats f={f} eventId={currentEvent} />}
                     </div>
                   );
                 })}
