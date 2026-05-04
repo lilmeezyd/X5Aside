@@ -37,6 +37,8 @@ export default function FixtureStats({ f, eventId }) {
   const [tab, setTab] = useState("classic");
   //const { data: eventId } = useGetCurrentEventQuery(dbName);
 
+  console.log(eventId)
+
   const positions = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
   const shortPosition = {
     Captain: "Cap",
@@ -99,8 +101,6 @@ export default function FixtureStats({ f, eventId }) {
       );
   };
 
-  console.log(sortByPosition(awayStatsH2HWithPosition));
-  console.log(sortByPosition(homeStatsH2HWithPosition));
 
   const highlightTopScorer = (sideStats) => {
     const max = Math.max(...sideStats.map((s) => s?.eventPoints || 0));
