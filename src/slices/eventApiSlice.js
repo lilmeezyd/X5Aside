@@ -11,7 +11,7 @@ export const eventApiSlice = apiSlice.injectEndpoints({
     }),
     getCurrentEvent: builder.query({
       query: (dbName) => ({
-    url: `${EVENTS_URL}/current/?dbName=${dbName}`,
+    url: `${EVENTS_URL}/current?dbName=${dbName}`,
       }),
       providesTags: ["Event"],
     }),
