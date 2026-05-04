@@ -7,7 +7,7 @@ import {
   useCalculateH2HScoresMutation,
 } from "../slices/fixtureApiSlice";
 import { useGetEventsQuery } from "../slices/eventApiSlice";
-
+import { useGetCurrentEventQuery } from "../slices/eventApiSlice";
 import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
@@ -34,6 +34,7 @@ export default function Fixtures() {
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
   const { data: events = [], isLoading: eventsLoading } =
     useGetEventsQuery(dbName);
+    const { data: eventId } = useGetCurrentEventQuery(dbName);
 
   useEffect(() => {
     if (!eventsLoading && events.length > 0) {
@@ -268,7 +269,7 @@ export default function Fixtures() {
                       </div>
 
                       {/* Expanded fixture stats */}
-                      {expandedFixtureId === f._id && <FixtureStats f={f} />}
+                      {expandedFixtureId === f._id && <FixtureStats f={f} eventId={eventId} />}
                     </div>
                   );
                 })}

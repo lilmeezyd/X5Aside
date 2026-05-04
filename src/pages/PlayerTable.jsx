@@ -142,13 +142,13 @@ export default function PlayerTable({ leaderboard }) {
                     </div>
                   </td>
                   <td className="px-4 py-2">
-                <div className="border border-blue-500 rounded shadow-lg flex items-center justify-evenly gap-2 w-20 p-1">
+                <div className="border border-blue-500 rounded shadow-lg flex items-center justify-evenly gap-1 w-[60px] p-1">
                 <img
                                   src={`${imageBaseURL}${entry.team?.short_name}_${imageComp}.png`}
                                   alt={entry.team?.short_name}
-                                  className="w-6 h-6 object-contain"
+                                  className="w-4 h-4 object-contain"
                                 />
-                <span className="font-bold truncate whitespace-nowrap overflow-hidden">{entry.team?.short_name || "—"}
+                <span className="text-xs font-bold truncate whitespace-nowrap overflow-hidden">{entry.team?.short_name || "—"}
                   </span>
                 </div></td>
                   <td className="px-4 py-2 text-center">{played}</td>

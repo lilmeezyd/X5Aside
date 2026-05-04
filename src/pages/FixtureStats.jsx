@@ -7,10 +7,9 @@ import {
   TabsContent,
 } from "../../@/components/ui/tabs"; // adjust path if needed
 import { useState } from "react";
-import { useGetCurrentEventQuery } from "../slices/eventApiSlice";
 import { useSelector } from "react-redux";
 
-export default function FixtureStats({ f }) {
+export default function FixtureStats({ f, eventId }) {
   const {
     homeTeam,
     awayTeam,
@@ -36,7 +35,7 @@ export default function FixtureStats({ f }) {
 
   const dbName = useSelector((state) => state.database.dbName);
   const [tab, setTab] = useState("classic");
-  const { data: eventId } = useGetCurrentEventQuery(dbName);
+  //const { data: eventId } = useGetCurrentEventQuery(dbName);
 
   const positions = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
   const shortPosition = {

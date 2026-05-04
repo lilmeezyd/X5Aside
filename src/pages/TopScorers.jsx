@@ -144,13 +144,13 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                   </div>
                 </td>
                 <td className="px-4 py-2">
-                <div className="w-20 border border-blue-500  mx-auto rounded shadow-lg flex items-center justify-evenly p-1">
+                <div className="w-[60px] border border-blue-500  mx-auto rounded shadow-lg flex items-center justify-evenly p-1">
                 <img
                                   src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
                                   alt={player.team?.short_name}
-                                  className="w-6 h-6 object-contain"
+                                  className="w-4 h-4 object-contain"
                                 />
-                <span className="font-bold truncate whitespace-nowrap overflow-hidden">{player.team?.short_name || "—"}
+                <span className="text-xs font-bold truncate whitespace-nowrap overflow-hidden">{player.team?.short_name || "—"}
                   </span>
                 </div></td>
                 <td className="px-4 py-2 text-center">{player.player.position}</td>
