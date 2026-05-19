@@ -28,6 +28,7 @@ export default function TopScorers({ scorers }) {
         sortable.sort(
           (a, b) =>
             (a.goals - b.goals) * multiplier ||
+            (a.assists - b.assists) * multiplier ||
             (a.yellows - b.yellows) * multiplier_1 ||
             ((a?.player?.fplId ?? 0) - (b?.player?.fplId ?? 0)) * multiplier_1,
         );
@@ -64,6 +65,7 @@ export default function TopScorers({ scorers }) {
   };
 
   const totalPages = Math.ceil(sortedPlayers?.length / itemsPerPage);
+  const offset = sortedPlayers?.length % itemsPerPage
   const paginated = sortedPlayers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
@@ -75,46 +77,58 @@ export default function TopScorers({ scorers }) {
   const imageComp =
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
 
-const imageBaseURL = "https://ik.imagekit.io/cap10/";
+  const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
     <>
       <div className="w-full overflow-x-auto space-y-4">
         {/*<h2 className="text-xl font-semibold">Top Scorers</h2>*/}
 
-          <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
-            <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
-          <tr>
-            <th className="px-4 py-2"></th>
-            <th className="px-4 py-2 text-left">Manager</th>
-            <th className="px-4 py-2 text-center">Team</th>
-            <th className="px-4 py-2 text-center">Position</th>
-            <th
+        <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+          <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
+            <tr>
+              <th className="px-4 py-2"></th>
+              <th className="px-4 py-2 text-left">Manager</th>
+              <th className="px-4 py-2 text-center">Team</th>
+              <th className="px-4 py-2 text-center">Position</th>
+              <th
+                className={`px-4 py-2 text-center cursor-pointer border ${
+                  sortConfigOne.key === "goals"
+                    ? "font-bold text-blue-700"
+                    : ""
+                }`}
+                onClick={() => requestSort("goals")}
+              >
+                <div className="flex justify-center items-center w-[80px]">
+                  <span>Goals</span>
+                  {sortIcon("goals")}
+                </div>
+              </th>
+              <th
+                className={`px-4 py-2 text-center cursor-pointer border ${
+                  sortConfigOne.key === "assists"
+                    ? "font-bold text-blue-700"
+                    : ""
+                }`}
+                onClick={() => requestSort("assists")}
+              >
+                <div className="flex justify-center items-center w-[80px]">
+                  <span>Assists</span> {sortIcon("assists")}
+                </div>
+              </th>
+              <th
                 className={`px-4 py-2 text-center cursor-pointer border ${
                   sortConfigOne.key === "yellows" ? "font-bold text-blue-700" : ""
                 }`}
                 onClick={() => requestSort("yellows")}
               >
-                <div className="flex justify-center items-center w-[80px]"><span>Yellows</span>{sortIcon("yellows")}</div>
+                <div className="flex justify-center items-center w-[80px]">
+                  <span>Yellows</span>
+                  {sortIcon("yellows")}
+                </div>
               </th>
-              <th
-                className={`px-4 py-2 text-center cursor-pointer border ${
-                  sortConfigOne.key === "assists" ? "font-bold text-blue-700" : ""
-                }`}
-                onClick={() => requestSort("assists")}
-              >
-                <div className="flex justify-center items-center w-[80px]"><span>Assists</span> {sortIcon("assists")}</div>
-              </th>
-              <th
-                className={`px-4 py-2 text-center cursor-pointer border ${
-                  sortConfigOne.key === "goals" ? "font-bold text-blue-700" : ""
-                }`}
-                onClick={() => requestSort("goals")}
-              >
-                <div className="flex justify-center items-center w-[80px]"><span>Goals</span>{sortIcon("goals")}</div>
-              </th>
-          </tr>
-        </thead>
+            </tr>
+          </thead>
           <tbody>
             {paginated.map((player, index) => (
               <tr
@@ -122,46 +136,54 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                 className={index % 2 === 0 ? "bg-white" : "bg-blue-100"}
               >
                 <td className="px-4 py-2 text-center font-semibold w-[20px]">
-                  {index + 1 + (currentPage - 1) * itemsPerPage}
+                  {sortConfigOne.direction === 'desc' ? `${index + 1 + (currentPage - 1) * itemsPerPage}` : 
+                  `${offset === 0 ? 
+                    offset - index + (totalPages-currentPage+1) * itemsPerPage : 
+                    offset - index + (totalPages-currentPage) * itemsPerPage}`}
+                  
                 </td>
                 <td className="px-4 py-2 w-[100px]">
                   <div className="w-[150px] md:w-[300px] overflow-stuff">
-                  <a
-                    href={
-                      eventId
-                        ? `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${eventId}`
-                        : `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 font-medium hover:underline"
-                  >
-                    {player.player.teamName}
-                  </a>
-                  <div className="text-xs text-gray-500 overflow-stuff">
-                    {player.player.manager}
-                  </div>
+                    <a
+                      href={
+                        eventId
+                          ? `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${eventId}`
+                          : `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 font-medium hover:underline"
+                    >
+                      {player.player.teamName}
+                    </a>
+                    <div className="text-xs text-gray-500 overflow-stuff">
+                      {player.player.manager}
+                    </div>
                   </div>
                 </td>
                 <td className="px-4 py-2">
-                <div className="w-[60px] border border-blue-500  mx-auto rounded shadow-lg flex items-center justify-evenly p-1">
-                <img
-                                  src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
-                                  alt={player.team?.short_name}
-                                  className="w-4 h-4 object-contain"
-                                />
-                <span className="text-xs font-bold truncate whitespace-nowrap overflow-hidden">{player.team?.short_name || "—"}
-                  </span>
-                </div></td>
-                <td className="px-4 py-2 text-center">{player.player.position}</td>
+                  <div className="w-[60px] border border-blue-500  mx-auto rounded shadow-lg flex items-center justify-evenly p-1">
+                    <img
+                      src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
+                      alt={player.team?.short_name}
+                      className="w-4 h-4 object-contain"
+                    />
+                    <span className="text-xs font-bold truncate whitespace-nowrap overflow-hidden">
+                      {player.team?.short_name || "—"}
+                    </span>
+                  </div>
+                </td>
+                <td className="px-4 py-2 text-center">
+                  {player.player.position}
+                </td>
                 <td className="px-4 py-2 text-center font-semibold w-[80px]">
-                  {player.yellows}
+                  {player.goals}
                 </td>
                 <td className="px-4 py-2 text-center font-semibold w-[80px]">
                   {player.assists}
                 </td>
                 <td className="px-4 py-2 text-center font-semibold w-[80px]">
-                  {player.goals}
+                  {player.yellows}
                 </td>
               </tr>
             ))}

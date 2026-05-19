@@ -6,8 +6,10 @@ import {
   TabsTrigger,
   TabsContent,
 } from "../../@/components/ui/tabs"; // adjust path if needed
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { formattedPicks } from "../hooks/formattedPicks";
+import FormattedPicksCard from "./FormattedPicksCard";
 
 export default function FixtureStats({ f, eventId }) {
   const {
@@ -36,8 +38,20 @@ export default function FixtureStats({ f, eventId }) {
   const dbName = useSelector((state) => state.database.dbName);
   const [tab, setTab] = useState("classic");
   //const { data: eventId } = useGetCurrentEventQuery(dbName);
+  console.log(f)
 
-  console.log(`eventId: ${eventId}`)
+  const newHomePicks = formattedPicks(homePicks)
+  const newAwayPicks = formattedPicks(awayPicks)
+  const newAwayCap = formattedPicks(awayCap)
+  const newAwayAce = formattedPicks(awayAce)
+  const newAwayMid = formattedPicks(awayMid)
+  const newAwayFwd = formattedPicks(awayFwd)
+  const newAwayDef = formattedPicks(awayDef)
+  const newHomeCap = formattedPicks(homeCap)
+  const newHomeAce = formattedPicks(homeAce)
+  const newHomeMid = formattedPicks(homeMid)
+  const newHomeFwd = formattedPicks(homeFwd)
+  const newHomeDef = formattedPicks(homeDef)
 
   const positions = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
   const shortPosition = {
@@ -67,7 +81,7 @@ export default function FixtureStats({ f, eventId }) {
           points: x.eventPoints - x.eventTransfersCost,
         };
       })
-      .map((x) => [x.position, x.points])
+      .map((x) => [x.position, x.points]),
   );
   const awayStatsH2HMap = new Map(
     awayStatsH2H
@@ -77,7 +91,7 @@ export default function FixtureStats({ f, eventId }) {
           points: x.eventPoints - x.eventTransfersCost,
         };
       })
-      .map((x) => [x.position, x.points])
+      .map((x) => [x.position, x.points]),
   );
 
   const sortByPosition = (stats) => {
@@ -97,10 +111,9 @@ export default function FixtureStats({ f, eventId }) {
         };
       })
       .sort(
-        (a, b) => positions.indexOf(a.position) - positions.indexOf(b.position)
+        (a, b) => positions.indexOf(a.position) - positions.indexOf(b.position),
       );
   };
-
 
   const highlightTopScorer = (sideStats) => {
     const max = Math.max(...sideStats.map((s) => s?.eventPoints || 0));
@@ -186,7 +199,7 @@ export default function FixtureStats({ f, eventId }) {
                                 <a
                                   href={`https://x.com/${home.xHandle.replace(
                                     /^@/,
-                                    ""
+                                    "",
                                   )}`}
                                   target="_blank"
                                   rel="noreferrer"
@@ -216,13 +229,16 @@ export default function FixtureStats({ f, eventId }) {
                           {home?.eventTransfersCost ?? "-"}
                         </td>
                         <td className="px-2 border text-center">
-                          {home?.yellows ? <CardIcon type="yellow" /> :  ""}
+                          {home?.yellows ? <CardIcon type="yellow" /> : ""}
                         </td>
                         <td className="px-2 border text-center">
-                          {home?.assists ?  [...Array(home?.assists)].map((_, idx) => (
-                                <div key={idx}
-                                  className="inline-block mr-1">🅰️</div>
-                              )) : ""}
+                          {home?.assists
+                            ? [...Array(home?.assists)].map((_, idx) => (
+                                <div key={idx} className="inline-block mr-1">
+                                  🅰️
+                                </div>
+                              ))
+                            : ""}
                         </td>
                         <td className="px-2 border text-center text-green-600">
                           {home?.goals
@@ -274,13 +290,16 @@ export default function FixtureStats({ f, eventId }) {
                             : ""}
                         </td>
                         <td className="px-2 border text-center">
-                          {away?.assists ?  [...Array(away?.assists)].map((_, idx) => (
-                                <div key={idx}
-                                  className="inline-block mr-1">🅰️</div>
-                              )) : ""}
+                          {away?.assists
+                            ? [...Array(away?.assists)].map((_, idx) => (
+                                <div key={idx} className="inline-block mr-1">
+                                  🅰️
+                                </div>
+                              ))
+                            : ""}
                         </td>
                         <td className="px-2 border text-center">
-                          {away?.yellows ? <CardIcon type="yellow" /> :  ""}
+                          {away?.yellows ? <CardIcon type="yellow" /> : ""}
                         </td>
                         <td className="px-2 border text-center">
                           {away?.eventTransfersCost ?? "-"}
@@ -319,7 +338,7 @@ export default function FixtureStats({ f, eventId }) {
                                 <a
                                   href={`https://x.com/${away.xHandle.replace(
                                     /^@/,
-                                    ""
+                                    "",
                                   )}`}
                                   target="_blank"
                                   rel="noreferrer"
@@ -337,32 +356,48 @@ export default function FixtureStats({ f, eventId }) {
                 </tbody>
               </table>
               <div className="mt-2">
-                <h4 className="font-semibold text-center p-1">Differentials</h4>
-                <div className="flex justify-center">
-                <div className="flex flex-wrap justify-between border rounded">
-                  <div className=" bg-blue-100 p-2 flex-wrap w-1/2">
-                    <div className="flex flex-wrap">
-                      {homePicks.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < homePicks.length - 1 && ","}
-                        </div>
-                      ))}
+                <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">Differentials</h3>
+                <div className="p-1">
+                  {(!!newHomePicks.live.length || !!newAwayPicks.live.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1  text-green-600">Live</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomePicks.live} state='live' length={newHomePicks.live.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayPicks.live} state='live' length={newAwayPicks.live.length} />}
                     </div>
-                  </div>
-                  <div className=" bg-red-100 p-2 flex-wrap w-1/2">
-                    <div className="flex flex-wrap">
-                      {awayPicks.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < awayPicks.length - 1 && ","}
-                        </div>
-                      ))}
+                  </div>}
+                  {(!!newHomePicks.played.length || !!newAwayPicks.played.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Played</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomePicks.played} state='played' length={newHomePicks.played.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayPicks.played} state='played' length={newAwayPicks.played.length} />}
                     </div>
-                  </div>
-                </div>
+                  </div>}
+                  {(!!newHomePicks.yet.length || !!newAwayPicks.yet.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Yet to play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomePicks.yet} state='yet' length={newHomePicks.yet.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      { 
+                      <FormattedPicksCard w="w-1/2" picks={newAwayPicks.yet} state='yet' length={newAwayPicks.yet.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomePicks.dnp.length || !!newAwayPicks.dnp.length) && <div className="p-1">
+                    <h4 className="text-center font-bold">Did not play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomePicks.dnp} state='dnp' length={newHomePicks.dnp.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayPicks.dnp} state='dnp' length={newAwayPicks.dnp.length} />}
+                    </div>
+                  </div>}
                 </div>
               </div>
             </div>
@@ -425,7 +460,7 @@ export default function FixtureStats({ f, eventId }) {
                                 <a
                                   href={`https://x.com/${home.xHandle.replace(
                                     /^@/,
-                                    ""
+                                    "",
                                   )}`}
                                   target="_blank"
                                   rel="noreferrer"
@@ -464,26 +499,29 @@ export default function FixtureStats({ f, eventId }) {
                         </td>
 
                         <td>
-                          <div className={`${
-                            home.result === "W"
-                              ? "bg-green-700"
-                              : home.result === "L"
-                              ? "bg-red-700"
-                              : "bg-gray-700"
-                          } border text-center font-bold sm:text-base w-[80%] rounded-lg m-auto py-2  text-white`}>
-                          {home.result}
+                          <div
+                            className={`${
+                              home.result === "W"
+                                ? "bg-green-700"
+                                : home.result === "L"
+                                  ? "bg-red-700"
+                                  : "bg-gray-700"
+                            } border text-center font-bold sm:text-base w-[80%] rounded-lg m-auto py-2  text-white`}
+                          >
+                            {home.result}
                           </div>
                         </td>
-                        <td
-                         
-                        ><div className={`${
-                            away.result === "W"
-                              ? "bg-green-700"
-                              : away.result === "L"
-                              ? "bg-red-700"
-                              : "bg-gray-700"
-                          } border text-center font-bold sm:text-base w-[80%] rounded-lg m-auto py-2 text-white`}>
-                          {away.result}
+                        <td>
+                          <div
+                            className={`${
+                              away.result === "W"
+                                ? "bg-green-700"
+                                : away.result === "L"
+                                  ? "bg-red-700"
+                                  : "bg-gray-700"
+                            } border text-center font-bold sm:text-base w-[80%] rounded-lg m-auto py-2 text-white`}
+                          >
+                            {away.result}
                           </div>
                         </td>
 
@@ -534,7 +572,7 @@ export default function FixtureStats({ f, eventId }) {
                                 <a
                                   href={`https://x.com/${away.xHandle.replace(
                                     /^@/,
-                                    ""
+                                    "",
                                   )}`}
                                   target="_blank"
                                   rel="noreferrer"
@@ -552,141 +590,231 @@ export default function FixtureStats({ f, eventId }) {
                 </tbody>
               </table>
               <div className="mt-2">
-                <h4 className="font-semibold">Differentials</h4>
-                <div className="flex flex-wrap border rounded my-1">
-                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {homeCap.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < homeCap.length - 1 && ","}
-                        </div>
-                      ))}
+                <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">Differentials</h3>
+                <div className="p-1">
+                  <div className="flex sm:justify-center items-center">
+                    <h3 className="shadow-xl rounded-lg sm:text-xl font-bold border-t-2 border-blue-500 p-2 mb-4 w-36 text-center">Captain</h3>
                     </div>
-                  </div>
-                  <div className="w-1/6 text-center self-center font-semibold">
-                    Captain
-                  </div>
-                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {awayCap.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < awayCap.length - 1 && ","}
-                        </div>
-                      ))}
+                  {(!!newHomeCap.live.length || !!newAwayCap.live.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1  text-green-600">Live</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeCap.live} state='live' length={newHomeCap.live.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayCap.live} state='live' length={newAwayCap.live.length} />}
                     </div>
-                  </div>
+                  </div>}
+                  {(!!newHomeCap.played.length || !!newAwayCap.played.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Played</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeCap.played} state='played' length={newHomeCap.played.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayCap.played} state='played' length={newAwayCap.played.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeCap.yet.length || !!newAwayCap.yet.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Yet to play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeCap.yet} state='yet' length={newHomeCap.yet.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      { 
+                      <FormattedPicksCard w="w-1/2" picks={newAwayCap.yet} state='yet' length={newAwayCap.yet.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeCap.dnp.length || !!newAwayCap.dnp.length) && <div className="p-1">
+                    <h4 className="text-center font-bold">Did not play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeCap.dnp} state='dnp' length={newHomeCap.dnp.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayCap.dnp} state='dnp' length={newAwayCap.dnp.length} />}
+                    </div>
+                  </div>}
                 </div>
-                <div className="flex flex-wrap border rounded my-1">
-                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {homeAce.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < homeAce.length - 1 && ","}
-                        </div>
-                      ))}
+                <div className="p-1">
+                  <div className="flex sm:justify-center items-center">
+                    <h3 className="shadow-xl rounded-lg sm:text-xl font-bold border-t-2 border-blue-500 p-2 mb-4 w-36 text-center">Ace</h3>
                     </div>
-                  </div>
-                  <div className="w-1/6 text-center self-center font-semibold">
-                    Ace
-                  </div>
-                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {awayAce.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < awayAce.length - 1 && ","}
-                        </div>
-                      ))}
+                  {(!!newHomeAce.live.length || !!newAwayAce.live.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1  text-green-600">Live</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeAce.live} state='live' length={newHomeAce.live.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayAce.live} state='live' length={newAwayAce.live.length} />}
                     </div>
-                  </div>
+                  </div>}
+                  {(!!newHomeAce.played.length || !!newAwayAce.played.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Played</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeAce.played} state='played' length={newHomeAce.played.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayAce.played} state='played' length={newAwayAce.played.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeAce.yet.length || !!newAwayAce.yet.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Yet to play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeAce.yet} state='yet' length={newHomeAce.yet.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      { 
+                      <FormattedPicksCard w="w-1/2" picks={newAwayAce.yet} state='yet' length={newAwayAce.yet.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeAce.dnp.length || !!newAwayAce.dnp.length) && <div className="p-1">
+                    <h4 className="text-center font-bold">Did not play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeAce.dnp} state='dnp' length={newHomeAce.dnp.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayAce.dnp} state='dnp' length={newAwayAce.dnp.length} />}
+                    </div>
+                  </div>}
                 </div>
-                <div className="flex flex-wrap border rounded my-1">
-                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {homeFwd.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < homeFwd.length - 1 && ","}
-                        </div>
-                      ))}
+                <div className="p-1">
+                  <div className="flex sm:justify-center items-center">
+                    <h3 className="shadow-xl rounded-lg sm:text-xl font-bold border-t-2 border-blue-500 p-2 mb-4 w-36 text-center">Forward</h3>
                     </div>
-                  </div>
-                  <div className="w-1/6 text-center self-center font-semibold">
-                    Forward
-                  </div>
-                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {awayFwd.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < awayFwd.length - 1 && ","}
-                        </div>
-                      ))}
+                  {(!!newHomeFwd.live.length || !!newAwayFwd.live.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1  text-green-600">Live</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeFwd.live} state='live' length={newHomeFwd.live.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayFwd.live} state='live' length={newAwayFwd.live.length} />}
                     </div>
-                  </div>
+                  </div>}
+                  {(!!newHomeFwd.played.length || !!newAwayFwd.played.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Played</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeFwd.played} state='played' length={newHomeFwd.played.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayFwd.played} state='played' length={newAwayFwd.played.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeFwd.yet.length || !!newAwayFwd.yet.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Yet to play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeFwd.yet} state='yet' length={newHomeFwd.yet.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      { 
+                      <FormattedPicksCard w="w-1/2" picks={newAwayFwd.yet} state='yet' length={newAwayFwd.yet.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeFwd.dnp.length || !!newAwayFwd.dnp.length) && <div className="p-1">
+                    <h4 className="text-center font-bold">Did not play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeFwd.dnp} state='dnp' length={newHomeFwd.dnp.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayFwd.dnp} state='dnp' length={newAwayFwd.dnp.length} />}
+                    </div>
+                  </div>}
                 </div>
-                <div className="flex flex-wrap border rounded my-1">
-                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {homeMid.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < homeMid.length - 1 && ","}
-                        </div>
-                      ))}
+                <div className="p-1">
+                  <div className="flex sm:justify-center items-center">
+                    <h3 className="shadow-xl rounded-lg sm:text-xl font-bold border-t-2 border-blue-500 p-2 mb-4 w-36 text-center">Midfielder</h3>
                     </div>
-                  </div>
-                  <div className="w-1/6 text-center self-center font-semibold">
-                    Midfielder
-                  </div>
-                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {awayMid.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < awayMid.length - 1 && ","}
-                        </div>
-                      ))}
+                  {(!!newHomeMid.live.length || !!newAwayMid.live.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1  text-green-600">Live</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeMid.live} state='live' length={newHomeMid.live.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayMid.live} state='live' length={newAwayMid.live.length} />}
                     </div>
-                  </div>
+                  </div>}
+                  {(!!newHomeMid.played.length || !!newAwayMid.played.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Played</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeMid.played} state='played' length={newHomeMid.played.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayMid.played} state='played' length={newAwayMid.played.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeMid.yet.length || !!newAwayMid.yet.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Yet to play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeMid.yet} state='yet' length={newHomeMid.yet.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      { 
+                      <FormattedPicksCard w="w-1/2" picks={newAwayMid.yet} state='yet' length={newAwayMid.yet.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeMid.dnp.length || !!newAwayMid.dnp.length) && <div className="p-1">
+                    <h4 className="text-center font-bold">Did not play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeMid.dnp} state='dnp' length={newHomeMid.dnp.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayMid.dnp} state='dnp' length={newAwayMid.dnp.length} />}
+                    </div>
+                  </div>}
                 </div>
-                <div className="flex flex-wrap border rounded my-1">
-                  <div className="bg-blue-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {homeDef.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < homeDef.length - 1 && ","}
-                        </div>
-                      ))}
+                <div className="p-1">
+                  <div className="flex sm:justify-center items-center">
+                    <h3 className="shadow-xl rounded-lg sm:text-xl font-bold border-t-2 border-blue-500 p-2 mb-4 w-36 text-center">Defender</h3>
                     </div>
-                  </div>
-                  <div className="w-1/6 text-center self-center font-semibold">
-                    Defender
-                  </div>
-                  <div className="bg-red-100 p-2 rounded flex-wrap w-5/12">
-                    <div className="flex flex-wrap">
-                      {awayDef.map((pick, index) => (
-                        <div key={pick.element} className="mr-2 mb-1">
-                          {pick.multiplier > 1 && `${pick.multiplier}x`}
-                          {pick.webName}
-                          {index < awayDef.length - 1 && ","}
-                        </div>
-                      ))}
+                  {(!!newHomeDef.live.length || !!newAwayDef.live.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1  text-green-600">Live</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeDef.live} state='live' length={newHomeDef.live.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayDef.live} state='live' length={newAwayDef.live.length} />}
                     </div>
-                  </div>
+                  </div>}
+                  {(!!newHomeDef.played.length || !!newAwayDef.played.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Played</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeDef.played} state='played' length={newHomeDef.played.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayDef.played} state='played' length={newAwayDef.played.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeDef.yet.length || !!newAwayDef.yet.length) && <div className="p-1">
+                    <h4 className="text-center font-bold p-1">Yet to play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeDef.yet} state='yet' length={newHomeDef.yet.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      { 
+                      <FormattedPicksCard w="w-1/2" picks={newAwayDef.yet} state='yet' length={newAwayDef.yet.length} />}
+                    </div>
+                  </div>}
+                  {(!!newHomeDef.dnp.length || !!newAwayDef.dnp.length) && <div className="p-1">
+                    <h4 className="text-center font-bold">Did not play</h4>
+                    <div className="flex gap-2">
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newHomeDef.dnp} state='dnp' length={newHomeDef.dnp.length} />}
+                    <div className="bg-blue-500 w-0.5"></div>
+                      {
+                      <FormattedPicksCard w="w-1/2" picks={newAwayDef.dnp} state='dnp' length={newAwayDef.dnp.length} />}
+                    </div>
+                  </div>}
                 </div>
               </div>
             </div>

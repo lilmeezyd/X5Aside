@@ -41,6 +41,10 @@ const [ editStart, setEditStart ] = useState(0.0);
             ? a.manager?.toLowerCase() || ""
             : sortConfig.key === "team"
             ? a.team?.short_name?.toLowerCase() || ""
+            : sortConfig.key === "fplId"
+            ? -a["fplId"]
+            : sortConfig.key === "overallRank"
+            ? -a["overallRank"]
             : a[sortConfig.key];
 
         const valB =
@@ -48,6 +52,10 @@ const [ editStart, setEditStart ] = useState(0.0);
             ? b.manager?.toLowerCase() || ""
             : sortConfig.key === "team"
             ? b.team?.short_name?.toLowerCase() || ""
+            : sortConfig.key === "fplId"
+            ? -b["fplId"]
+            : sortConfig.key === "overallRank"
+            ? -b["overallRank"]
             : b[sortConfig.key];
 
         if (valA < valB) return sortConfig.direction === "asc" ? -1 : 1;
@@ -55,7 +63,7 @@ const [ editStart, setEditStart ] = useState(0.0);
         return 0;
       });
     }
-    return filtered;
+    return filtered.filter(x => x.overallRank);
   }, [players, sortConfig, filterPosition]);
 
   const paginated = sortedPlayers.slice(
@@ -63,6 +71,7 @@ const [ editStart, setEditStart ] = useState(0.0);
     currentPage * itemsPerPage
   );
   const totalPages = Math.ceil(sortedPlayers?.length / itemsPerPage);
+  const offset = sortedPlayers?.length % itemsPerPage
 
   const requestSort = (key) => {
     let direction = "asc";
@@ -220,21 +229,21 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               }`}
               onClick={() => requestSort("startPrice")}
             >
-              Start Price {sortIcon("startPrice")}
+              <div className="flex justify-center items-center "><span>Start Price</span> {sortIcon("startPrice")}</div>
             </th><th
               className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "currentPrice" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("currentPrice")}
             >
-              Current Price{sortIcon("currentPrice")}
+              <div className="flex justify-center items-center "><span>Current Price</span>{sortIcon("currentPrice")}</div>
             </th><th
               className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "delta" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("delta")}
             >
-              Price Change{sortIcon("delta")}
+              <div className="flex justify-center items-center "><span>Price Change</span>{sortIcon("delta")}</div>
             </th></>}
             <th
               className={`px-4 py-2 text-center cursor-pointer ${
@@ -242,9 +251,10 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               }`}
               onClick={() => requestSort("fplId")}
             >
-              FPL ID {sortIcon("fplId")}
+              <div className="flex justify-center items-center "><span>FPL ID</span>{sortIcon("fplId")}</div>
             </th>
-            <th className={`px-4 py-2 text-left cursor-pointer sortConfig.key === "eventPoints" ? "font-bold text-blue-700" : ""}`} onClick={() => requestSort("eventPoints")}> GW Score{sortIcon("eventPoints")} </th>
+            <th className={`px-4 py-2 text-left cursor-pointer sortConfig.key === "eventPoints" ? "font-bold text-blue-700" : ""}`} onClick={() => requestSort("eventPoints")}>
+              <div className="flex justify-center items-center "><span>GW Score</span>{sortIcon("eventPoints")}</div> </th>
 
 
             <th
@@ -253,7 +263,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               }`}
               onClick={() => requestSort("overallPoints")}
             >
-              Points{sortIcon("overallPoints")}
+              <div className="flex justify-center items-center "><span>Points</span>{sortIcon("overallPoints")}</div>
             </th>
             <th
               className={`px-4 py-2 text-center cursor-pointer ${
@@ -261,7 +271,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               }`}
               onClick={() => requestSort("overallRank")}
             >
-              Rank{sortIcon("overallRank")}
+              <div className="flex justify-center items-center "><span>Rank</span>{sortIcon("overallRank")}</div>
             </th>
             { userInfo && <th className="px-4 py-2 text-center">Actions</th> }
           </tr>
@@ -273,7 +283,12 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               className={`${index % 2 === 0 ? "bg-white" : "bg-blue-50"}`}
               style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}
             >
-              <td className="px-4 py-2 text-center font-semibold">{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+              <td className="px-4 py-2 text-center font-semibold">
+                {sortConfig.direction === 'desc' ? `${index + 1 + (currentPage - 1) * itemsPerPage}` : 
+                  `${offset === 0 ? 
+                    offset - index + (totalPages-currentPage+1) * itemsPerPage : 
+                    offset - index + (totalPages-currentPage) * itemsPerPage}`}
+              </td>
               <td className="w-[60px] px-4 py-2">
                 <div className="overflow-stuff w-[100px]">
                 <a
