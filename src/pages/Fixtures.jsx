@@ -147,8 +147,10 @@ export default function Fixtures() {
           }}
         />
 
-        <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
-        {userInfo && (
+        {userInfo && userInfo.role === "admin" && (
+          <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
+        )}
+        {userInfo && userInfo.role === "admin" && (
           <>
             <Button onClick={handleClassicFixtures}>
               Update Classic Scores
