@@ -20,6 +20,7 @@ import { useAddPlayerMutation } from "../slices/playerApiSlice";
 import { useSelector } from "react-redux";
 import { MdCheck, MdCheckCircle, MdClose, MdCancel } from "react-icons/md";
 import { FaArrowCircleDown, FaArrowCircleUp, FaCircle } from "react-icons/fa";
+import { useGetPlayersQuery } from "../slices/playerApiSlice";
 
 const POSITIONS = ["Captain", "Ace", "Forward", "Midfielder", "Defender"];
 
@@ -33,12 +34,18 @@ export default function TeamCard({ team, refetch }) {
   const [startPrice, setStartPrice] = useState(0.0);
   const [addPlayer] = useAddPlayerMutation();
   const [showPlayers, setShowPlayers] = useState(false);
+  const {
+    data: players = [],
+    isLoading: playersLoading,
+    isError: playersError,
+    refetch: refetchPlayers,
+  } = useGetPlayersQuery({ dbName, team: team._id });
   const imageComp =
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
   const handlePlayerAdded = (newPlayer) => {
-    setPlayers((prev) => [...prev, newPlayer]);
+    //setPlayers((prev) => [...prev, newPlayer]);
   };
-  const teamLength = team?.players?.filter((x) => x.isActive)?.length;
+  const teamLength = players?.filter((x) => x.isActive)?.length;
 
   const handleAddPlayer = async () => {
     toast("Adding player...");
@@ -83,9 +90,13 @@ export default function TeamCard({ team, refetch }) {
       <div className="bg-white p-4 rounded shadow flex flex-col gap-3 border">
         <div className="flex items-center gap-4">
           <img
-            src={`https://ik.imagekit.io/cap10/${team.short_name}_${imageComp}.png`}
-            alt={`${team.name} badge`}
-            className="h-20 w-20 object-contain rounded"
+            src={
+              dbName === "ffkPro"
+                ? team.url
+                : `https://ik.imagekit.io/cap10/${team.short_name}_${imageComp}.png`
+            }
+            alt={team.name}
+            className="w-20 h-20 object-contain rounded"
           />
 
           <div>
@@ -99,36 +110,36 @@ export default function TeamCard({ team, refetch }) {
             <div className="flex space-x-2 items-center p-1">
               <span>{team?.rank}</span>
               <div className="flex space-x-1 items-center">
-              <span>
-                {team?.oldRank > team?.rank && team?.oldRank > 0 && (
-                  <FaArrowCircleUp className="text-green-500" size={16} />
-                )}
-                {(team?.oldRank === team?.rank || team?.oldRank === 0) && (
-                  <FaCircle className="text-gray-500" size={16} />
-                )}
-                {team?.oldRank < team?.rank && team?.oldRank > 0 && (
-                  <FaArrowCircleDown className="text-red-500" size={16} />
-                )}
-              </span>
-              <span
-                className={`font-bold ${
-                  team?.oldRank > 0
+                <span>
+                  {team?.oldRank > team?.rank && team?.oldRank > 0 && (
+                    <FaArrowCircleUp className="text-green-500" size={16} />
+                  )}
+                  {(team?.oldRank === team?.rank || team?.oldRank === 0) && (
+                    <FaCircle className="text-gray-500" size={16} />
+                  )}
+                  {team?.oldRank < team?.rank && team?.oldRank > 0 && (
+                    <FaArrowCircleDown className="text-red-500" size={16} />
+                  )}
+                </span>
+                <span
+                  className={`font-bold ${
+                    team?.oldRank > 0
+                      ? team?.oldRank < team?.rank
+                        ? "text-red-500"
+                        : team?.oldRank > team?.rank
+                          ? `text-green-500`
+                          : "text-gray-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {team?.oldRank > 0
                     ? team?.oldRank < team?.rank
-                      ? "text-red-500"
+                      ? team?.oldRank - team?.rank
                       : team?.oldRank > team?.rank
-                        ? `text-green-500`
-                        : "text-gray-500"
-                    : "text-gray-500"
-                }`}
-              >
-                {team?.oldRank > 0
-                  ? team?.oldRank < team?.rank
-                    ? team?.oldRank - team?.rank
-                    : team?.oldRank > team?.rank
-                      ? `+${team?.oldRank - team?.rank}`
-                      : ""
-                  : ""}
-              </span>
+                        ? `+${team?.oldRank - team?.rank}`
+                        : ""
+                    : ""}
+                </span>
               </div>
             </div>
           </div>
@@ -196,11 +207,11 @@ export default function TeamCard({ team, refetch }) {
         )}
       </div>
 
-      {showPlayers && team?.players?.length > 0 && (
+      {showPlayers && players?.length > 0 && (
         <div className="mt-2 ml-4 border-l-2 border-gray-200 pl-4">
           <h4 className="font-semibold mb-1 text-gray-700">Players:</h4>
           <ul className="space-y-1 text-sm py-1">
-            {team?.players
+            {players
               ?.filter((x) => x.isActive)
               ?.map((player, index) => (
                 <li key={index} className="text-gray-600">
@@ -216,11 +227,11 @@ export default function TeamCard({ team, refetch }) {
                 </li>
               ))}
           </ul>
-          {team?.players?.filter((x) => !x.isActive)?.length > 0 && (
+          {players?.filter((x) => !x.isActive)?.length > 0 && (
             <h4 className="font-semibold mb-1 text-gray-700">Ex Players:</h4>
           )}
           <ul className="space-y-1 text-sm py-1">
-            {team?.players
+            {players
               ?.filter((x) => !x.isActive)
               ?.map((player, index) => (
                 <li key={index} className="text-gray-600">

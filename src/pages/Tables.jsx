@@ -11,6 +11,7 @@ import {
   useTriggerF1CalculationMutation,
 } from "../slices/f1ApiSlice";
 import { useSelector } from "react-redux";
+import CombinedTable from "./CombinedTable";
 
 export default function Tables() {
   const dbName = useSelector((state) => state.database.dbName);
@@ -46,20 +47,26 @@ export default function Tables() {
           variant={view === "classic" ? "default" : "outline"}
           onClick={() => setView("classic")}
         >
-          Classic Table
+          {dbName === "ffkPro" ? "Standings" : "Classic Table"}
         </Button>
-        <Button
+        {dbName !== "ffkPro" && <Button
           variant={view === "h2h" ? "default" : "outline"}
           onClick={() => setView("h2h")}
         >
           H2H Table
-        </Button>
-        <Button
+        </Button>}
+        {/*<Button
+          variant={view === "combined" ? "default" : "outline"}
+          onClick={() => setView("combined")}
+        >
+          Combined Table
+        </Button>*/}
+        {dbName !== "ffkPro" && <Button
           variant={view === "f1" ? "default" : "outline"}
           onClick={() => setView("f1")}
         >
           F1 Table
-        </Button>
+        </Button>}
 
     
       </div>
@@ -67,6 +74,7 @@ export default function Tables() {
       {view === "classic" && <ClassicTable />}
       {view === "h2h" && <H2hTable />}
       {view === "f1" && <F1Table />}
+      {view === "combined" && <CombinedTable />}
     </div>
     </div>
   );

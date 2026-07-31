@@ -31,7 +31,7 @@ export default function TopFiveScorers() {
       {topScorersData.length === 0 ? (
         <p> No data</p>
       ) : (
-        <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+        <table className="min-w-full text-sm">
           <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
             <tr>
               <th className="px-4 py-2 text-left"></th>
@@ -85,7 +85,11 @@ export default function TopFiveScorers() {
                       </a>
                     )}
                     <img
-                      src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
+                      src={
+                            dbName === "ffkPro"
+                              ? player?.team.url
+                              : `${imageBaseURL}${player?.team?.short_name}_${imageComp}.png`
+                          }
                       alt={player.team?.short_name}
                       className="custom-shadow w-6 h-6 object-contain absolute border border-blue-500 bg-white bottom-0 right-0 rounded-full p-1"
                     />

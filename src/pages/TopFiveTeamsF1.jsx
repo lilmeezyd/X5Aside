@@ -18,7 +18,7 @@ if(isLoadingStandings) return <p>Loading...</p>
 
   return (
       <div className="w-full overflow-x-auto space-y-4">
-      { standings?.length === 0 ? <p>No data</p> : (<table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+      { standings?.length === 0 ? <p>No data</p> : (<table className="min-w-full text-sm">
             <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
             <th className="p-2 text-left"></th>

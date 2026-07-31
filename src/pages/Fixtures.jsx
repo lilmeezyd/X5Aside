@@ -147,7 +147,7 @@ export default function Fixtures() {
           }}
         />
 
-        {/*<Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>*/}
+        <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
         {userInfo && (
           <>
             <Button onClick={handleClassicFixtures}>

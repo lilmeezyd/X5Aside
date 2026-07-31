@@ -7,10 +7,12 @@ import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { Card, CardContent } from "../../@/components/ui/card";
 import { useSelector } from "react-redux";
+import { useDatabase } from "../hooks/useDatabase";
 
 
 export default function Login() {
   const { userInfo } = useSelector((state) => state.auth);
+  const { dbName, changeDb } = useDatabase();
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +25,9 @@ export default function Login() {
 
   useEffect(() => {
     if (userInfo) {
+      if(userInfo.role === 'community') {
+        changeDb('ffkPro')
+      }
       navigate("/", { replace: true });
     }
   }, [userInfo, navigate]);

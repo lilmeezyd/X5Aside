@@ -18,7 +18,8 @@ import { useState } from "react";
 import CompetitionDropdown from "../components/CompetitionDropdown";
 import { FaWhatsapp, FaXTwitter } from "react-icons/fa6";
 
-const loggedInNavItems = [
+
+const adminNavItems = [
   { name: "Home", path: "/", icon: <LayoutDashboard className="h-5 w-5" /> },
   { name: "Teams", path: "/teams", icon: <Users className="h-5 w-5" /> },
   {
@@ -37,10 +38,15 @@ const loggedInNavItems = [
     path: "/events",
     icon: <CalendarCheck className="h-5 w-5" />,
   },
+  {
+    name: "Pro",
+    path: "/pro",
+    icon: <ShieldCheck className="h-5 w-5" />,
+  },
   { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
   { name: "Help", path: "/help", icon: <HelpCircle className="h-5 w-5" /> },
 ];
-
+ 
 const guestNavItems = [
   { name: "Home", path: "/", icon: <LayoutDashboard size={20} /> },
   { name: "Teams", path: "/teams", icon: <Users size={20} /> },
@@ -54,6 +60,7 @@ const guestNavItems = [
 const competitions = [
   { name: "X5Aside", db: "X5Aside" },
   { name: "WhatsApp5", db: "app5Aside" },
+  { name: "FFK Pro", db: "ffkPro" },
   /* { name: "Test", db: "test"}*/
 ];
 
@@ -67,6 +74,35 @@ export default function SidebarLayout() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileCompOpen, setMobileCompOpen] = useState(false);
   const [loadingDbChange, setLoadingDbChange] = useState(false);
+
+  const communityNavItems = [
+  { name: "Home", path: "/", icon: <LayoutDashboard className="h-5 w-5" /> },
+  { name: "Teams", path: "/teams", icon: <Users className="h-5 w-5" /> },
+  {
+    name: "Fixtures",
+    path: "/fixtures",
+    icon: <CalendarCheck className="h-5 w-5" />,
+  },
+  {
+    name: "Players",
+    path: "/players",
+    icon: <ShieldCheck className="h-5 w-5" />,
+  },
+  { name: "Tables", path: "/tables", icon: <Table2 className="h-5 w-5" /> },
+ ((userInfo?.role === 'community' && userInfo?.hasPicks === true) ? {
+    name: "Pick Team",
+    path: "/pickTeam",
+    icon: <ShieldCheck className="h-5 w-5" />,
+  } : 
+  {
+    name: "Create Team",
+    path: "/createTeam",
+    icon: <ShieldCheck className="h-5 w-5" />,
+  }),
+  { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
+  { name: "Help", path: "/help", icon: <HelpCircle className="h-5 w-5" /> },
+];
+
 
   const handleLogout = async () => {
     try {
@@ -100,73 +136,84 @@ export default function SidebarLayout() {
       {/* Top Navbar for guest (desktop) */}
       {!userInfo && (
         <>
-        <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
-          <div className="flex items-center gap-8">
-            <h1 className="text-lg font-bold">
-              {dbName === "X5Aside"
-                ? "X5ASIDE"
-                : dbName === "app5Aside"
-                ? "FFK"
-                : "5ASIDE"}
-            </h1>
-            <nav className="flex gap-6">
-              {guestNavItems
-                .filter(
-                  (item) => !(item.name === "TOW" && dbName !== "app5Aside")
-                )
-                .map(({ name, path }) => (
-                  <Link
-                    key={path}
-                    to={path}
-                    className={`hover:text-gray-300 ${
-                      location.pathname === path
-                        ? "text-blue-400"
-                        : "text-white"
-                    }`}
-                  >
-                    {name}
-                  </Link>
-                ))}
-            </nav>
+          <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
+            <div className="flex items-center gap-8">
+              <h1 className="text-lg font-bold">
+                {dbName === "X5Aside"
+                  ? "X5ASIDE"
+                  : dbName === "app5Aside"
+                    ? "FFK" : dbName === "ffkPro" ? "FFK PRO"
+                    : "5ASIDE"}
+              </h1>
+              <nav className="flex gap-6">
+                {guestNavItems
+                  .filter(
+                    (item) => !(item.name === "TOW" && dbName !== "app5Aside"),
+                  )
+                  .map(({ name, path }) => (
+                    <Link
+                      key={path}
+                      to={path}
+                      className={`hover:text-gray-300 ${
+                        location.pathname === path
+                          ? "text-blue-400"
+                          : "text-white"
+                      }`}
+                    >
+                      {name}
+                    </Link>
+                  ))}
+              </nav>
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center gap-1 hover:text-gray-300"
+              >
+                Competitions <ChevronDown className="w-4 h-4" />
+              </button>
+              {dropdownOpen && (
+                <CompetitionDropdown
+                  open={dropdownOpen}
+                  setOpen={setDropdownOpen}
+                  competitions={competitions}
+                  changeDb={handleChangeDb}
+                />
+              )}
+            </div>
           </div>
-          <div className="relative">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1 hover:text-gray-300"
+          <div className="hidden md:flex justify-center items-center m-2 px-2">
+            <p
+              style={{ background: "#101828", color: "white" }}
+              className="rounded-lg absolute top-20 border p-2 text-sm"
             >
-              Competitions <ChevronDown className="w-4 h-4" />
-            </button>
-            {dropdownOpen && (
-              <CompetitionDropdown
-                open={dropdownOpen}
-                setOpen={setDropdownOpen}
-                competitions={competitions}
-                changeDb={handleChangeDb}
-              />
-            )}
+              There are 3 formats, X, WhatsApp and Pro. To switch between them use
+              the menu which appears when you click on competitions
+            </p>
+            {/*<p
+              className="text-xs absolute top-30 right-20 border border-blue-400 bg-blue-400 text-white p-2 text-sm"
+            >
+              {dbName}&nbsp;Active
+            </p>*/}
           </div>
-        </div>
-        <div className="hidden md:flex justify-center items-center m-2 px-2">
-        <p style={{background: "#101828", color: "white"}} className="rounded-lg absolute top-20 border p-2 text-sm">
-          There are 2 formats, X and WhatsApp. To switch between them use the menu which appears when you click on competitions
-        </p>
-        </div>
         </>
       )}
-
-      {userInfo && (
+      {/*Top Navbar for logged-in admin */}
+      {userInfo && userInfo.role === 'admin' && (
         <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
           <div className="flex items-center gap-8">
             <h1 className="text-xl font-bold">
               {dbName === "app5Aside"
                 ? "FFK"
                 : dbName === "X5Aside"
-                ? "X5"
-                : "5Aside"}{" "}
+                  ? "X5" : dbName === "ffkPro" ? "FFK PRO"
+                  : "5Aside"}{" "}
               Admin
             </h1>
             <nav className="flex gap-2">
-              {loggedInNavItems.map(({ name, path }) => (
+              {adminNavItems.filter(
+                    (item) => !(item.name === "TOW" && dbName === "X5Aside" || item.name === "Pro" && dbName !== "ffkPro"),
+                  ).map(({ name, path }) => (
                 <Link
                   key={path}
                   to={path}
@@ -180,11 +227,48 @@ export default function SidebarLayout() {
             </nav>
           </div>
           <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-3 py-2 rounded hover:bg-red-600 bg-red-500 text-white text-sm"
-              >
-                <LogOut className="h-4 w-4" /> Logout
-              </button>
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-red-600 bg-red-500 text-white text-sm"
+          >
+            <LogOut className="h-4 w-4" /> Logout
+          </button>
+        </div>
+      )}
+
+      {/*Top Navbar for logged-in team manager */}
+      {userInfo && userInfo.role === 'community' && (
+        <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
+          <div className="flex items-center gap-8">
+            <h1 className="text-xl font-bold">
+              {dbName === "app5Aside"
+                ? "FFK"
+                : dbName === "X5Aside"
+                  ? "X5" : dbName === "ffkPro" ? "FFK PRO"
+                  : "5Aside"}{" "}
+              Community
+            </h1>
+            <nav className="flex gap-2">
+              {communityNavItems.filter(
+                    (item) => !(item.name === "TOW" && dbName === "X5Aside" || item.name === "Pro" && dbName !== "ffkPro"),
+                  ).map(({ name, path }) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`block px-3 py-2 rounded hover:bg-gray-700 ${
+                    location.pathname === path ? "bg-gray-700" : ""
+                  }`}
+                >
+                  {name}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-red-600 bg-red-500 text-white text-sm"
+          >
+            <LogOut className="h-4 w-4" /> Logout
+          </button>
         </div>
       )}
 
@@ -202,7 +286,7 @@ export default function SidebarLayout() {
               Admin
             </h1>
             <nav className="space-y-1">
-              {loggedInNavItems.map(({ name, path }) => (
+              {adminNavItems.map(({ name, path }) => (
                 <Link
                   key={path}
                   to={path}
@@ -224,20 +308,19 @@ export default function SidebarLayout() {
         )*/}
 
         <main
-          className={`overflow-auto w-[80%] flex-1 bg-gray-100 ${userInfo ? 'pt-0 md:pt-30' : 'pb-20 pt-30'} px-4 md:px-20`}
+          className={`overflow-auto w-[80%] flex-1 bg-gray-100 ${userInfo ? "pt-0 md:pt-30" : "pb-20 pt-30"} px-4 md:px-20`}
         >
           <Outlet />
         </main>
       </div>
 
-      {/* Mobile Bottom Nav for logged-in users */}
-      {userInfo && (
+      {/* Mobile Bottom Nav for logged-in admin */}
+      {userInfo && userInfo.role === 'admin' && (
         <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 shadow">
           <div className="flex justify-around items-center py-2">
-            {loggedInNavItems
-              .filter(
-                (item) => !(item.name === "TOW" && dbName !== "app5Aside")
-              )
+            {adminNavItems.filter(
+                    (item) => !(item.name === "TOW" && dbName === "X5Aside" || item.name === "Pro" && dbName !== "ffkPro"),
+                  )
               .map(({ name, path, icon }) => (
                 <Link
                   key={path}
@@ -262,92 +345,128 @@ export default function SidebarLayout() {
           </div>
         </nav>
       )}
-      
+
+      {/* Mobile Bottom Nav for logged-in admin */}
+      {userInfo && userInfo.role === 'community' && (
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 shadow">
+          <div className="flex justify-around items-center py-2">
+            {communityNavItems.filter(
+                    (item) => !(item.name === "TOW" && dbName === "X5Aside" || item.name === "Pro" && dbName !== "ffkPro"),
+                  )
+              .map(({ name, path, icon }) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`flex flex-col items-center text-xs ${
+                    location.pathname === path
+                      ? "text-blue-600"
+                      : "text-gray-600"
+                  }`}
+                >
+                  {icon}
+                  <span>{name}</span>
+                </Link>
+              ))}
+            <button
+              onClick={handleLogout}
+              className="flex flex-col items-center text-xs text-red-600"
+            >
+              <LogOut className="h-5 w-5" />
+              <span>Logout</span>
+            </button>
+          </div>
+        </nav>
+      )}
 
       {/* Mobile Top Nav for guests */}
       {!userInfo && (
         <>
-        <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-t z-50 shadow px-4 py-3 flex justify-between items-center">
-          <Link to="/">
-            {" "}
-            <h1 className="text-lg font-bold">
-              {dbName === "X5Aside"
-                ? "X5ASIDE"
-                : dbName === "app5Aside"
-                ? "FFK"
-                : "5ASIDE"}
-            </h1>
-          </Link>
-          <div className="relative">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <div className="space-y-1">
-                <div className="w-6 h-0.5 bg-gray-800" />
-                <div className="w-6 h-0.5 bg-gray-800" />
-                <div className="w-6 h-0.5 bg-gray-800" />
-              </div>
-            </button>
+          <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-t z-50 shadow px-4 py-3 flex justify-between items-center">
+            <Link to="/">
+              {" "}
+              <h1 className="text-lg font-bold">
+                {dbName === "X5Aside"
+                  ? "X5ASIDE"
+                  : dbName === "app5Aside"
+                    ? "FFK"
+                    : "5ASIDE"}
+              </h1>
+            </Link>
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <div className="space-y-1">
+                  <div className="w-6 h-0.5 bg-gray-800" />
+                  <div className="w-6 h-0.5 bg-gray-800" />
+                  <div className="w-6 h-0.5 bg-gray-800" />
+                </div>
+              </button>
 
-            {dropdownOpen && (
-              <div className="absolute top-12 right-0 bg-white border rounded shadow-lg w-48 z-50">
-                <nav className="flex flex-col p-2">
-                  {guestNavItems
-                    .filter(
-                      (item) => !(item.name === "TOW" && dbName !== "app5Aside")
-                    )
-                    .map(({ name, path }) => (
-                      <Link
-                        key={path}
-                        to={path}
-                        onClick={() => setDropdownOpen(false)}
-                        className={`px-4 py-2 text-sm hover:bg-gray-100 ${
-                          location.pathname === path
-                            ? "text-blue-600 font-medium"
-                            : "text-gray-800"
-                        }`}
-                      >
-                        {name}
-                      </Link>
-                    ))}
-                  <hr className="my-1" />
-                  <button
-                    onClick={() => setMobileCompOpen(!mobileCompOpen)}
-                    className="px-4 py-2 text-sm text-left hover:bg-gray-100 w-full"
-                  >
-                    Competitions
-                  </button>
-                  {mobileCompOpen &&
-                    competitions.map((c) => (
-                      <button
-                        key={c.db}
-                        onClick={() => {
-                          handleChangeDb(c.db);
-                          setMobileCompOpen(false);
-                          setDropdownOpen(false);
-                        }}
-                        className="px-6 py-1 text-sm text-gray-700 hover:bg-gray-100 text-left"
-                      >
-                        {c.name}
-                      </button>
-                    ))}
-                  <button
-                    onClick={() => setDropdownOpen(false)}
-                    className="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 text-left"
-                  >
-                    Close
-                  </button>
-                </nav>
-              </div>
-            )}
+              {dropdownOpen && (
+                <div className="absolute top-12 right-0 bg-white border rounded shadow-lg w-48 z-50">
+                  <nav className="flex flex-col p-2">
+                    {guestNavItems
+                      .filter(
+                        (item) =>
+                          !(item.name === "TOW" && dbName !== "app5Aside"),
+                      )
+                      .map(({ name, path }) => (
+                        <Link
+                          key={path}
+                          to={path}
+                          onClick={() => setDropdownOpen(false)}
+                          className={`px-4 py-2 text-sm hover:bg-gray-100 ${
+                            location.pathname === path
+                              ? "text-blue-600 font-medium"
+                              : "text-gray-800"
+                          }`}
+                        >
+                          {name}
+                        </Link>
+                      ))}
+                    <hr className="my-1" />
+                    <button
+                      onClick={() => setMobileCompOpen(!mobileCompOpen)}
+                      className="px-4 py-2 text-sm text-left hover:bg-gray-100 w-full"
+                    >
+                      Competitions
+                    </button>
+                    {mobileCompOpen &&
+                      competitions.map((c) => (
+                        <button
+                          key={c.db}
+                          onClick={() => {
+                            handleChangeDb(c.db);
+                            setMobileCompOpen(false);
+                            setDropdownOpen(false);
+                          }}
+                          className="px-6 py-1 text-sm text-gray-700 hover:bg-gray-100 text-left"
+                        >
+                          {c.name}
+                        </button>
+                      ))}
+                    <button
+                      onClick={() => setDropdownOpen(false)}
+                      className="px-4 py-2 text-sm text-gray-500 hover:bg-gray-100 text-left"
+                    >
+                      Close
+                    </button>
+                  </nav>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="flex md:hidden justify-center items-center m-2 px-2">
-        <p style={{background: "#101828", color: "white"}} className="text-center w-[80%] rounded-lg absolute top-20 border p-2 text-xs">
-          There are 2 formats, X and WhatsApp. To switch between them, click the icon in the top right corner, click on competitions then select preferred format.
-        </p>
-        </div>
+          <div className="flex md:hidden justify-center items-center m-2 px-2">
+            <p
+              style={{ background: "#101828", color: "white" }}
+              className="text-center w-[80%] rounded-lg absolute top-20 border p-2 text-xs"
+            >
+              There are 3 formats, X, WhatsApp and Pro. To switch between them use
+              the menu which appears when you click on competitions
+            </p>
+          </div>
         </>
       )}
 
@@ -362,7 +481,10 @@ export default function SidebarLayout() {
       )}
 
       {/* Footer */}
-      <footer style={{paddingBottom: '60px'}} className="w-full bg-gray-900 text-white text-center text-sm p-4">
+      <footer
+        style={{ paddingBottom: "60px" }}
+        className="w-full bg-gray-900 text-white text-center text-sm p-4"
+      >
         <div className="container mx-auto flex flex-col justify-between items-center gap-2">
           <img
             src={`https://ik.imagekit.io/cap10/fiveaside.png`}
@@ -390,13 +512,15 @@ export default function SidebarLayout() {
             </Link>
           </div>
           <div className="flex gap-4 px-2">
-            {dbName === 'app5Aside' && <Link
-              to="https://chat.whatsapp.com/DKKArKLg3UK7fiJWiYs2wV?mode=gi_t"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaWhatsapp size={24} className="text-green-500" />
-            </Link>}
+            {dbName === "app5Aside" && (
+              <Link
+                to="https://chat.whatsapp.com/DKKArKLg3UK7fiJWiYs2wV?mode=gi_t"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <FaWhatsapp size={24} className="text-green-500" />
+              </Link>
+            )}
             <Link
               to={`${
                 dbName === "app5Aside"

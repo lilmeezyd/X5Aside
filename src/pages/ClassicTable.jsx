@@ -184,7 +184,11 @@ export default function ClassicTable() {
                             <td className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
                               <div className="flex items-center gap-2 w-36">
                                 <img
-                                  src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                  src={
+                                    dbName === "ffkPro"
+                                      ? team.url
+                                      : `${imageBaseURL}${team.short_name}_${imageComp}.png`
+                                  }
                                   alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
@@ -345,7 +349,11 @@ export default function ClassicTable() {
                             <td className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
                               <div className="flex items-center gap-2 w-36">
                                 <img
-                                  src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                  src={
+                                    dbName === "ffkPro"
+                                      ? team.url
+                                      : `${imageBaseURL}${team.short_name}_${imageComp}.png`
+                                  }
                                   alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
@@ -421,7 +429,11 @@ export default function ClassicTable() {
                           <div className="px-4 py-2">
                             <div className="flex items-center gap-2 w-36">
                               <img
-                                src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                src={
+                                  dbName === "ffkPro"
+                                    ? team.url
+                                    : `${imageBaseURL}${team.short_name}_${imageComp}.png`
+                                }
                                 alt={team.name}
                                 className="w-6 h-6 object-contain"
                               />
@@ -537,11 +549,11 @@ export default function ClassicTable() {
           </TabsList>
           {partialData.length === 0 ? (
             <p>No data</p>
-          ) : 
-          (<>
-            {/* Partial Short Table */}
-            <TabsContent value="short">
-              <div className="overflow-auto rounded-lg border">
+          ) : (
+            <>
+              {/* Partial Short Table */}
+              <TabsContent value="short">
+                <div className="overflow-auto rounded-lg border">
                   <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
                     <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
                       <tr>
@@ -639,7 +651,11 @@ export default function ClassicTable() {
                             <td className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
                               <div className="flex items-center gap-2 w-36">
                                 <img
-                                  src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                  src={
+                                    dbName === "ffkPro"
+                                      ? team.url
+                                      : `${imageBaseURL}${team.short_name}_${imageComp}.png`
+                                  }
                                   alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
@@ -697,11 +713,11 @@ export default function ClassicTable() {
                     </tbody>
                   </table>
                 </div>
-            </TabsContent>
+              </TabsContent>
 
-            {/* Partial Full Table */}
-            <TabsContent value="full">
-              <div className="overflow-auto rounded-lg border">
+              {/* Partial Full Table */}
+              <TabsContent value="full">
+                <div className="overflow-auto rounded-lg border">
                   <table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
                     <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
                       <tr>
@@ -800,7 +816,11 @@ export default function ClassicTable() {
                             <td className="px-4 py-2 sticky left-12 z-10 bg-inherit border-r border-gray-300">
                               <div className="flex items-center gap-2 w-36">
                                 <img
-                                  src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                  src={
+                                    dbName === "ffkPro"
+                                      ? team.url
+                                      : `${imageBaseURL}${team.short_name}_${imageComp}.png`
+                                  }
                                   alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
@@ -842,11 +862,11 @@ export default function ClassicTable() {
                     </tbody>
                   </table>
                 </div>
-            </TabsContent>
+              </TabsContent>
 
-            {/* Partial Form */}
-            <TabsContent value="form">
-              <div className="rounded-lg border min-w-[320px]">
+              {/* Partial Form */}
+              <TabsContent value="form">
+                <div className="rounded-lg border min-w-[320px]">
                   {partialData.map((entry, index) => {
                     const { team, result } = entry;
                     const lastFive = [...(result || [])].sort(
@@ -876,7 +896,11 @@ export default function ClassicTable() {
                           <div className="px-4 py-2">
                             <div className="flex items-center gap-2 w-36">
                               <img
-                                src={`${imageBaseURL}${team.short_name}_${imageComp}.png`}
+                                src={
+                                  dbName === "ffkPro"
+                                    ? team.url
+                                    : `${imageBaseURL}${team.short_name}_${imageComp}.png`
+                                }
                                 alt={team.name}
                                 className="w-6 h-6 object-contain"
                               />
@@ -915,8 +939,9 @@ export default function ClassicTable() {
                     );
                   })}
                 </div>
-            </TabsContent>
-          </>)}
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </TabsContent>
     </Tabs>

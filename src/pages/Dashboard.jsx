@@ -22,40 +22,40 @@ const Dashboard = () => {
           className="ml-2 border px-2 py-1 rounded"
         >
           <option value="">-- Select DB --</option>
-          <option value="ghj">Play Thang</option>
-          <option value="test">Test</option>
+          <option value="ffkPro">FFK Pro</option>
+          {/*<option value="test">Test</option>*/}
           <option value="app5Aside">WhatsApp</option>
           <option value="X5Aside">X5Aside</option>
         </select>
         <p className="text-sm text-gray-500 mt-1">
-          Using database: <span className="font-semibold">{dbName === 'app5Aside' ? 'WhatsApp 5 Aside' : dbName === 'X5Aside' ? 'X 5 Aside' : dbName === 'ghj' ? 'Play Thang' : "none"}</span>
+          Using database: <span className="font-semibold">{dbName === 'app5Aside' ? 'WhatsApp 5 Aside' : dbName === 'X5Aside' ? 'X 5 Aside' : dbName === 'ffkPro' ? 'FFK Pro' : "none"}</span>
         </p>
       </div>}
-      <div className="min-w-[320px] grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Top Scorers</h3>
+      <div className="grid gap-4 md:grid-cols-2 py-4">
+        <div className="bg-white p-4 rounded-lg shadow-lg box-shadow">
+          <div className="p-2 dashboard-bg"><h3 className="text-lg font-semibold">Top Scorers</h3></div>
           <TopFiveScorers />
         </div>
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Players H2H </h3>
+        {dbName !== "ffkPro" && <div className="bg-white p-4 rounded-lg shadow-lg box-shadow">
+          <div className="p-2 dashboard-bg"><h3 className="text-lg font-semibold">Players H2H </h3></div>
           <TopFivePlayersH2H />
-        </div>
+        </div>}
         {/* <div className="bg-white p-4 rounded shadow">
           <h3 className="text-lg font-semibold">Upcoming Fixtures</h3>
           <p className="text-2xl font-bold text-orange-600">6</p>
         </div>*/}
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Classic Standings</h3>
+        <div className="bg-white p-4 rounded-lg shadow-lg box-shadow">
+          <div className="p-2 dashboard-bg"><h3 className="text-lg font-semibold">Classic Standings</h3></div>
           <TopFiveTeamsClassic />
         </div>
-        <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">H2H Standings</h3>
+        {dbName !== "ffkPro" && <div className="bg-white p-4 rounded-lg shadow-lg box-shadow">
+          <div className="p-2 dashboard-bg"><h3 className="text-lg font-semibold">H2H Standings</h3></div>
           <TopFiveTeamsH2H />
-        </div>
-      <div className="bg-white p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">F1 Format Standings</h3>
+        </div>}
+      {dbName !== "ffkPro" && <div className="bg-white p-4 rounded-lg shadow-lg box-shadow">
+          <div className="p-2 dashboard-bg"><h3 className="text-lg font-semibold">F1 Format Standings</h3></div>
           <TopFiveTeamsF1 />
-      </div>
+      </div>}
     </div>
       </div>
   )

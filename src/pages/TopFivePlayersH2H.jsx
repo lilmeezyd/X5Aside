@@ -15,7 +15,7 @@ export default function PlayerTable() {
   return (
       <div className="w-full overflow-x-auto space-y-4"> 
       {/*<h2 className="text-xl font-semibold mb-2">Top 5 Players</h2>*/}
-     { leaderboard.length === 0? <p>No data</p> : (<table className="min-w-full border border-gray-200 rounded-lg shadow text-sm">
+     { leaderboard.length === 0? <p>No data</p> : (<table className="min-w-full text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
             <th className="px-4 py-2 text-left"></th>

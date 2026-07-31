@@ -23,7 +23,7 @@ export const teamApiSlice = apiSlice.injectEndpoints({
       query: (dbName) => ({
         url: `${TEAMS_URL}`,
         method: "POST",
-body: {dbName}
+        body: { dbName },
       }),
       invalidatesTags: ["Team"],
     }),
@@ -39,17 +39,59 @@ body: {dbName}
       query: (dbName) => ({
         url: `${TEAMS_URL}`,
         method: "DELETE",
-        body: {dbName}
+        body: { dbName },
       }),
-      invalidatesTags: ["Team","Player", "Leaderboard", "PlayerTable" ],
+      invalidatesTags: ["Team", "Player", "Leaderboard", "PlayerTable"],
     }),
     delete: builder.mutation({
       query: (teamId, dbName) => ({
         url: `${TEAMS_URL}/${teamId}`,
         method: "DELETE",
-        body: {dbName}
+        body: { dbName },
       }),
-      invalidatesTags: ["Team","Player", "Leaderboard", "PlayerTable"],
+      invalidatesTags: ["Team", "Player", "Leaderboard", "PlayerTable"],
+    }),
+    createProTeamAndMembers: builder.mutation({
+      query: ({ dbName, image, managerIds, teamName, shortName }) => {
+        const formData = new FormData();
+
+        formData.append("dbName", dbName);
+        formData.append("teamName", teamName);
+        formData.append("shortName", shortName);
+
+        // Arrays must also be appended
+        formData.append("managerIds", JSON.stringify(managerIds));
+
+        // The actual file
+        formData.append("file", image);
+
+        return {
+          url: `${TEAMS_URL}/createProTeamAndMembers?dbName=${dbName}`,
+          method: "POST",
+          body: formData,
+        };
+      },
+      invalidatesTags: ["Team", "User" ]
+    }),
+    getPicks: builder.query({
+      query: (dbName) => ({
+        url: `${TEAMS_URL}/picks?dbName=${dbName}`,
+      }),
+      providesTags: ["Team"],
+    }),
+    getPicksWithPoints: builder.query({
+      query: (dbName, eventId) => ({
+        url: `${TEAMS_URL}/event/${eventId}/picksWithPoints?dbName=${dbName}`,
+      }),
+      providesTags: ["Team"],
+    }),
+    editPicks: builder.mutation({
+      query: ({dbName, eventId, picks}) => ({
+        url: `${TEAMS_URL}/event/${eventId}/picks?dbName=${dbName}`,
+        method: "PUT",
+        body: { picks },
+      }),
+      invalidatesTags: ["Team"],
     }),
   }),
 });
@@ -62,4 +104,8 @@ export const {
   useEditMutation,
   useDeleteAllMutation,
   useDeleteMutation,
+  useCreateProTeamAndMembersMutation,
+  useGetPicksQuery,
+  useGetPicksWithPointsQuery,
+  useEditPicksMutation
 } = teamApiSlice;

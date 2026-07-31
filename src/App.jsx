@@ -19,6 +19,9 @@ const Tables = lazy(() => import('./pages/Tables'));
 const Events = lazy(() => import('./pages/Events'));
 const Help = lazy(() => import('./pages/Help'));
 const EventImages = lazy(() => import('./pages/EventImages'));
+const TeamAccounts = lazy(() => import('./pages/TeamAccounts'))
+const CreateTeam = lazy(() => import('./pages/CreateTeam'))
+const PickTeam = lazy(() => import('./pages/PickTeam'))
 
 export default function App() {
   /*useEffect(() => {
@@ -51,6 +54,9 @@ export default function App() {
             <Route path="/fixtures" element={<Fixtures />} />
             <Route path="/players" element={<Players />} />
             <Route path="/tables" element={<Tables />} />
+            <Route path='/pro' element={<TeamAccounts />} />
+            <Route path='/createTeam' element={<CreateTeam />} />
+            <Route path='/pickTeam' element={<PickTeam />} />
           <Route path="/help" element={<Help />} />
             <Route path="/tow" element={<EventImages />} />
             <Route path="*" element="Page not found" />

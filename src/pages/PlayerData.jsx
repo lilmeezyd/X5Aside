@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Pencil, Trash2, ArrowUp, ArrowDown } from "lucide-react";
-import { useDeletePlayerMutation, useEditPlayerMutation } from "../slices/playerApiSlice";
+import { useDeletePlayerMutation, useEditPlayerMutation } from "../slices/playerApiSlice"; 
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 
@@ -63,7 +63,8 @@ const [ editStart, setEditStart ] = useState(0.0);
         return 0;
       });
     }
-    return filtered.filter(x => x.overallRank);
+    
+    return filtered.filter(x => x.overallRank || x.fplId);
   }, [players, sortConfig, filterPosition]);
 
   const paginated = sortedPlayers.slice(
@@ -149,7 +150,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
   return (
     <>
-      <div className="flex justify-center space-x-1 overflow-x-auto pb-2 text-xs">
+      {dbName !== "ffkPro" && <div className="flex justify-center space-x-1 overflow-x-auto pb-2 text-xs">
         <button
           className={`px-4 py-1 rounded-full bg-gray-200 hover:bg-gray-300 font-semibold ${ filterPosition === "" ? "bg-gray-600" : ""} ${ filterPosition === "" ? "text-white" : ""}`}
           onClick={() => {setFilterPosition("")
@@ -193,9 +194,9 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
         >
           Def
         </button>
-      </div>
-    <div className="w-full  border rounded-sm overflow-x-auto space-y-4">
-      <table className="rounded-lg shadow text-sm">
+      </div>}
+    <div className="w-full rounded-sm overflow-x-auto space-y-4">
+      <table className="min-w-full rounded-lg shadow text-sm">
         <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
           <tr>
             <th className="px-4 py-2"></th>
@@ -207,14 +208,14 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
             >
               Manager {sortIcon("manager")}
             </th> 
-            <th
+            {dbName !== "ffkPro" && <th
               className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "position" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("position")}
             >
               Position {sortIcon("position")}
-            </th>
+            </th>}
             <th
               className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "team" ? "font-bold text-blue-700" : ""
@@ -223,7 +224,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
             >
               Team {sortIcon("team")}
             </th>
-            {dbName !== "X5Aside" && <><th
+            {dbName === "app5Aside" && <><th
               className={`px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "startPrice" ? "font-bold text-blue-700" : ""
               }`}
@@ -254,7 +255,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               <div className="flex justify-center items-center "><span>FPL ID</span>{sortIcon("fplId")}</div>
             </th>
             <th className={`px-4 py-2 text-left cursor-pointer sortConfig.key === "eventPoints" ? "font-bold text-blue-700" : ""}`} onClick={() => requestSort("eventPoints")}>
-              <div className="flex justify-center items-center "><span>GW Score</span>{sortIcon("eventPoints")}</div> </th>
+              <div className="flex justify-center items-center "><span>GW</span>{sortIcon("eventPoints")}</div> </th>
 
 
             <th
@@ -273,7 +274,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
             >
               <div className="flex justify-center items-center "><span>Rank</span>{sortIcon("overallRank")}</div>
             </th>
-            { userInfo && <th className="px-4 py-2 text-center">Actions</th> }
+            { userInfo?.admin && dbName !== "ffkPro" && <th className="px-4 py-2 text-center">Actions</th> }
           </tr>
         </thead>
         <tbody>
@@ -289,7 +290,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                     offset - index + (totalPages-currentPage+1) * itemsPerPage : 
                     offset - index + (totalPages-currentPage) * itemsPerPage}`}
               </td>
-              <td className="w-[60px] px-4 py-2">
+              <td className="w-[150px] px-4 py-2">
                 <div className="overflow-stuff w-[100px]">
                 <a
                   href={player.eventId ? 
@@ -306,29 +307,33 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                 <div className="overflow-stuff w-[100px] text-xs text-gray-500"
                  style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}>{player.manager}</div>
               </td>
-              <td className="px-4 py-2"><div className="text-center">{player.position}</div></td>
-              <td className="px-4 py-2">
+              {dbName !== "ffkPro" && <td className="px-4 py-2"><div className="text-center">{player.position}</div></td>}
+              <td className="px-4 py-2 w-[100px]">
                 <div className="border border-blue-500 rounded shadow-lg flex items-center justify-evenly gap-1 w-[60px] p-1">
                 <img
-                                  src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
+                                  src={
+                            dbName === "ffkPro"
+                              ? player?.team?.url
+                              : `${imageBaseURL}${player?.team?.short_name}_${imageComp}.png`
+                          }
                                   alt={player.team?.short_name}
                                   className="w-4 h-4 object-contain"
                                 />
                 <span className="text-xs font-bold truncate whitespace-nowrap overflow-hidden">{player.team?.short_name || "—"}
                   </span>
                 </div></td>
-              {dbName !== "X5Aside" && <>
+              {dbName === "app5Aside" && <>
               <td className="px-4 py-2"><div className="text-center">{(player.startPrice)?.toFixed(1)}</div></td>
               <td className="px-4 py-2"><div className="text-center">{(player.currentPrice)?.toFixed(1)}</div></td>
               <td className="px-4 py-2"><div className="text-center">{(player?.currentPrice - player?. startPrice)?.toFixed(1)}</div></td>
               </>}
-              <td className="px-4 py-2">
-                <div className=" overflow-stuff w-[100px] text-center">{player.fplId}</div></td>
+              <td className="text-center px-4 py-2 w-[150px]">
+                <div className=" overflow-stuff text-center">{player.fplId}</div></td>
               <td className="px-4 py-2"><div className="text-center">{player?.eventPoints}</div></td>
               <td className="px-4 py-2">
                 <div className="text-center">{player?.overallPoints}</div></td>
               <td className="px-4 py-2"><div className=" overflow-stuff w-[100px] text-center">{player.overallRank}</div></td>
-              { userInfo && <td className="px-4 py-2 text-center space-x-2">
+              {  userInfo?.admin && dbName !== "ffkPro" && <td className="px-4 py-2 text-center space-x-2">
                 <button
                   onClick={() => openEditModal(player)}
                   className="text-blue-600 hover:text-blue-800"
@@ -417,6 +422,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                 onChange={(e) => setEditPosition(e.target.value)}
                 className="w-full px-3 py-1 border rounded"
               >
+                <option value="">---</option>
                 <option value="Ace">Ace</option>
                 <option value="Defender">Defender</option>
                 <option value="Midfielder">Midfielder</option>

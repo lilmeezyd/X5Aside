@@ -4,8 +4,8 @@ const PLAYERS_URL = "/api/players";
 export const playerApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPlayers: builder.query({
-      query: (dbName) => ({
-    url: `${PLAYERS_URL}?dbName=${dbName}`,
+      query: ({dbName, team}) => ({
+    url: `${PLAYERS_URL}?team=${team}&dbName=${dbName}`,
       }),
       providesTags: ["Player"],
     }),

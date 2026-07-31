@@ -7,7 +7,7 @@ import {
   TabsContent,
 } from "../../@/components/ui/tabs";
 import { toast } from "sonner";
-
+import { useGetQuery } from "../slices/teamApiSlice";
 import {
   useGetPlayersQuery,
   useUpdateTopScorersMutation,
@@ -31,19 +31,29 @@ const PlayerData = lazy(() => import("./PlayerData"));
 const PlayerTable = lazy(() => import("./PlayerTable"));
 const TopScorers = lazy(() => import("./TopScorers"));
 const PlayerFixtures = lazy(() => import("./PlayerFixtures"));
+const MiniLeagues = lazy(() => import("./MiniLeagues"));
+const PlayersPerTeam = lazy(() => import("./PlayersPerTeam"));
 
 export default function Players() {
   const dbName = useSelector((state) => state.database.dbName);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const [activeTab, setActiveTab] = useState("data");
+  const imageComp =
+    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
 
   // Fetch queries with loading, error, refetch
+  const {
+    data: teams = [],
+    isLoading: teamsLoading,
+    refetch: refetchTeams,
+    isError: teamsError,
+  } = useGetQuery(dbName);
   const {
     data: players = [],
     isLoading: playersLoading,
     isError: playersError,
     refetch: refetchPlayers,
-  } = useGetPlayersQuery(dbName);
+  } = useGetPlayersQuery({ dbName, team: "all" });
 
   const {
     data: leaderboard = [],
@@ -91,8 +101,8 @@ export default function Players() {
       await fetchPointsFromApi(dbName).unwrap();
       refetchPlayers();
       toast.success("Player Points successfully updated");
-    } catch(error) {
-      console.log(error)
+    } catch (error) {
+      console.log(error);
       toast.error("Failed to fetch points");
     }
   };
@@ -102,8 +112,8 @@ export default function Players() {
     try {
       await createPlayerFixtures(dbName).unwrap();
       toast.success("Player H2H fixtures created");
-    } catch(error) {
-      toast.error(error.data.message ||  "Failed to update fixtures");
+    } catch (error) {
+      toast.error(error.data.message || "Failed to update fixtures");
     }
   };
 
@@ -114,7 +124,7 @@ export default function Players() {
       refetchFixtures();
       refetchLeaderboard();
       toast.success("Player H2H fixtures updated");
-    } catch(error) {
+    } catch (error) {
       toast.error(error.data.message || "Failed to update player H2H scores");
     }
   };
@@ -147,8 +157,8 @@ export default function Players() {
       return (
         <div className="text-center space-y-3">
           <p className="text-gray-500">
-            {isError
-              && "No data found. This might be due to slow internet or server issues."}
+            {isError &&
+              "No data found. This might be due to slow internet or server issues."}
           </p>
           {isError && <Button onClick={onRetry}>Retry</Button>}
         </div>
@@ -158,35 +168,57 @@ export default function Players() {
 
   return (
     <div className="overflow-auto">
-        <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Players</h2>
+      <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Players</h2>
 
-      {userInfo && <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-       {/*} <Button onClick={handleDeletePlayers} variant="destructive">
+      {userInfo && userInfo?.role === "admin" && (
+        <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+          {/*} <Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
         </Button>*/}
-        <Button onClick={handleCreateFixtures} variant="default">
-          Create Player H2H fixtures
-        </Button>
-        <Button onClick={handleUpdatePoints} variant="default">
-          Fetch Player Points
-        </Button>
-        <Button onClick={handleUpdateFixtures} variant="default">
-          Update Player H2H Fixtures
-        </Button>
-        <Button onClick={handleUpdateTopScorers} variant="default">
-          Update Top Scorers
-        </Button>
-        {/*<Button onClick={handleTableUpdate} variant="default">
+          {dbName !== "ffkPro" && <Button onClick={handleCreateFixtures} variant="default">
+            Create Player H2H fixtures
+          </Button>}
+          <Button onClick={handleUpdatePoints} variant="default">
+            Fetch Player Points
+          </Button>
+          {dbName !== "ffkPro" && <Button onClick={handleUpdateFixtures} variant="default">
+            Update Player H2H Fixtures
+          </Button>}
+          <Button onClick={handleUpdateTopScorers} variant="default">
+            Update Top Scorers
+          </Button>
+          {/*<Button onClick={handleTableUpdate} variant="default">
           Update Players H2H Table
         </Button>*/}
-      </div>}
+        </div>
+      )}
 
-      <Tabs className="min-w-[320px]" defaultValue="data" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        className="min-w-[320px]"
+        defaultValue="data"
+        value={activeTab}
+        onValueChange={setActiveTab}
+      >
         <TabsList className="mb-4 m-auto overflow-x-auto">
-          <TabsTrigger className="text-xs sm:text-sm" value="data">Players</TabsTrigger>
-          <TabsTrigger className="text-xs sm:text-sm" value="table">Players H2H Table</TabsTrigger>
-          <TabsTrigger className="text-xs sm:text-sm" value="top">Top Scorers</TabsTrigger>
-          <TabsTrigger className="text-xs sm:text-sm" value="fixtures">Fixtures</TabsTrigger>
+          <TabsTrigger className="text-xs sm:text-sm" value="data">
+            Players
+          </TabsTrigger>
+          <TabsTrigger className="text-xs sm:text-sm" value="mini">
+            Mini Leagues
+          </TabsTrigger>
+          {dbName !== "ffkPro" && (
+            <TabsTrigger className="text-xs sm:text-sm" value="table">
+              Players H2H Table
+            </TabsTrigger>
+          )}
+          <TabsTrigger className="text-xs sm:text-sm" value="top">
+            Top Scorers
+          </TabsTrigger>
+          {dbName !== "ffkPro" && (
+            <TabsTrigger className="text-xs sm:text-sm" value="fixtures">
+              Fixtures
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent className="w-full" value="data">
@@ -237,6 +269,49 @@ export default function Players() {
               onRetry={refetchFixtures}
             >
               <PlayerFixtures fixtures={playerFixtures} />
+            </RetryWrapper>
+          </Suspense>
+        </TabsContent>
+
+        <TabsContent className="w-full" value="mini">
+          <Suspense fallback={<p>Loading Mini Leagues...</p>}>
+            <RetryWrapper
+              isError={teamsError}
+              isLoading={teamsLoading}
+              dataLength={teams.length}
+              onRetry={refetchTeams}
+            >
+              <div className="grid md:grid-cols-2">
+                {teams.map((team, index) => (
+                  <div key={team._id} className="m-2 rounded-lg shadow-lg box-shadow">
+                    <div  style={{
+                          background:
+                            dbName !== "ffkPro"
+                              ? `linear-gradient(180deg, ${team.primaryColor || 'black'}, ${team.secondaryColor || 'white'})`
+                              : `linear-gradient(180deg, white, black)`,
+                          color: dbName !== "ffkPro" ? team.color : 'white',
+                        }} className="flex justify-center items-center space-x-2 p-2">
+                      <div
+                        className="p-1 md:p-3 rounded-full bg-white"
+                      >
+                        <img
+                          src={
+                            dbName === "ffkPro"
+                              ? team.url
+                              : `https://ik.imagekit.io/cap10/${team.short_name}_${imageComp}.png`
+                          }
+                          className="w-6 md:w-12 h-6 md:h-12 object-contain"
+                          alt={team?.name}
+                        />
+                      </div>
+                      <div className="font-semibold md:text-2xl p-1 truncate">
+                        {team?.name}
+                      </div>
+                    </div>
+                    <PlayersPerTeam teamId={team?._id} />
+                  </div>
+                ))}
+              </div>
             </RetryWrapper>
           </Suspense>
         </TabsContent>

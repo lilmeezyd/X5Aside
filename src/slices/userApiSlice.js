@@ -19,6 +19,27 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+    registerTeamManager: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/registerTeamManager`,
+        method: "POST",
+        body: data
+      }),
+      invalidatesTags: ['User']
+    }),
+    getRegisteredTeamManagers: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/getRegisteredTeamManagers`
+      }),
+      providesTags: ['User']
+    }),
+    deleteTeamManager: builder.mutation({
+      query: (id) => ({
+        url: `${USERS_URL}/teamManagers/${id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ["User"]
+    }),
     logout: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/logout`,
@@ -39,6 +60,9 @@ export const userApiSlice = apiSlice.injectEndpoints({
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useRegisterTeamManagerMutation,
+  useGetRegisteredTeamManagersQuery,
   useLogoutMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useDeleteTeamManagerMutation
 } = userApiSlice;
