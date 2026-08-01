@@ -1,8 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useDatabase } from "../hooks/useDatabase";
 
 const SelectDB = () => {
     const dbName = useSelector((state) => state.database.dbName);
+    const { changeDb } = useDatabase();
   return (
     <div className="absolute right-0 top-0 text-xs">
         <div className="mb-4">
