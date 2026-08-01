@@ -1,4 +1,5 @@
 import { useState, Suspense, lazy } from "react";
+import SelectDB from "./SelectDB";
 import { Button } from "../../@/components/ui/button";
 import {
   Tabs,
@@ -167,14 +168,14 @@ export default function Players() {
   }
 
   return (
-    <div className="overflow-auto">
+    <div className="relative">
       <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Players</h2>
-
+      {!userInfo && <SelectDB />}
       {userInfo && userInfo?.role === "admin" && (
         <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-          {/*} <Button onClick={handleDeletePlayers} variant="destructive">
+          <Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
-        </Button>*/}
+        </Button>
           {dbName !== "ffkPro" && <Button onClick={handleCreateFixtures} variant="default">
             Create Player H2H fixtures
           </Button>}

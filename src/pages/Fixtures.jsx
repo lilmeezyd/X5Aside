@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import FixtureStats from "./FixtureStats";
+import SelectDB from "./SelectDB";
 import {
   useGetFixturesQuery,
   useAddFixturesMutation,
@@ -124,9 +125,9 @@ export default function Fixtures() {
   };
 
   return (
-    <div className="overflow-auto p-4 mt-15 md:mt-0 sm:w-full">
-      <h2 className="text-3xl font-bold mb-6">Fixtures</h2>
-
+    <div className="sm:w-full relative">
+      <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Fixtures</h2>
+      {!userInfo && <SelectDB />}
       <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
         <Input
           placeholder="Filter by Gameweek (e.g. 1)"

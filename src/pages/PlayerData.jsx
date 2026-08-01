@@ -217,7 +217,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               Position {sortIcon("position")}
             </th>}
             <th
-              className={`px-4 py-2 text-center cursor-pointer ${
+              className={` w-[100px] px-4 py-2 text-center cursor-pointer ${
                 sortConfig.key === "team" ? "font-bold text-blue-700" : ""
               }`}
               onClick={() => requestSort("team")}
@@ -272,9 +272,9 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               }`}
               onClick={() => requestSort("overallRank")}
             >
-              <div className="flex justify-center items-center "><span>Rank</span>{sortIcon("overallRank")}</div>
+              <div className="flex justify-center items-center"><span>Rank</span>{sortIcon("overallRank")}</div>
             </th>
-            { userInfo?.admin && dbName !== "ffkPro" && <th className="px-4 py-2 text-center">Actions</th> }
+            { userInfo?.role === 'admin' && <th className="px-4 py-2 text-center">Actions</th> }
           </tr>
         </thead>
         <tbody>
@@ -332,8 +332,8 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               <td className="px-4 py-2"><div className="text-center">{player?.eventPoints}</div></td>
               <td className="px-4 py-2">
                 <div className="text-center">{player?.overallPoints}</div></td>
-              <td className="px-4 py-2"><div className=" overflow-stuff w-[100px] text-center">{player.overallRank}</div></td>
-              {  userInfo?.admin && dbName !== "ffkPro" && <td className="px-4 py-2 text-center space-x-2">
+              <td className="px-4 py-2"><div className="text-center">{player.overallRank}</div></td>
+              {  userInfo?.role === 'admin' && <td className="px-4 py-2 text-center space-x-2">
                 <button
                   onClick={() => openEditModal(player)}
                   className="text-blue-600 hover:text-blue-800"

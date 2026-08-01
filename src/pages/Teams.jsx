@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react"
 import TeamCard from "./TeamCard";
+import SelectDB from "./SelectDB";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
 import { useGetQuery, useAddMutation, useDeleteAllMutation, useGetTeamTotalPointsQuery } from "../slices/teamApiSlice";
@@ -65,8 +66,9 @@ export default function Teams() {
 
 
   return (
-    <div className="overflow-auto">
+    <div className="relative">
       <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Teams</h2>
+      {!userInfo && <SelectDB />}
      {userInfo && userInfo.role === "admin" && (
         <Button onClick={handleAddTeams} className="mb-4">
           Add Teams from FPL API

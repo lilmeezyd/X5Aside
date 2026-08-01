@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import SelectDB from "./SelectDB";
 import { useSelector } from "react-redux";
 import {
   useGetTOWQuery,
@@ -69,8 +70,9 @@ const EventImages = () => {
 
   return (
 
-    <div className="w-[320px] sm:w-full">
-      <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0 px-4">Teams of the week</h2>
+    <div className="w-[320px] sm:w-full relative">
+      <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">TOW</h2>
+      {!userInfo && <SelectDB />}
       {/*userInfo && <div className="p-4"><Button onClick={createTOWImages} className> Create </Button></div>*/}
     <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-4 p-4">
       {isLoading && <p>Loading...</p>}

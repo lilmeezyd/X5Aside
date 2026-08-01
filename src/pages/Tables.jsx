@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ClassicTable from "./ClassicTable";
 import H2hTable from "./H2hTable";
 import F1Table from "./F1Table";
+import SelectDB from "./SelectDB";
 import { Button } from "../../@/components/ui/button";
 import {
   useUpdateClassicTableMutation,
@@ -15,6 +16,7 @@ import CombinedTable from "./CombinedTable";
 
 export default function Tables() {
   const dbName = useSelector((state) => state.database.dbName);
+  const userInfo = useSelector((state) => state.auth.userInfo)
   const [view, setView] = useState("classic");
 
   const [updateClassicTable, { isLoading: isUpdatingClassic }] =
@@ -39,8 +41,9 @@ export default function Tables() {
   };
 
   return (
-    <div className=" mt-15 md:mt-0 sm:w-full">
-    
+    <div className="sm:w-full relative">
+      <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Tables</h2>
+    {!userInfo && <SelectDB />}
     <div className="space-y-6">
       <div className="flex justify-center gap-2 mb-4">
         <Button
