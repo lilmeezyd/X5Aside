@@ -148,17 +148,17 @@ export default function Fixtures() {
           }}
         />
 
-        {userInfo && userInfo.role === "admin" && (
+        {/*userInfo && userInfo.role === "admin" && (
           <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
-        )}
-        {userInfo && userInfo.role === "admin" && (
+        )*/}
+        {userInfo && userInfo.role === "admin" && (dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") &&
           <>
             <Button onClick={handleClassicFixtures}>
               Update Classic Scores
             </Button>
             <Button onClick={handleH2HFixtures}>Update H2H Scores</Button>
           </>
-        )}
+        }
       </div>
 
       {isLoading ? (

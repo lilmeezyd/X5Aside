@@ -173,21 +173,29 @@ export default function Players() {
       {!userInfo && <SelectDB />}
       {userInfo && userInfo?.role === "admin" && (
         <div className="grid gap-4 py-4 grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
-          <Button onClick={handleDeletePlayers} variant="destructive">
+          {/*<Button onClick={handleDeletePlayers} variant="destructive">
           Delete All Players
-        </Button>
-          {dbName !== "ffkPro" && <Button onClick={handleCreateFixtures} variant="default">
-            Create Player H2H fixtures
-          </Button>}
-          <Button onClick={handleUpdatePoints} variant="default">
-            Fetch Player Points
-          </Button>
-          {dbName !== "ffkPro" && <Button onClick={handleUpdateFixtures} variant="default">
-            Update Player H2H Fixtures
-          </Button>}
-          <Button onClick={handleUpdateTopScorers} variant="default">
-            Update Top Scorers
-          </Button>
+        </Button>*/}
+          {dbName === "X5Aside" || dbName === "app5Aside" ? (
+            <Button onClick={handleCreateFixtures} variant="default">
+              Create Player H2H fixtures
+            </Button>
+          ) : null}
+          {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? (
+            <Button onClick={handleUpdatePoints} variant="default">
+              Fetch Player Points
+            </Button>
+          ) : null}
+          {dbName === "X5Aside" || dbName === "app5Aside" ? (
+            <Button onClick={handleUpdateFixtures} variant="default">
+              Update Player H2H Fixtures
+            </Button>
+          ) : null}
+          {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? (
+            <Button onClick={handleUpdateTopScorers} variant="default">
+              Update Top Scorers
+            </Button>
+          ) : null}
           {/*<Button onClick={handleTableUpdate} variant="default">
           Update Players H2H Table
         </Button>*/}

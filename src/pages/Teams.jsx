@@ -69,16 +69,16 @@ export default function Teams() {
     <div className="relative">
       <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Teams</h2>
       {!userInfo && <SelectDB />}
-     {userInfo && userInfo.role === "admin" && (
+     {/*userInfo && userInfo.role === "admin" && (
         <Button onClick={handleAddTeams} className="mb-4">
           Add Teams from FPL API
         </Button>
-      )}
-      {userInfo && userInfo.role === "admin" && (
+      )*/}
+      {/*userInfo && userInfo.role === "admin" && (
         <Button onClick={openDeleteModal} className="ml-4 mb-4 bg-red-600">
           Delete Teams
         </Button>
-      )}
+      )*/}
 
 
       {isLoading ? (

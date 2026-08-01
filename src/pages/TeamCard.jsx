@@ -155,9 +155,11 @@ export default function TeamCard({ team, refetch }) {
           <div className="flex flex-wrap gap-2">
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
-                <Button size="sm" onClick={() => setOpen(true)}>
-                  Add Player
-                </Button>
+                {dbName === "X5Aside" || dbName === "app5Aside" && (
+                  <Button size="sm" onClick={() => setOpen(true)}>
+                    Add Player
+                  </Button>
+                )}
               </DialogTrigger>
 
               <DialogContent>
