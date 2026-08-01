@@ -183,18 +183,19 @@ export default function FixtureStats({ f, eventId }) {
                               <span className="font-medium truncate">
                                 {home.manager}
                               </span>
-                              <a
-                                href={
-                                  eventId
-                                    ? `https://fantasy.premierleague.com/entry/${home?.fplId}/event/${eventId}`
-                                    : `https://fantasy.premierleague.com/entry/${home?.fplId}/history/`
-                                }
+                              {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? (
+                                <a
+                                  href={
+                                    eventId
+                                      ? `https://fantasy.premierleague.com/entry/${home?.fplId}/event/${eventId}`
+                                      : `https://fantasy.premierleague.com/entry/${home?.fplId}/history/`
+                                  }
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {home.teamName}
-                              </a>
+                              </a>) : <span className="font-semibold">{home?.teamName}</span>}
                               {home.xHandle && (
                                 <a
                                   href={`https://x.com/${home.xHandle.replace(
@@ -322,7 +323,7 @@ export default function FixtureStats({ f, eventId }) {
                               <span className="font-medium truncate">
                                 {away.manager}
                               </span>
-                              <a
+                              {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? <a
                                 href={
                                   eventId
                                     ? `https://fantasy.premierleague.com/entry/${away?.fplId}/event/${eventId}`
@@ -333,7 +334,7 @@ export default function FixtureStats({ f, eventId }) {
                                 className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {away.teamName}
-                              </a>
+                              </a> : <span className="font-semibold">{away?.teamName}</span>}
                               {away.xHandle && (
                                 <a
                                   href={`https://x.com/${away.xHandle.replace(
@@ -444,7 +445,7 @@ export default function FixtureStats({ f, eventId }) {
                               <span className="font-medium truncate">
                                 {home.manager}
                               </span>
-                              <a
+                             {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ?  <a
                                 href={
                                   eventId
                                     ? `https://fantasy.premierleague.com/entry/${home?.fplId}/event/${eventId}`
@@ -455,7 +456,7 @@ export default function FixtureStats({ f, eventId }) {
                                 className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {home.teamName}
-                              </a>
+                              </a> : <span className="font-semibold">{home?.teamName}</span>}
                               {home.xHandle && (
                                 <a
                                   href={`https://x.com/${home.xHandle.replace(
@@ -556,7 +557,7 @@ export default function FixtureStats({ f, eventId }) {
                               <span className="font-medium truncate">
                                 {away.manager}
                               </span>
-                              <a
+                              {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? <a
                                 href={
                                   eventId
                                     ? `https://fantasy.premierleague.com/entry/${away?.fplId}/event/${eventId}`
@@ -567,7 +568,7 @@ export default function FixtureStats({ f, eventId }) {
                                 className="text-blue-600 hover:underline text-xs truncate"
                               >
                                 {away.teamName}
-                              </a>
+                              </a> : <span className="font-semibold">{away?.teamName}</span>}
                               {away.xHandle && (
                                 <a
                                   href={`https://x.com/${away.xHandle.replace(

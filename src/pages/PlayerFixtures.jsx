@@ -102,7 +102,7 @@ export default function PlayerFixtures() {
                     {fixture.eventId}
                   </td>
                   <td className="p-2 border text-right">
-                    <a
+                    {(dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") ? <a
                       href={renderLink(fixture.homePlayer?.fplId)}
                       target="_blank"
                       rel="noreferrer"
@@ -112,13 +112,16 @@ export default function PlayerFixtures() {
                       <div className="text-xs text-gray-500">{fixture.homePlayer?.manager}</div>
                       <div className='italic p-1 border font-bold bg-gray-200'>
                         {fixture?.homeTeam?.name}</div>
-                    </a>
+                    </a>: <><div className="font-medium">{fixture.homePlayer?.teamName}</div>
+                      <div className="text-xs text-gray-500">{fixture.homePlayer?.manager}</div>
+                      <div className='italic p-1 border font-bold bg-gray-200'>
+                        {fixture?.homeTeam?.name}</div></>}
                   </td>
                   <td className="p-2 border text-center font-bold text-lg align-middle">
                     {fixture.homeScore} : {fixture.awayScore}
                   </td>
                   <td className="p-2 border">
-                    <a
+                    {(dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") ? <a
                       href={renderLink(fixture.awayPlayer?.fplId)}
                       target="_blank"
                       rel="noreferrer"
@@ -128,7 +131,10 @@ export default function PlayerFixtures() {
                       <div className="text-xs text-gray-500">{fixture.awayPlayer?.manager}</div>
                       <div className='italic p-1 border bg-gray-200 font-bold'>
                         {fixture?.awayTeam?.name}</div>
-                    </a>
+                    </a> : <><div className="font-medium">{fixture.awayPlayer?.teamName}</div>
+                      <div className="text-xs text-gray-500">{fixture.awayPlayer?.manager}</div>
+                      <div className='italic p-1 border bg-gray-200 font-bold'>
+                        {fixture?.awayTeam?.name}</div></>}
                   </td>
                 </tr>
               ))}

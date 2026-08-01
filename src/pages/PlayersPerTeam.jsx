@@ -77,6 +77,10 @@ const PlayersPerTeam = (props) => {
           <ArrowDown size={14} className="inline ml-1" />
         );
       };
+
+      if (playersLoading) {
+        return <div>Loading...</div>;
+      }
   return (
     <div>
       <div className="border-b border-gray-300 m-1 p-1 flex items-center">
@@ -94,17 +98,18 @@ const PlayersPerTeam = (props) => {
             <div className="w-[35px] font-semibold border-r border-gray-400 text-center">{index+1}</div>
             <div className="w-[60%] p-1 truncate border-r border-gray-400">
                 <div className="truncate text-sm">
-                <a
-                  href={player.eventId ? 
-                    `https://fantasy.premierleague.com/entry/${player.fplId}/event/${player.eventId}` : 
-                  `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {(dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") ? (
+                  <a
+                    href={player.eventId ? 
+                      `https://fantasy.premierleague.com/entry/${player.fplId}/event/${player.eventId}` : 
+                    `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"
                   style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}
                 >
                   {player.teamName}
-                </a>
+                </a>) : <span className="font-semibold">{player?.teamName}</span>}
                 </div>
                 <div className="truncate text-xs"
                  style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}>{player.manager}</div>

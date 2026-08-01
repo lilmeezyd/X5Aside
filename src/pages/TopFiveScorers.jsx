@@ -23,7 +23,7 @@ export default function TopFiveScorers() {
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
 
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
-
+ 
   return (
     <div className="w-full overflow-x-auto space-y-4">
       {/*<h2 className="text-xl font-semibold">Top 5 Scorers</h2>*/}
@@ -62,18 +62,19 @@ export default function TopFiveScorers() {
                 >
                   <div className="flex flex-col w-32 p-1 relative">
                     <span className="truncate">{player?.player?.manager}</span>
-                    <a
-                      href={
-                        player?.eventId
-                          ? `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${player?.eventId}`
-                          : `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`
-                      }
+                    {(dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") ? (
+                      <a
+                        href={
+                          player?.eventId
+                            ? `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${player?.eventId}`
+                            : `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`
+                        }
                       target="_blank"
                       rel="noreferrer"
                       className="text-blue-600 hover:underline truncate"
                     >
                       {player?.player?.teamName}
-                    </a>
+                    </a>) : <span className="truncate font-semibold">{player?.player?.teamName}</span>}
                     {player?.player?.xHandle && (
                       <a
                         href={`https://x.com/${player?.player?.xHandle.replace(/^@/, "")}`}

@@ -117,18 +117,19 @@ export default function PlayerTable({ leaderboard }) {
                   <td className="px-4 py-3">
                     <div className="flex flex-col text-sm w-32 p-1">
                       <span className="font-medium truncate">{player?.manager}</span>
-                      <a
-                        href={
-                          eventId
-                            ? `https://fantasy.premierleague.com/entry/${player?.fplId}/event/${eventId}`
-                            : `https://fantasy.premierleague.com/entry/${player?.fplId}/history`
-                        }
+                      {((dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") && player?.fplId) ? (
+                        <a
+                          href={
+                            eventId
+                              ? `https://fantasy.premierleague.com/entry/${player?.fplId}/event/${eventId}`
+                              : `https://fantasy.premierleague.com/entry/${player?.fplId}/history`
+                          }
                         target="_blank"
                         rel="noreferrer"
                         className="text-blue-600 hover:underline text-xs truncate"
                       >
                         {player?.teamName}
-                      </a>
+                      </a>) : <span className="font-semibold">{player?.teamName}</span>}
                       {player?.xHandle && (
                         <a
                           href={`https://x.com/${player?.xHandle?.replace(/^@/, "")}`}

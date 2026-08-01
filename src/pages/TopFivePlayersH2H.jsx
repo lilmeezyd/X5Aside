@@ -21,7 +21,7 @@ export default function PlayerTable() {
             <th className="px-4 py-2 text-left"></th>
             <th className="px-4 py-2 text-left font-semibold"></th>
             <th className="px-4 py-2 text-left">P</th>
-            <th className="px-4 py-2 text-left">Pts</th>
+            <th className="px-4 py-2 text-left">Pts</th> 
           </tr>
         </thead>
         <tbody>
@@ -42,16 +42,17 @@ export default function PlayerTable() {
                   <td className={`px-4 py-3 ${index === 0 ? "font-bold text-lg" : ""}`}>
                   <div className="flex flex-col text-sm w-32 p-1 relative">
                     <span className="truncate">{player.manager}</span>
-                    <a
-                      href={entry.eventId ? 
-                    `https://fantasy.premierleague.com/entry/${player.fplId}/event/${entry.eventId}` : 
-                  `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
-                      target="_blank"
-                      rel="noreferrer"
+                    {(dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") ? (
+                      <a
+                        href={entry.eventId ? 
+                      `https://fantasy.premierleague.com/entry/${player.fplId}/event/${entry.eventId}` : 
+                    `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
+                        target="_blank"
+                        rel="noreferrer"
                       className="text-blue-600 hover:underline truncate"
                     >
                       {player.teamName}
-                    </a>
+                    </a>) : <span className="truncate font-semibold">{player.teamName}</span>}
                     {player.xHandle && (
                       <a
                         href={`https://x.com/${player.xHandle.replace(/^@/, "")}`}

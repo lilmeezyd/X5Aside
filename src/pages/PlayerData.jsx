@@ -292,17 +292,18 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               </td>
               <td className="w-[150px] px-4 py-2">
                 <div className="overflow-stuff w-[100px]">
-                <a
-                  href={player.eventId ? 
-                    `https://fantasy.premierleague.com/entry/${player.fplId}/event/${player.eventId}` : 
-                  `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {((dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") && player?.fplId) ? (
+                  <a
+                    href={player.eventId ? 
+                      `https://fantasy.premierleague.com/entry/${player.fplId}/event/${player.eventId}` : 
+                    `https://fantasy.premierleague.com/entry/${player.fplId}/history`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   className="text-blue-600 font-medium hover:underline"
                   style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}
                 >
                   {player.teamName}
-                </a>
+                </a>) : <span className="font-semibold">{player?.teamName}</span>}
                 </div>
                 <div className="overflow-stuff w-[100px] text-xs text-gray-500"
                  style={{background: !player?.isActive && '#ba1f2f', color: !player?.isActive && 'white'}}>{player.manager}</div>

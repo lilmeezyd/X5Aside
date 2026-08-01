@@ -144,7 +144,7 @@ export default function TopScorers({ scorers }) {
                 </td>
                 <td className="px-4 py-2 w-[100px]">
                   <div className="w-[150px] md:w-[300px] overflow-stuff">
-                    <a
+                    {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? <a
                       href={
                         eventId
                           ? `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${eventId}`
@@ -155,7 +155,7 @@ export default function TopScorers({ scorers }) {
                       className="text-blue-600 font-medium hover:underline"
                     >
                       {player.player.teamName}
-                    </a>
+                    </a> : <span className="font-semibold">{player.player.manager}</span>}
                     <div className="text-xs text-gray-500 overflow-stuff">
                       {player.player.manager}
                     </div>
