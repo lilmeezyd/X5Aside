@@ -7,6 +7,7 @@ import { Input } from "../../@/components/ui/input";
 import { Button } from "../../@/components/ui/button";
 import { Upload, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { Spinner } from "react-bootstrap";
 import { useCreateProTeamAndMembersMutation } from "../slices/teamApiSlice";
 
 const MAX_SIZE_MB = 5;
@@ -21,7 +22,7 @@ const CreateTeam = () => {
   const [preview, setPreview] = useState(null);
   const [view, setView] = useState(1);
 
-  const [createProTeamAndMembers] = useCreateProTeamAndMembersMutation();
+  const [createProTeamAndMembers, { isLoading }] = useCreateProTeamAndMembersMutation();
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -100,8 +101,9 @@ const CreateTeam = () => {
   return (
     <>
       {view === 1 && (
-        <div className="overflow-auto p-4 mt-15 md:mt-0 sm:w-full">
+        <div className="bg-comm-1 relative overflow-auto p-4 mt-15 md:mt-0 sm:w-full rounded-lg">
           <h3 className="text-3xl font-bold mb-6">Create Team</h3>
+          <div className="flex justify-between">
           <div className="flex flex-wrap gap-2 my-2 md:w-[60%]">
             <div className="w-full">
               <label htmlFor="teamName" className="font-semibold">
@@ -170,11 +172,14 @@ const CreateTeam = () => {
               )}
             </div>
           </div>
+          <div className="bg-comm absolute hidden md:block md:w-[40%] top-0 right-0 bottom-0"></div>
+          </div>
         </div>
       )}
       {view === 2 && (
-        <div className="overflow-auto p-4 mt-15 md:mt-0 sm:w-full">
+        <div className="bg-comm-1 relative overflow-auto p-4 mt-15 md:mt-0 sm:w-full rounded-lg">
           <h3 className="text-3xl font-bold mb-6">Team Members</h3>
+          <div className="flex justify-between">
           <div className="flex flex-wrap gap-2 my-2 md:w-[60%]">
             <div className="w-full flex justify-between items-center">
               <div className="md:w-[60%]">
@@ -221,11 +226,14 @@ const CreateTeam = () => {
               ))}
             </div>
           </div>
+          <div className="bg-comm absolute hidden md:block md:w-[40%] top-0 right-0 bottom-0"></div>
+          </div>
         </div>
       )}
       {view == 3 && (
-        <div className="overflow-auto p-4 mt-15 md:mt-0 sm:w-full">
+        <div className="bg-comm-1 relative overflow-auto p-4 mt-15 md:mt-0 sm:w-full rounded-lg">
           <h3 className="text-3xl font-bold mb-6">Team</h3>
+          <div className="flex justify-between">
           <div className="flex flex-wrap gap-2 my-2 md:w-[60%]">
             <div className="w-full">
               <h3 className="text-xl font-bold p-2 border-b border-gray-300">
@@ -257,6 +265,8 @@ const CreateTeam = () => {
               </div>
             </div>
           </div>
+          <div className="bg-comm absolute hidden md:block md:w-[40%] top-0 right-0 bottom-0"></div>
+        </div>
         </div>
       )}
       <div className="md:w-[60%] flex justify-between p-2 mb-2">
@@ -278,10 +288,10 @@ const CreateTeam = () => {
           </Button>
         ) : (
           <Button
-            disabled={!shortName || !teamName || !image}
+            disabled={!shortName || !teamName || !image || isLoading}
             onClick={onSubmit}
           >
-            Submit
+            {isLoading ? <Spinner /> : "Submit"}
           </Button>
         )}
       </div>
