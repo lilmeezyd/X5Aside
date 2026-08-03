@@ -6,6 +6,7 @@ import {
   useAddFixturesMutation,
   useCalculateClassicScoresMutation,
   useCalculateH2HScoresMutation,
+  useCreateProFixturesMutation,
 } from "../slices/fixtureApiSlice";
 import { useGetEventsQuery } from "../slices/eventApiSlice";
 import { useGetCurrentEventQuery } from "../slices/eventApiSlice";
@@ -27,6 +28,7 @@ export default function Fixtures() {
     isError,
   } = useGetFixturesQuery(dbName);
   const [addFixtures] = useAddFixturesMutation();
+  const [createProFixtures] = useCreateProFixturesMutation();
   const [filterEventId, setFilterEventId] = useState("");
   const [filterTeam, setFilterTeam] = useState("");
   const [expandedFixtureId, setExpandedFixtureId] = useState(null);
@@ -35,7 +37,7 @@ export default function Fixtures() {
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
   const { data: events = [], isLoading: eventsLoading } =
     useGetEventsQuery(dbName);
-    const { data: currentEvent } = useGetCurrentEventQuery(dbName);
+  const { data: currentEvent } = useGetCurrentEventQuery(dbName);
 
   useEffect(() => {
     if (!eventsLoading && events.length > 0) {
@@ -90,6 +92,15 @@ export default function Fixtures() {
 
   const handleFixtureClick = (id) => {
     setExpandedFixtureId(expandedFixtureId === id ? null : id);
+  };
+
+  const handleCreateProFixtures = async () => {
+    try {
+      const res = await createProFixtures(dbName).unwrap();
+      toast.success(res.message);
+    } catch (error) {
+      toast.error("Failed to create pro fixtures");
+    }
   };
 
   const handleFetchFixtures = async () => {
@@ -151,14 +162,23 @@ export default function Fixtures() {
         {/*userInfo && userInfo.role === "admin" && (
           <Button onClick={handleFetchFixtures}>Fetch Fixtures from FPL</Button>
         )*/}
-        {userInfo && userInfo.role === "admin" && (dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro") &&
-          <>
+        {userInfo && userInfo.role === "admin" && dbName === "ffkPro" && (
+          <Button onClick={handleCreateProFixtures}>Create Pro Fixtures</Button>
+        )}
+        {userInfo &&
+          userInfo.role === "admin" &&
+          (dbName === "X5Aside" ||
+            dbName === "app5Aside" ||
+            dbName === "ffkPro") && (
             <Button onClick={handleClassicFixtures}>
               Update Classic Scores
             </Button>
+          )}
+        {userInfo &&
+          userInfo.role === "admin" &&
+          (dbName === "X5Aside" || dbName === "app5Aside") && (
             <Button onClick={handleH2HFixtures}>Update H2H Scores</Button>
-          </>
-        }
+          )}
       </div>
 
       {isLoading ? (
@@ -205,9 +225,7 @@ export default function Fixtures() {
                     <div className="min-w-[320px] sm:w-full" key={f._id}>
                       <div
                         className={`${
-                          expandedFixtureId === f._id
-                            ? "bg-white "
-                            : "bg-white"
+                          expandedFixtureId === f._id ? "bg-white " : "bg-white"
                         } cursor-pointer rounded-lg shadow-lg p-2`}
                         onClick={() => handleFixtureClick(f._id)}
                       >
@@ -219,7 +237,11 @@ export default function Fixtures() {
                             </div>
                             <div className="border border-blue-500 shadow box-shadow p-1 rounded">
                               <img
-                                src={homeBadge}
+                                src={
+                                  dbName === "ffkPro"
+                                    ? f.homeTeamUrl
+                                    : homeBadge
+                                }
                                 alt={f.homeTeam}
                                 className="w-6 md:w-12 h-6 md:h-12 object-contain"
                               />
@@ -232,7 +254,11 @@ export default function Fixtures() {
                           <div className="flex flex-1 items-center space-x-2 p-2">
                             <div className="border border-blue-500 shadow box-shadow p-1 rounded">
                               <img
-                                src={awayBadge}
+                                src={
+                                  dbName === "ffkPro"
+                                    ? f.awayTeamUrl
+                                    : awayBadge
+                                }
                                 alt={f.awayTeam}
                                 className="w-6 md:w-12 h-6 md:h-12 object-contain"
                               />
@@ -246,7 +272,9 @@ export default function Fixtures() {
                         <div className="p-1 border-gray-400 flex justify-around items-center mt-2">
                           {/* Classic score */}
                           <div className="flex flex-col items-center justify-center w-[100px]">
-                            <div className="font-bold p-1 text-sm">Classic</div>
+                            {dbName !== "ffkPro" && (
+                              <div className="font-bold p-1 text-sm">Classic</div>
+                            )}
                             <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
                               {f.homeScoreClassic ?? "-"} :{" "}
                               {f.awayScoreClassic ?? "-"}
@@ -254,25 +282,35 @@ export default function Fixtures() {
                           </div>
 
                           {/* H2H score */}
-                          <div className="flex flex-col items-center justify-center w-[100px]">
-                            <div className="font-bold p-1 text-sm">H2H</div>
-                            <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
-                              {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
+                          {dbName !== "ffkPro" && (
+                            <div className="flex flex-col items-center justify-center w-[100px]">
+                              <div className="font-bold p-1 text-sm">H2H</div>
+                              <div className="font-semibold md:text-2xl rounded text-center w-full p-1 bg-blue-600 text-white">
+                                {f.homeScoreH2H ?? "-"} : {f.awayScoreH2H ?? "-"}
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </div>
 
                         <div className="p-1 text-blue-600 text-center font-bold text-xs flex space-x-2 justify-center items-center">
-                          {expandedFixtureId === f._id ? <>
-                          <span>Hide match details</span>
-                          <FaArrowUp /></> : <>
-                          <span>Show match details</span>
-                          <FaArrowDown /></>}
+                          {expandedFixtureId === f._id ? (
+                            <>
+                              <span>Hide match details</span>
+                              <FaArrowUp />
+                            </>
+                          ) : (
+                            <>
+                              <span>Show match details</span>
+                              <FaArrowDown />
+                            </>
+                          )}
                         </div>
                       </div>
 
                       {/* Expanded fixture stats */}
-                      {expandedFixtureId === f._id && <FixtureStats f={f} eventId={currentEvent} />}
+                      {expandedFixtureId === f._id && (
+                        <FixtureStats f={f} eventId={currentEvent} />
+                      )}
                     </div>
                   );
                 })}

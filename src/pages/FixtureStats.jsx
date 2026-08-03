@@ -38,7 +38,6 @@ export default function FixtureStats({ f, eventId }) {
   const dbName = useSelector((state) => state.database.dbName);
   const [tab, setTab] = useState("classic");
   //const { data: eventId } = useGetCurrentEventQuery(dbName);
-  console.log(f)
 
   const newHomePicks = formattedPicks(homePicks)
   const newAwayPicks = formattedPicks(awayPicks)
@@ -131,17 +130,19 @@ export default function FixtureStats({ f, eventId }) {
   return (
     <div className="w-full py-2">
       <Tabs value={tab} onValueChange={setTab} className="w-full">
-        <TabsList className="w-full justify-center mb-4">
-          <TabsTrigger value="classic">Classic</TabsTrigger>
-          <TabsTrigger value="h2h">H2H</TabsTrigger>
-        </TabsList>
+        {dbName !== "ffkPro" && (
+          <TabsList className="w-full justify-center mb-4">
+            <TabsTrigger value="classic">Classic</TabsTrigger>
+            <TabsTrigger value="h2h">H2H</TabsTrigger>
+          </TabsList>
+        )}
 
         {/* Classic Stats */}
         <TabsContent value="classic">
           <div className="bg-white p-4 my-4 rounded shadow text-sm w-full overflow-x-auto">
-            <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
+            {dbName !== "ffkPro" && <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
               Classic Stats
-            </h3>
+            </h3>}
             <div className="min-w-[800px]">
               <table className="w-full text-left border">
                 <thead>
@@ -406,12 +407,13 @@ export default function FixtureStats({ f, eventId }) {
         </TabsContent>
 
         {/* H2H Stats */}
-        <TabsContent value="h2h">
-          <div className="bg-white p-4 my-4 rounded shadow text-sm w-full overflow-x-auto">
-            <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
-              H2H Stats
-            </h3>
-            <div className="min-w-[800px]">
+        {dbName !== "ffkPro" && (
+          <TabsContent value="h2h">
+            <div className="bg-white p-4 my-4 rounded shadow text-sm w-full overflow-x-auto">
+              <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
+                H2H Stats
+              </h3>
+              <div className="min-w-[800px]">
               <table className="w-full text-left border">
                 <thead>
                   <tr className="border-b text-gray-600">
@@ -820,7 +822,7 @@ export default function FixtureStats({ f, eventId }) {
               </div>
             </div>
           </div>
-        </TabsContent>
+        </TabsContent>)}
       </Tabs>
     </div>
   );

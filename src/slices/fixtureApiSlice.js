@@ -28,6 +28,14 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Fixture"],
     }),
+    createProFixtures: builder.mutation({
+      query: (dbName) => ({
+        url: `${FIXTURES_URL}/create-pro-fixtures`,
+        method: "POST",
+        body: { dbName }
+      }),
+      invalidatesTags: ["Fixture"],
+    }),
     editFixture: builder.mutation({
       query: ({ dbName, id, ...rest }) => ({
         url: `${FIXTURES_URL}/${id}`,
@@ -91,6 +99,7 @@ export const {
   useGetFixturesQuery,
   useGetFixtureQuery,
   useAddFixturesMutation,
+  useCreateProFixturesMutation,
   useEditFixtureMutation,
   useDeleteFixtureMutation,
   useDeleteAllFixturesMutation,
