@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   Table2,
   LogOut,
+  LogIn,
   ChevronDown,
   HelpCircle,
   Star,
@@ -55,6 +56,7 @@ const guestNavItems = [
   { name: "Tables", path: "/tables", icon: <Table2 size={20} /> },
   { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
   { name: "Help", path: "/help", icon: <HelpCircle size={20} /> },
+  { name: "Login", path: "/login", icon: <LogIn size={20} /> },
 ];
 
 const competitions = [
