@@ -9,7 +9,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ['User']
+      invalidatesTags: ['User', 'Team']
     }),
     register: builder.mutation({
       query: (data) => ({
@@ -48,8 +48,8 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/profile`,
-        method: "PUT",
+        url: `${USERS_URL}/edit-profile`,
+        method: "PATCH",
         body: data, 
       }),
       invalidatesTags: ['User']

@@ -195,7 +195,6 @@ const PickTeam = () => {
       });
     }
   }, [communityPicks]);
-  console.log(communityPicks)
 
   const switchPlayer = (data) => {
     if (Object.keys(switcher)?.length === 0) {
@@ -225,7 +224,6 @@ const PickTeam = () => {
     console.log("view info");
   };
 
-  console.log(communityPicks)
 
   const onSave = async (e) => {
     e.preventDefault();

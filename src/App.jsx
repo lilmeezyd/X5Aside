@@ -22,6 +22,7 @@ const EventImages = lazy(() => import('./pages/EventImages'));
 const TeamAccounts = lazy(() => import('./pages/TeamAccounts'))
 const CreateTeam = lazy(() => import('./pages/CreateTeam'))
 const PickTeam = lazy(() => import('./pages/PickTeam'))
+const Profile = lazy(() => import('./pages/Profile'))
 
 export default function App() {
   /*useEffect(() => {
@@ -57,6 +58,7 @@ export default function App() {
             <Route path='/pro' element={<TeamAccounts />} />
             <Route path='/createTeam' element={<CreateTeam />} />
             <Route path='/pickTeam' element={<PickTeam />} />
+            <Route path='/profile' element={<Profile />} />
           <Route path="/help" element={<Help />} />
             <Route path="/tow" element={<EventImages />} />
             <Route path="*" element="Page not found" />

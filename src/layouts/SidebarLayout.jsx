@@ -2,6 +2,7 @@ import { Link, useLocation, Outlet, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
+  User,
   CalendarCheck,
   ShieldCheck,
   Table2,
@@ -102,6 +103,7 @@ export default function SidebarLayout() {
     icon: <ShieldCheck className="h-5 w-5" />,
   }),
   { name: "TOW", path: "/tow", icon: <Star className="h-5 w-5" /> },
+  { name: "Profile", path: "/profile", icon: <User className="h-5 w-5" /> },
   { name: "Help", path: "/help", icon: <HelpCircle className="h-5 w-5" /> },
 ];
 

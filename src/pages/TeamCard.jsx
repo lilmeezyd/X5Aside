@@ -151,7 +151,7 @@ export default function TeamCard({ team, refetch }) {
           </div>
         </div>
 
-        {userInfo && (
+        {userInfo && userInfo.role === 'admin' && (
           <div className="flex flex-wrap gap-2">
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
