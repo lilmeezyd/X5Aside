@@ -274,7 +274,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
             >
               <div className="flex justify-center items-center"><span>Rank</span>{sortIcon("overallRank")}</div>
             </th>
-            { userInfo?.role === 'admin' && <th className="px-4 py-2 text-center">Actions</th> }
+            { userInfo?.role === 'admin' && (dbName === "app5Aside" || dbName === "X5Aside" || dbName === "ffkPro") && <th className="px-4 py-2 text-center">Actions</th> }
           </tr>
         </thead>
         <tbody>
@@ -334,7 +334,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
               <td className="px-4 py-2">
                 <div className="text-center">{player?.overallPoints}</div></td>
               <td className="px-4 py-2"><div className="text-center">{player.overallRank}</div></td>
-              {  userInfo?.role === 'admin' && <td className="px-4 py-2 text-center space-x-2">
+              {  userInfo?.role === 'admin' && (dbName === "app5Aside" || dbName === "X5Aside" || dbName === "ffkPro") && <td className="px-4 py-2 text-center space-x-2">
                 <button
                   onClick={() => openEditModal(player)}
                   className="text-blue-600 hover:text-blue-800"
@@ -407,7 +407,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md max-w-sm w-full space-y-4">
             <h3 className="text-lg font-semibold">Edit Player</h3>
-            <div>
+            {(dbName === "app5Aside" || dbName === "X5Aside" || dbName === "ffkPro") && <div>
               <label className="block text-sm font-medium">FPL ID</label>
               <input
                 type="number"
@@ -415,8 +415,8 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                 onChange={(e) => setEditFplId(e.target.value)}
                 className="w-full px-3 py-1 border rounded"
               />
-            </div>
-            <div>
+            </div>}
+            {(dbName === "app5Aside" || dbName === "X5Aside") && <div>
               <label className="block text-sm font-medium">Position</label>
               <select
                 value={editPosition}
@@ -430,8 +430,8 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                 <option value="Forward">Forward</option>
                 <option value="Captain">Captain</option>
               </select>
-            </div>
-            <div>
+            </div>}
+            {dbName === "app5Aside" && <><div>
               <label className="block text-sm font-medium">Start Price</label>
               <input
                 type="number"
@@ -448,7 +448,7 @@ const imageBaseURL = "https://ik.imagekit.io/cap10/";
                 onChange={(e) => setEditCurrent(e.target.value)}
                 className="w-full px-3 py-1 border rounded"
               />
-            </div>
+            </div></>}
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowEditModal(false)}
