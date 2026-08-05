@@ -54,6 +54,14 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+    updateUserName: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/update-username`,
+        method: "PATCH",
+        body: data, 
+      }),
+      invalidatesTags: ['User']
+    }),
   }),
 });
 
@@ -64,5 +72,6 @@ export const {
   useGetRegisteredTeamManagersQuery,
   useLogoutMutation,
   useUpdateUserMutation,
-  useDeleteTeamManagerMutation
+  useDeleteTeamManagerMutation,
+  useUpdateUserNameMutation
 } = userApiSlice;
