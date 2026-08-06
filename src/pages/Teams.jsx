@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react"
 import TeamCard from "./TeamCard";
+import NormalTeam from "./NormalTeam";
 import SelectDB from "./SelectDB";
 import { Button } from "../../@/components/ui/button";
 import { toast } from "sonner";
@@ -89,12 +90,12 @@ export default function Teams() {
     <Button onClick={handleRetry}>Retry</Button>
   </div>
 ) : teams.length > 0 ? (
-  <div className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+  (userInfo && userInfo.role === "admin") ? <div className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
 
     {newTeams.map((team) => (
       <TeamCard refetch={refetch} key={team._id} team={team} />
     ))}
-  </div>
+  </div> : <NormalTeam />
 ) : (
   <div className="text-center space-y-3 mt-6">
     <p className="text-gray-500">No teams found.</p>

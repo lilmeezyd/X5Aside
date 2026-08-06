@@ -147,7 +147,7 @@ export default function TeamCard({ team, refetch }) {
             <div className="border-b border-gray-500 font-semibold">
               Total Points:
             </div>
-            <div>{team?.total}</div>
+            <div className="p-1">{team?.total}</div>
           </div>
         </div>
 
