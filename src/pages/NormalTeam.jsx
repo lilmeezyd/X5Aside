@@ -105,7 +105,7 @@ export default function Teams() {
                           <div className="flex flex-col text-center justify-center px-2 ">
                             <div className="border-b border-gray-500  font-bold">Rank:</div>
                             <div className="flex space-x-2 items-center p-1">
-                              <span>{team?.rank}</span>
+                              <span>{team?.rank || '-'}</span>
                               <div className="flex space-x-1 items-center">
                                 <span>
                                   {team?.oldRank > team?.rank && team?.oldRank > 0 && (
@@ -141,10 +141,10 @@ export default function Teams() {
                             </div>
                           </div>
                           <div className="flex flex-col text-center justify-center px-2 ">
-                            <div className="border-b border-gray-500 font-semibold">
+                            <div className="border-b border-gray-500 font-bold">
                               Total Points:
                             </div>
-                            <div className="p-1">{team?.total}</div>
+                            <div className="p-1">{team?.total || '-'}</div>
                           </div>
                         </div>
             </div>
@@ -179,7 +179,7 @@ export default function Teams() {
           <div className="relative mt-10">
             {canScrollLeft && (
               <button
-                className="shadow-xl absolute top-5 left-0 border border-gray-300 bg-white"
+                className="rounded-lg shadow-xl absolute top-0 left-0 border border-gray-300 bg-white"
                 onClick={() => handleScroll("left")}
               >
                 <ChevronLeft size={32} color="gray" />
@@ -189,7 +189,7 @@ export default function Teams() {
               ref={scrollRef}
               onScroll={checkScroll}
               style={{ scrollbarWidth: "none" }}
-              className="flex gap-2 overflow-x-auto"
+              className="flex gap-2 overflow-x-auto p-2"
             >
               {newTeams.map((team) => (
                 <NormalTeamCard
@@ -202,7 +202,7 @@ export default function Teams() {
             </div>
             {canScrollRight && (
               <button
-                className="shadow-xl absolute top-5 right-0 border border-gray-300 bg-white"
+                className="rounded-lg shadow-xl absolute top-0 right-0 border border-gray-300 bg-white"
                 onClick={() => handleScroll("right")}
               >
                 <ChevronRight size={32} color="gray" />
