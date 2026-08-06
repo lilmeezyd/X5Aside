@@ -45,8 +45,6 @@ export default function Teams() {
     });
   }, [teams, totals]);
 
-  console.log(newTeams)
-
   useEffect(() => {
     setTeamDetails({_id: newTeams[0]?._id, team: newTeams[0]})
   }, [newTeams])
@@ -100,9 +98,9 @@ export default function Teams() {
                   ? `linear-gradient(180deg, ${team?.primaryColor || "black"}, ${team?.secondaryColor || "white"})`
                   : `linear-gradient(180deg, white, black)`,
             }}
-            className="flex flex-col md:flex-row justify-between rounded-lg h-[300px] shadow-xl mb-2"
+            className="flex flex-col md:flex-row justify-between rounded-lg md:h-[300px] shadow-xl mb-2"
           >
-            <div className="p-2 md:w-[45%] flex justify-center items-center">
+            <div className="px-2 py-6 md:py-2 md:w-[45%] flex justify-center items-center">
                 <div className="shadow-xl bg-white flex justify-between items-center border border-gray-300 rounded px-2">
                           <div className="flex flex-col text-center justify-center px-2 ">
                             <div className="border-b border-gray-500  font-bold">Rank:</div>
@@ -168,7 +166,7 @@ export default function Teams() {
                   ?.filter((x) => x.isActive)
                   ?.map((player, index) => (
                     <div
-                      className="font-bold py-1 border-b border-gray-300"
+                      className={`${index+1 === players?.length ? '' : 'border-b'} font-bold py-1 border-gray-300`}
                       key={index}
                     >
                       {player.manager}
@@ -178,7 +176,7 @@ export default function Teams() {
               </div>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative mt-10">
             {canScrollLeft && (
               <button
                 className="shadow-xl absolute top-5 left-0 border border-gray-300 bg-white"
