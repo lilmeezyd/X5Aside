@@ -41,7 +41,7 @@ export default function TeamCard({ team, refetch }) {
     refetch: refetchPlayers,
   } = useGetPlayersQuery({ dbName, team: team._id });
   const imageComp =
-    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+    dbName.includes("X5Aside") ? "X5" : dbName.includes("app5Aside") ? "FFK" : "X5";
   const handlePlayerAdded = (newPlayer) => {
     //setPlayers((prev) => [...prev, newPlayer]);
   };
@@ -147,7 +147,7 @@ export default function TeamCard({ team, refetch }) {
             <div className="border-b border-gray-500 font-semibold">
               Total Points:
             </div>
-            <div className="p-1">{team?.total}</div>
+            <div className="p-1">{team?.total}</div> 
           </div>
         </div>
 

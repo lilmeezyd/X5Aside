@@ -9,7 +9,7 @@ const PlayersPerTeam = (props) => {
     const { teamId } = props
     const [sortConfig1, setSortConfig1] = useState(() => {
         const saved = localStorage.getItem("sortConfig1");
-        return saved ? JSON.parse(saved) : { key: "fplId", direction: "asc" };
+        return saved ? JSON.parse(saved) : { key: "overallRank", direction: "desc" };
       });
     const dbName = useSelector((state) => state.database.dbName);
 

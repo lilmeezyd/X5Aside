@@ -9,7 +9,7 @@ export default function PlayerTable({ leaderboard }) {
   const dbName = useSelector((state) => state.database.dbName);
   const { data: eventId } = useGetCurrentEventQuery(dbName);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
   const totalPages = Math.ceil((leaderboard?.length || 0) / itemsPerPage);
 
   const paginatedData = leaderboard?.slice(

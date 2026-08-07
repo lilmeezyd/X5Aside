@@ -39,7 +39,7 @@ export default function NormalTeamCard({ team, refetch, setTeamDetails }) {
     refetch: refetchPlayers,
   } = useGetPlayersQuery({ dbName, team: team._id });
   const imageComp =
-    dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
+    dbName.includes("X5Aside") ? "X5" : dbName.includes("app5Aside") ? "FFK" : "X5";
   const teamLength = players?.filter((x) => x.isActive)?.length;
 
   return (
