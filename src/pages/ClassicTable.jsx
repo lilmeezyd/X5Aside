@@ -58,6 +58,7 @@ export default function ClassicTable() {
   const imageComp =
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
   if (isLoading) return <p>Loading Classic Table...</p>;
+  console.log(data)
 
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
@@ -234,7 +235,11 @@ export default function ClassicTable() {
                                 "-"
                               ) : (
                                 <img
-                                  src={`${imageBaseURL}${entry.next}_${imageComp}.png`}
+                                src={
+                                    dbName === "ffkPro"
+                                      ? team.url
+                                      : `${imageBaseURL}${entry.next}_${imageComp}.png`
+                                  }
                                   alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
@@ -588,7 +593,7 @@ export default function ClassicTable() {
 
                         return (
                           <tr
-                            key={team._id}
+                            key={team?._id}
                             className={`${
                               isBottomThree
                                 ? "bg-red-100"
@@ -653,14 +658,14 @@ export default function ClassicTable() {
                                 <img
                                   src={
                                     dbName === "ffkPro"
-                                      ? team.url
+                                      ? team?.url
                                       : `${imageBaseURL}${team.short_name}_${imageComp}.png`
                                   }
-                                  alt={team.name}
+                                  alt={team?.name}
                                   className="w-6 h-6 object-contain"
                                 />
                                 <span className="font-bold truncate whitespace-nowrap overflow-hidden">
-                                  {team.name}
+                                  {team?.name}
                                 </span>
                               </div>
                             </td>
@@ -702,7 +707,7 @@ export default function ClassicTable() {
                               ) : (
                                 <img
                                   src={`${imageBaseURL}${entry.next}_${imageComp}.png`}
-                                  alt={team.name}
+                                  alt={team?.name}
                                   className="w-6 h-6 object-contain"
                                 />
                               )}
@@ -753,7 +758,7 @@ export default function ClassicTable() {
 
                         return (
                           <tr
-                            key={team._id}
+                            key={team?._id}
                             className={`${
                               isBottomThree
                                 ? "bg-red-100"
@@ -818,14 +823,14 @@ export default function ClassicTable() {
                                 <img
                                   src={
                                     dbName === "ffkPro"
-                                      ? team.url
+                                      ? team?.url
                                       : `${imageBaseURL}${team.short_name}_${imageComp}.png`
                                   }
-                                  alt={team.name}
+                                  alt={team?.name}
                                   className="w-6 h-6 object-contain"
                                 />
                                 <span className="font-bold truncate whitespace-nowrap overflow-hidden">
-                                  {team.name}
+                                  {team?.name}
                                 </span>
                               </div>
                             </td>
@@ -851,7 +856,7 @@ export default function ClassicTable() {
                               ) : (
                                 <img
                                   src={`${imageBaseURL}${entry.next}_${imageComp}.png`}
-                                  alt={team.name}
+                                  alt={team?.name}
                                   className="w-6 h-6 object-contain"
                                 />
                               )}
@@ -878,7 +883,7 @@ export default function ClassicTable() {
 
                     return (
                       <div
-                        key={team._id}
+                        key={team?._id}
                         className={`${
                           isBottomThree
                             ? "bg-red-100"
@@ -898,14 +903,14 @@ export default function ClassicTable() {
                               <img
                                 src={
                                   dbName === "ffkPro"
-                                    ? team.url
+                                    ? team?.url
                                     : `${imageBaseURL}${team.short_name}_${imageComp}.png`
                                 }
-                                alt={team.name}
+                                alt={team?.name}
                                 className="w-6 h-6 object-contain"
                               />
                               <span className="text-sm sm:text-base font-bold truncate whitespace-nowrap overflow-hidden">
-                                {team.name}
+                                {team?.name}
                               </span>
                             </div>
                           </div>

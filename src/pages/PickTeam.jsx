@@ -16,6 +16,14 @@ const PickTeam = () => {
     if (action.type === "INITIAL_PICKS") {
       return action.payload;
     }
+    if(action.type === "DEFAULT_PICKS") {
+      return {
+        ...state,
+        picks: action.payload,
+        save: false,
+      };
+    }
+
     if (action.type === "SWITCH_CAP") {
       const { data } = action;
       const exCap = state.picks.find((x) => x.multiplier > 1);
@@ -159,12 +167,14 @@ const PickTeam = () => {
     oldViceCaptain: "",
     viceCaptain: "",
     picks: [],
+    defaultPicks: [],
     switcher: {},
     blocked: [],
     okayed: [],
   });
   const {
     picks,
+    defaultPicks,
     switcher,
     blocked,
     okayed,
@@ -191,6 +201,7 @@ const PickTeam = () => {
           captain: pickCaptain,
           viceCaptain: pickVice,
           picks: communityPicks?.picks,
+          defaultPicks: communityPicks?.picks,
         },
       });
     }
@@ -241,18 +252,21 @@ const PickTeam = () => {
         dbName: "ffkPro",
         eventId: communityPicks?.eventId,
         picks: newPicks
-      });
-      toast.success(res.data.message);
+      }).unwrap();
+      toast.success(res.message);
     } catch (error) {
-      console.log(error);
-      //toast.error(error.data.message)
+      dispatch({ type: "DEFAULT_PICKS", payload: defaultPicks });
+      toast.error(error.data.message)
     }
     setSaveToFalse();
   };
-  console.log(communityPicks)
 
   if (isLoading && communityPicks === undefined) {
     return <div>Loading...</div>;
+  }
+
+  if(!isLoading && communityPicks && picks === undefined) {
+    return <div>Picks are Updating...</div>
   }
 
   return (

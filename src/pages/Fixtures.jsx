@@ -135,6 +135,8 @@ export default function Fixtures() {
     }
   };
 
+  console.log(paginatedFixtures)
+
   return (
     <div className="sm:w-full relative">
       <h2 className="text-2xl font-bold mb-4 mt-15 md:mt-0">Fixtures</h2>

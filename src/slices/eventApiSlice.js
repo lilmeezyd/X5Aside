@@ -23,6 +23,14 @@ export const eventApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Event"],
     }),
+    setCurrentProEvent: builder.mutation({
+      query: (dbName) => ({
+        url: `${EVENTS_URL}/set-current-pro-event`,
+        method: "PATCH",
+        body: {dbName},
+      }),
+      invalidatesTags: ["Event"],
+    }),
     resetEvents: builder.mutation({
       query: (dbName) => ({
         url: `${EVENTS_URL}/reset`,
@@ -44,6 +52,7 @@ export const {
   useGetEventsQuery,
   useGetCurrentEventQuery,
   useSetCurrentEventMutation,
+  useSetCurrentProEventMutation,
   useResetEventsMutation,
   useFetchEventsQuery
 } = eventApiSlice;

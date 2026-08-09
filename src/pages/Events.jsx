@@ -8,11 +8,12 @@ import { format } from "date-fns";
 import {
   useGetEventsQuery,
   useSetCurrentEventMutation,
+  useSetCurrentProEventMutation,
   useResetEventsMutation,
 } from "../slices/eventApiSlice"; // Adjust path if needed
 
 export default function Events() {
-  const dbName = useSelector((state) => state.database.dbName);
+  const dbName = useSelector((state) => state.database.dbName); 
 
   const {
     data: events = [],
@@ -23,6 +24,7 @@ export default function Events() {
 
   const [resetEvents, { isLoading: isResetting }] = useResetEventsMutation();
   const [setCurrentEvent, { isLoading: isSetting }] = useSetCurrentEventMutation();
+  const [setCurrentProEvent, { isLoading: isSettingPro }] = useSetCurrentProEventMutation();
 
   const handleReset = async () => {
     const toastId = toast.loading("Resetting events...");
@@ -38,7 +40,11 @@ export default function Events() {
   const handleStartGW = async () => {
     const toastId = toast.loading("Starting gameweek...");
     try {
-      await setCurrentEvent(dbName).unwrap();
+      if(dbName === "ffkPro") {
+        await setCurrentProEvent(dbName).unwrap();
+      } else {
+        await setCurrentEvent(dbName).unwrap();
+      }
       toast.success("Gameweek started.", { id: toastId });
     } catch (err) {
       toast.error("Failed to start gameweek.", { id: toastId });
@@ -62,8 +68,8 @@ export default function Events() {
             {isResetting && <Loader2 className="animate-spin w-4 h-4 mr-2" />}
             Reset
           </Button>
-          <Button onClick={handleStartGW} disabled={isSetting}>
-            {isSetting && <Loader2 className="animate-spin w-4 h-4 mr-2" />}
+          <Button onClick={handleStartGW} disabled={isSetting || isSettingPro}>
+            {(isSetting || isSettingPro) && <Loader2 className="animate-spin w-4 h-4 mr-2" />}
             Start GW
           </Button>
         </div>

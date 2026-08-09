@@ -143,12 +143,12 @@ export default function FixtureStats({ f, eventId }) {
             {dbName !== "ffkPro" && <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
               Classic Stats
             </h3>}
-            <div className="min-w-[800px]">
+            <div className="min-w-[800px] border border-gray-400 rounded-lg">
               <table className="w-full text-left border">
                 <thead>
                   <tr className="border-b text-gray-600">
                     <th className="px-2 border"></th>
-                    <th className="px-2 border"></th>
+                    {dbName !== "ffkPro" && <th className="px-2 border"></th>}
                     <th className="px-2 border text-center">Pts</th>
                     <th className="px-2 border text-center">Hits</th>
                     <th className="px-2 border text-center">YC</th>
@@ -166,7 +166,7 @@ export default function FixtureStats({ f, eventId }) {
                     <th className="px-2 border text-center">YC</th>
                     <th className="px-2 border text-center">Hits</th>
                     <th className="px-2 border text-center">Pts</th>
-                    <th className="px-2 border"></th>
+                    {dbName !== "ffkPro" && <th className="px-2 border"></th>}
                     <th className="px-2 border"></th>
                   </tr>
                 </thead>
@@ -213,9 +213,9 @@ export default function FixtureStats({ f, eventId }) {
                             </div>
                           )}
                         </td>
-                        <td className="px-2 border text-center">
+                        {dbName !== "ffkPro" && <td className="px-2 border text-center">
                           {home && shortPosition[home.position]}
-                        </td>
+                        </td>}
                         <td
                           className={`px-2 border text-center
                             ${
@@ -225,7 +225,7 @@ export default function FixtureStats({ f, eventId }) {
                             }
                           `}
                         >
-                          {home?.eventPoints ?? "-"}
+                          {home?.eventPoints ?? "-"} {home?.pointsXmul ?? "-"} {home?.pointsXmul === 0 ? 'Bench' : ''}
                         </td>
                         <td className="px-2 border text-center">
                           {home?.eventTransfersCost ?? "-"}
@@ -253,7 +253,7 @@ export default function FixtureStats({ f, eventId }) {
                             : ""}
                         </td>
                         {i === 0 && (
-                          <td rowSpan={5} className="px-2 border">
+                          <td rowSpan={dbName === "ffkPro" ? 6 : 5} className="px-2 border">
                             <div className="flex flex-col justify-center items-center font-semibold text-2xl">
                               {String(homeTotal)
                                 .split("")
@@ -264,14 +264,14 @@ export default function FixtureStats({ f, eventId }) {
                           </td>
                         )}
                         {i === 0 && (
-                          <td rowSpan={5} className="w-[50px]">
+                          <td rowSpan={dbName === "ffkPro" ? 6 : 5} className="w-[50px]">
                             <div className="difference bg-red-700 text-3xl p-2 rounded-lg font-bold text-white">
                               {Math.abs(homeTotal - awayTotal)}
                             </div>
                           </td>
                         )}
                         {i === 0 && (
-                          <td rowSpan={5} className="border px-2">
+                          <td rowSpan={dbName === "ffkPro" ? 6 : 5} className="border px-2">
                             <div className="flex flex-col justify-center items-center font-semibold text-2xl">
                               {String(awayTotal)
                                 .split("")
@@ -313,12 +313,12 @@ export default function FixtureStats({ f, eventId }) {
                               : ""
                           }`}
                         >
-                          {away?.eventPoints ?? "-"}
+                          {away?.eventPoints ?? "-"} {away?.pointsXmul ?? "-"} {away?.pointsXmul === 0 ? 'Bench' : ''} 
                         </td>
-                        <td className="px-2 border text-center">
+                        {dbName !== "ffkPro" && <td className="px-2 border text-center">
                           {away && shortPosition[away.position]}
-                        </td>
-                        <td className="px-2 py-2">
+                        </td>}
+                        <td className="px-2 py-2 border">
                           {away && (
                             <div className="flex flex-col w-32">
                               <span className="font-medium truncate">
