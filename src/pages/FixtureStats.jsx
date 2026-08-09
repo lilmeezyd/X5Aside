@@ -143,7 +143,7 @@ export default function FixtureStats({ f, eventId }) {
             {dbName !== "ffkPro" && <h3 className="sm:text-xl font-bold border-b pb-2 mb-4 text-left sm:text-center">
               Classic Stats
             </h3>}
-            <div className="min-w-[800px] border border-gray-400 rounded-lg">
+            <div className="min-w-[800px] rounded-lg">
               <table className="w-full text-left border">
                 <thead>
                   <tr className="border-b text-gray-600">
