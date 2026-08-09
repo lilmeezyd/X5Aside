@@ -225,7 +225,7 @@ export default function FixtureStats({ f, eventId }) {
                             }
                           `}
                         >
-                          {home?.eventPoints ?? "-"} {home?.pointsXmul ?? "-"} {home?.pointsXmul === 0 ? 'Bench' : ''}
+                          {home?.eventPoints ?? "-"} {home?.pointsXmul ?? ""} {home?.pointsXmul === 0 ? 'Bench' : ''}
                         </td>
                         <td className="px-2 border text-center">
                           {home?.eventTransfersCost ?? "-"}
@@ -313,7 +313,7 @@ export default function FixtureStats({ f, eventId }) {
                               : ""
                           }`}
                         >
-                          {away?.eventPoints ?? "-"} {away?.pointsXmul ?? "-"} {away?.pointsXmul === 0 ? 'Bench' : ''} 
+                          {away?.eventPoints ?? "-"} {away?.pointsXmul ?? ""} {away?.pointsXmul === 0 ? 'Bench' : ''} 
                         </td>
                         {dbName !== "ffkPro" && <td className="px-2 border text-center">
                           {away && shortPosition[away.position]}
