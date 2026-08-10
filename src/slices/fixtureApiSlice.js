@@ -76,6 +76,14 @@ export const fixtureApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Fixture", "TeamClassic", 'FormulaOne', 'FormulaOneTotal'],
     }),
+    calculateClassicProScores: builder.mutation({
+      query: (dbName) => ({
+        url: `${FIXTURES_URL}/calculate-classic-pro-scores`,
+        method: "PATCH",
+        body: { dbName }
+      }),
+      invalidatesTags: ["Fixture", "TeamClassic"],
+    }),
     calculateH2HScores: builder.mutation({
       query: (dbName) => ({
         url: `${FIXTURES_URL}/calculate-h2h-scores`,
@@ -105,6 +113,7 @@ export const {
   useDeleteAllFixturesMutation,
   useCreatePlayerFixturesMutation,
   useCalculateClassicScoresMutation,
+  useCalculateClassicProScoresMutation,
   useCalculateH2HScoresMutation,
   useGetPlayerFixturesQuery,
   useCalculatePlayerFixScoresMutation,

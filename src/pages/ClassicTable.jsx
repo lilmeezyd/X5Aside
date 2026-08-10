@@ -58,7 +58,6 @@ export default function ClassicTable() {
   const imageComp =
     dbName === "X5Aside" ? "X5" : dbName === "app5Aside" ? "FFK" : "X5";
   if (isLoading) return <p>Loading Classic Table...</p>;
-  console.log(data)
 
   const imageBaseURL = "https://ik.imagekit.io/cap10/";
 
@@ -237,7 +236,7 @@ export default function ClassicTable() {
                                 <img
                                 src={
                                     dbName === "ffkPro"
-                                      ? team.url
+                                      ? entry?.next
                                       : `${imageBaseURL}${entry.next}_${imageComp}.png`
                                   }
                                   alt={team.name}
@@ -388,7 +387,11 @@ export default function ClassicTable() {
                                 "-"
                               ) : (
                                 <img
-                                  src={`${imageBaseURL}${entry.next}_${imageComp}.png`}
+                                src={
+                                    dbName === "ffkPro"
+                                      ? entry?.next
+                                      : `${imageBaseURL}${entry.next}_${imageComp}.png`
+                                  }
                                   alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
@@ -706,8 +709,12 @@ export default function ClassicTable() {
                                 "-"
                               ) : (
                                 <img
-                                  src={`${imageBaseURL}${entry.next}_${imageComp}.png`}
-                                  alt={team?.name}
+                                src={
+                                    dbName === "ffkPro"
+                                      ? entry?.next
+                                      : `${imageBaseURL}${entry.next}_${imageComp}.png`
+                                  }
+                                  alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
                               )}
@@ -855,8 +862,12 @@ export default function ClassicTable() {
                                 "-"
                               ) : (
                                 <img
-                                  src={`${imageBaseURL}${entry.next}_${imageComp}.png`}
-                                  alt={team?.name}
+                                src={
+                                    dbName === "ffkPro"
+                                      ? entry?.next
+                                      : `${imageBaseURL}${entry.next}_${imageComp}.png`
+                                  }
+                                  alt={team.name}
                                   className="w-6 h-6 object-contain"
                                 />
                               )}

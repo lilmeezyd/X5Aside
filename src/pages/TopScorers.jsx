@@ -47,6 +47,8 @@ export default function TopScorers({ scorers }) {
     return sortable;
   }, [scorers, sortConfigOne]);
 
+  console.log("sortedPlayers", sortedPlayers);
+
   const requestSort = (key) => {
     let direction = "asc";
     if (sortConfigOne.key === key && sortConfigOne.direction === "asc") {
@@ -90,7 +92,6 @@ export default function TopScorers({ scorers }) {
               <th className="px-4 py-2"></th>
               <th className="px-4 py-2 text-left">Manager</th>
               <th className="px-4 py-2 text-center">Team</th>
-              <th className="px-4 py-2 text-center">Position</th>
               <th
                 className={`px-4 py-2 text-center cursor-pointer border ${
                   sortConfigOne.key === "goals"
@@ -146,7 +147,7 @@ export default function TopScorers({ scorers }) {
                   <div className="w-[150px] md:w-[300px] overflow-stuff">
                     {dbName === "X5Aside" || dbName === "app5Aside" || dbName === "ffkPro" ? <a
                       href={
-                        eventId
+                        eventId 
                           ? `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/event/${eventId}`
                           : `https://fantasy.premierleague.com/entry/${player?.player?.fplId}/history`
                       }
@@ -164,17 +165,18 @@ export default function TopScorers({ scorers }) {
                 <td className="px-4 py-2">
                   <div className="w-[60px] border border-blue-500  mx-auto rounded shadow-lg flex items-center justify-evenly p-1">
                     <img
-                      src={`${imageBaseURL}${player.team?.short_name}_${imageComp}.png`}
-                      alt={player.team?.short_name}
-                      className="w-4 h-4 object-contain"
-                    />
+                                  src={
+                            dbName === "ffkPro"
+                              ? player?.team?.url
+                              : `${imageBaseURL}${player?.team?.short_name}_${imageComp}.png`
+                          }
+                                  alt={player.team?.short_name}
+                                  className="w-4 h-4 object-contain"
+                                />
                     <span className="text-xs font-bold truncate whitespace-nowrap overflow-hidden">
                       {player.team?.short_name || "—"}
                     </span>
                   </div>
-                </td>
-                <td className="px-4 py-2 text-center">
-                  {player.player.position}
                 </td>
                 <td className="px-4 py-2 text-center font-semibold w-[80px]">
                   {player.goals}

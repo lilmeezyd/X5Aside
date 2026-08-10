@@ -5,6 +5,7 @@ import {
   useGetFixturesQuery,
   useAddFixturesMutation,
   useCalculateClassicScoresMutation,
+  useCalculateClassicProScoresMutation,
   useCalculateH2HScoresMutation,
   useCreateProFixturesMutation,
 } from "../slices/fixtureApiSlice";
@@ -51,6 +52,7 @@ export default function Fixtures() {
   }, [events, eventsLoading]);
 
   const [calculateClassicScores] = useCalculateClassicScoresMutation();
+  const [calculateClassicProScores] = useCalculateClassicProScoresMutation();
   const [calculateH2HScores] = useCalculateH2HScoresMutation();
 
   const filteredFixtures = useMemo(() => {
@@ -118,8 +120,13 @@ export default function Fixtures() {
   const handleClassicFixtures = async () => {
     try {
       toast("Updating Classic Scores...");
-      const res = await calculateClassicScores(dbName).unwrap();
-      toast.success("Classic Scores Updated");
+      if(dbName === "ffkPro") {
+        const res = await calculateClassicProScores(dbName).unwrap();
+        toast.success(res.message || "Classic Pro Scores Updated");
+      } else {
+        const res = await calculateClassicScores(dbName).unwrap();
+        toast.success(res.message || "Classic Scores Updated");
+      }
     } catch (error) {
       toast.error(error.data.message || "Failed to update classic scores");
     }
