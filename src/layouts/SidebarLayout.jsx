@@ -142,13 +142,20 @@ export default function SidebarLayout() {
         <>
           <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
             <div className="flex items-center gap-8">
-              <h1 className="text-lg font-bold">
+              <Link to="/">
+            <div className="flex gap-2 items-center justify-between px-3 py-1">
+            <img
+                  src="/ffk.jpg"
+                  alt="ffk_image"
+                  className="h-10 w-10 rounded-lg"
+                /> <h1 className="hidden text-lg font-bold">FFK</h1></div></Link>
+              {/*<h1 className="text-lg font-bold">
                 {dbName === "X5Aside"
                   ? "X5ASIDE"
                   : dbName === "app5Aside"
                     ? "FFK" : dbName === "ffkPro" ? "FFK PRO"
                     : "5ASIDE"}
-              </h1>
+              </h1>*/}
               <nav className="flex gap-6">
                 {guestNavItems
                   .filter(
@@ -206,14 +213,21 @@ export default function SidebarLayout() {
       {userInfo && userInfo.role === 'admin' && (
         <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
           <div className="flex items-center gap-8">
-            <h1 className="text-xl font-bold">
+            {/*<h1 className="text-xl font-bold">
               {dbName === "app5Aside"
                 ? "FFK"
                 : dbName === "X5Aside"
                   ? "X5" : dbName === "ffkPro" ? "FFK PRO"
                   : "5Aside"}{" "}
               Admin
-            </h1>
+            </h1>*/}
+            <Link to="/">
+            <div className="flex gap-2 items-center justify-between px-3 py-1">
+            <img
+                  src="/ffk.jpg"
+                  alt="ffk_image"
+                  className="h-10 w-10 rounded-lg"
+                /> <h1 className="hidden text-lg font-bold">FFK</h1></div></Link>
             <nav className="flex gap-2">
               {adminNavItems.filter(
                     (item) => !(item.name === "TOW" && dbName === "X5Aside" || item.name === "Pro" && dbName !== "ffkPro"),
@@ -243,14 +257,21 @@ export default function SidebarLayout() {
       {userInfo && userInfo.role === 'community' && (
         <div className="hidden md:flex justify-between items-center bg-gray-900 text-white p-4 fixed top-0 left-0 right-0 z-50">
           <div className="flex items-center gap-8">
-            <h1 className="text-xl font-bold">
+            {/*<h1 className="text-xl font-bold">
               {dbName === "app5Aside"
                 ? "FFK"
                 : dbName === "X5Aside"
                   ? "X5" : dbName === "ffkPro" ? "FFK PRO"
                   : "5Aside"}{" "}
               Community
-            </h1>
+            </h1>*/}
+            <Link to="/">
+            <div className="flex gap-2 items-center justify-between px-3 py-1">
+            <img
+                  src="/ffk.jpg"
+                  alt="ffk_image"
+                  className="h-10 w-10 rounded-lg"
+                /> <h1 className="hidden text-lg font-bold">FFK</h1></div></Link>
             <nav className="flex gap-2">
               {communityNavItems.filter(
                     (item) => !(item.name === "TOW" && dbName === "X5Aside" || item.name === "Pro" && dbName !== "ffkPro"),

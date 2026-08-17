@@ -240,8 +240,8 @@ export default function Fixtures() {
                       >
                         <div className="flex">
                           {/* Home team */}
-                          <div className="flex flex-1 items-center space-x-2 p-2">
-                            <div className="flex-1 text-right font-semibold md:text-2xl p-1 truncate">
+                          <div className="flex w-[50%] items-center space-x-2 p-2">
+                            <div className="w-[90%] text-right font-semibold md:text-2xl p-1 truncate">
                               {f.homeTeam}
                             </div>
                             <div className="border border-blue-500 shadow box-shadow p-1 rounded">
@@ -260,7 +260,7 @@ export default function Fixtures() {
                           <div className="bg-blue-500 w-0.5"></div>
 
                           {/* Away team */}
-                          <div className="flex flex-1 items-center space-x-2 p-2">
+                          <div className="flex w-[50%] items-center space-x-2 p-2">
                             <div className="border border-blue-500 shadow box-shadow p-1 rounded">
                               <img
                                 src={
@@ -272,15 +272,15 @@ export default function Fixtures() {
                                 className="w-6 md:w-12 h-6 md:h-12 object-contain"
                               />
                             </div>
-                            <div className="flex-1 text-left font-semibold md:text-2xl p-1 truncate">
+                            <div className="w-[90%] text-left font-semibold md:text-2xl p-1 truncate">
                               {f.awayTeam}
                             </div>
                           </div>
                         </div>
                         <div className="h-0.5 bg-blue-500 w-[80%] m-auto"></div>
-                        <div className="p-1 border-gray-400 flex justify-around items-center mt-2">
+                        <div className="p-1 flex justify-around items-center mt-2">
                           {/* Classic score */}
-                          <div className="flex flex-col items-center justify-center w-[100px]">
+                          <div className={`flex flex-col items-center justify-center w-[100px]`}>
                             {dbName !== "ffkPro" && (
                               <div className="font-bold p-1 text-sm">Classic</div>
                             )}
