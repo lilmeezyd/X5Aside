@@ -44,12 +44,12 @@ const PickPlayer = (props) => {
     <>
       <div className="">
         {player?._id ? (
-            <div className="relative border border-gray-400 rounded-sm shadow" id={player._id}>
+            <div className="bg-white w-[67px] h-[92px] md:w-[112px] md:h-[140px] relative border border-gray-400 rounded-sm shadow" id={player._id}>
                 <button
                  style={{borderRadius: '0.5rem', border: `${switcher.position === position ? '1px solid darkred' : ''}`,
           opacity: `${blocked?.includes(position) ? '0.5' : '1'}`}}
-          className={`${okayed?.includes(position) ? 'h-light' : ''} player-btn`} onClick={handleShow}>
-            <div className='w-[100px] h-[150px] flex flex-col justify-end'>
+          className={`${okayed?.includes(position) ? 'h-light' : ''} player-btn w-full h-[100%]`} onClick={handleShow}>
+            <div className='flex flex-col justify-between h-[100%]'>
                 <div className='player-image-container'>
                     <div className='player-avatar'>
                       <img src={communityPicks?.url} 
@@ -57,10 +57,10 @@ const PickPlayer = (props) => {
                     </div>
                 </div>
                 <div
-                className={`${okayed?.includes(position) ? 'back-light' : ''}`}
+                className={`border-t border-gray-400 ${okayed?.includes(position) ? 'back-light' : ''}`}
                  style={{color: `${switcher.position === position ? 'white' : ''}`, background: `${switcher.position === position ? 'darkred' : ''}`}}>
-                <div className='truncate px-2 font-bold text-xs'>{player.manager}</div>
-                <div className='truncate px-2 font-bold text-xs'>{player.teamName}</div>
+                <div className='truncate px-2 font-bold text-[10px] md:text-xs'>{player.manager}</div>
+                <div className='truncate px-2 font-bold text-[10px] md:text-xs'>{player.teamName}</div>
                 </div>
             </div>
             <div className="captain">

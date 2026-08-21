@@ -408,15 +408,12 @@ export default function SidebarLayout() {
         <>
           <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-t z-50 shadow px-4 py-3 flex justify-between items-center">
             <Link to="/">
-              {" "}
-              <h1 className="text-lg font-bold">
-                {dbName === "X5Aside"
-                  ? "X5ASIDE"
-                  : dbName === "app5Aside"
-                    ? "FFK"
-                    : "5ASIDE"}
-              </h1>
-            </Link>
+            <div className="flex gap-2 items-center justify-between px-3 py-1">
+            <img
+                  src="/ffk.jpg"
+                  alt="ffk_image"
+                  className="h-10 w-10 rounded-lg"
+                /> <h1 className="hidden text-lg font-bold">FFK</h1></div></Link>
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}

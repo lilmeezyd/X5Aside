@@ -271,14 +271,14 @@ const PickTeam = () => {
 
   return (
     <div className="m-2 rounded-lg flex flex-col md:flex-row md:justify-between">
-      <div className="rounded-lg border border-gray-400 m-2 md:w-[60%]">
+      <div className="m-2 md:w-[60%]">
         <div></div>
         <div className="picks">
           <div className="border-b border-gray-400 flex justify-center w-[50%] m-auto py-2">
               <h4 className="font-semibold">Gameweek {communityPicks?.eventId}</h4>
             </div>
-          <div className="starters m-2">
-            <div className="flex justify-around rounded-sm p-2 my-1">
+          <div className="starters my-2 p-1 bg-green-700 rounded-lg">
+            <div className="flex justify-around rounded-sm p-1 my-1">
               {picks
                 .filter((pick) => pick.position === 5)
                 .map((manager) => (
@@ -300,7 +300,7 @@ const PickTeam = () => {
                   </div>
                 ))}
             </div>
-            <div className="flex justify-around rounded-sm p-2 my-1">
+            <div className="flex justify-around rounded-sm p-1 my-1">
               {picks
                 .filter((pick) => pick.position > 1 && pick.position < 5)
                 .map((manager) => (
@@ -322,7 +322,7 @@ const PickTeam = () => {
                   </div>
                 ))}
             </div>
-            <div className="flex justify-around p-2 my-1">
+            <div className="flex justify-around p-1 my-1">
               {picks
                 .filter((pick) => pick.position === 1)
                 .map((manager) => (
@@ -345,11 +345,11 @@ const PickTeam = () => {
                 ))}
             </div>
           </div>
-          <div className="bench m-2">
-            <div className="border-b border-gray-400 flex justify-center w-[50%] m-auto py-2">
+          <div className="bench  my-2 p-1 bg-green-500 rounded-lg">
+            {/*<div className="border-b border-gray-400 flex justify-center w-[50%] m-auto py-2">
               <h4 className="font-semibold">Bench</h4>
-            </div>
-            <div className="flex justify-around rounded-sm p-2">
+            </div>*/}
+            <div className="flex justify-around rounded-sm p-1">
               {picks
                 .filter((pick) => pick.position === 6)
                 .map((manager) => (
